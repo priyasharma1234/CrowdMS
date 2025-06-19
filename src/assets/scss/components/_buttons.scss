@@ -1,0 +1,52 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+.btn {
+  position: relative;
+  box-shadow: none !important;
+  outline: 0 !important;
+  padding: 10px 35px;
+  border-radius: 10px;
+  font-family: $font-primary;
+  border: 1px solid;
+
+  &.btn-primary {
+    background: $dark-blue;
+    color: $white;
+    font-weight: $bold;
+    border: 2px solid $dark-blue;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      box-shadow: 0px 0px 3px 3px rgb($dark-blue, 0.4);
+    }
+    &:active {
+      background: transparent !important;
+      color: $dark-blue !important;
+      border-color: $dark-blue !important;
+    }
+  }
+
+  &.btn-white {
+    background: $white;
+    color:#808080;
+    font-weight: $bold;
+   border: 2px solid #E6EFF5;
+    &:hover {
+      background: $dark-blue;
+      color:$white;
+    }
+  }
+
+    &.btn-bordered {
+    background: $white;
+    padding: 10px 20px;
+    color: $red;
+    border: 0;
+    border:1px solid $red;
+    &:hover {
+      background: $red;
+      color: $white;
+    }
+  }
+}

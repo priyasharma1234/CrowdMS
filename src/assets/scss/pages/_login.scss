@@ -1,0 +1,126 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+
+.login-sec {
+  background:$white-light;
+}
+
+.login-left {
+  background:$dark-blue;
+  top: 0;
+  bottom: 0;
+  min-height: 100vh;
+  text-align: left;
+  z-index: 10;
+  opacity: 1;
+  position: relative;
+  padding: 35px;
+}
+
+.logo {
+  max-width: 130px;
+  margin-bottom: 20px;
+  @include breakpoint("desktop-wide",min) {
+    max-width: 160px;
+    margin-bottom: 25px;
+  }
+  @include breakpoint("desktop-xxl",min) {
+    max-width: 230px;
+    margin-bottom: 28px;
+  }
+  img {
+    width: 100%;
+  }
+}
+.login-text {
+  color: $white;
+  z-index: 99;
+  position: relative;
+  h2 {
+    margin-bottom: 18px;
+    font-weight:$bold;
+    @include breakpoint("desktop-xxl",min) {
+      margin-bottom: 24px;
+    }
+  }
+}
+.img-wrap {
+  text-align: center;
+  img {
+    max-width: 340px;
+    width: 100%;
+
+    @include breakpoint("desktop-xxl",min) {
+      max-width: 640px;
+    }
+  }
+}
+
+.products{
+  h2{
+    color:$white;
+    font-size:30px;
+  }
+     .marquee-container {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: scrollMarquee 30s linear infinite;
+        gap: 4rem;
+      }
+}
+    @keyframes scrollMarquee {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+    /* Fade effect */
+.marquee-fade {
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #062745 0%, transparent 100%);
+}
+
+.marquee-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #062745 0%, transparent 100%);
+}
+}
+
+.login-right {
+  .login-form {
+    h2 {
+      font-weight: $bold;
+      color: $dark-blue;
+      text-align: center;
+    }
+    p {
+      color: #808080;
+      width: 100%;
+      text-align: center;
+      margin: 10px auto;
+    }
+  }
+
+  .login-btns {
+    @extend .flex-end;
+    width: 100%;
+  }
+}
+

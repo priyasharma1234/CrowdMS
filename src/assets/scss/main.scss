@@ -1,0 +1,23 @@
+
+
+// -----------base----------------
+@use "base/custom-bootstrap.css";
+@use "base/base";
+@use "base/forms";
+
+// -----------layout----------------
+
+@use "layouts/header";
+@use "layouts/footer";
+@use "layouts/sidebar";
+// --------------Components-------------
+
+@use "components/components";
+
+// ----------------sections----------------
+
+@use "sections/section";
+
+
+// ----------------pages-------------------
+@use "pages/pages";

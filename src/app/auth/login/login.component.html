@@ -1,0 +1,25 @@
+<div class="login-right w-100 m-auto">
+  <div class="auth-page-content py-3 px-4">
+    <h2 class="font-large text-center text-primary">Login to Your Account</h2>
+    <p class="text-center text-grey py-2"> login with your credentials that you have received on your<br>
+      registered
+      Email Id.</p>
+  </div>
+
+  <form class="login-form" [formGroup]="loginForm">
+    <div class="form-group position-relative">
+      <div class="input-group-prepend"><img src="assets/img/email.png" class="pe-1"> </div>
+      <input type="text" id="name" class="form-control" required formControlName="userId">
+      <label class="form-control-placeholder" for="name">User Id</label>
+    </div>
+    <div class="text-end mb-3  bottom-label"> <a routerLink="/forgot-user-id" class="text-gray">Forgot User ID?</a></div>
+    <div class="form-group position-relative">
+      <div class="input-group-prepend"><img src="assets/img/password.png" class="pe-1"> </div>
+      <input type="password" id="password" class="form-control" required formControlName="password">
+      <label class="form-control-placeholder" for="password">Password</label>
+    </div>
+    <div class="text-end bottom-label mb-3">
+      <a routerLink="/forgot-password" class="text-gray">Forgot Password?</a></div>
+    <button type="submit" class="btn btn-primary w-100" (click)="Login()"> Login </button>
+  </form>
+</div>

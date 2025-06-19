@@ -1,0 +1,41 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+.sidebar {
+  max-width: 297px;
+  background-color:$dark-blue;
+  .nav-link {
+  color:$white;
+      padding: 14px 0 14px 64px;
+  span{
+    svg{
+        stroke:$white;
+    }
+  }
+}
+
+
+
+@media (min-width: 992px) {
+  &.offcanvas-lg {
+    position: fixed;
+    left: 0;
+    transform: none !important;
+    visibility: visible!important;
+    z-index: 1045;
+    background-color:$dark-blue!important;
+  }
+}
+}
+
+
+// body {
+//   padding-left: 0;
+// }
+
+// @media (min-width: 992px) {
+//   body {
+//     padding-left: 250px; /* Adjust according to sidebar width */
+//   }
+// }

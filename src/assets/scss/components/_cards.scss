@@ -1,0 +1,38 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+.card {
+    background-color: $white;
+    color: $black2;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.card-dash-wrap {
+    border: none;
+    box-shadow: 0px 0px 5.51px 0px #0000001C;
+
+    .row {
+        row-gap: 25px;
+    }
+
+    .dash-item {
+        text-align: center;
+        cursor: pointer;
+
+        img {
+            margin-bottom: 15px;
+        }
+
+        h6 {
+            font-size: 13px;
+            font-weight: $medium;
+        }
+    }
+
+}
+
+
+  
+  

@@ -1,0 +1,23 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+table {
+    width: 100%;
+}
+
+.deposit-table{
+    table{
+        font-size:16px;
+            
+        th{
+         color:$dark-blue; 
+         padding: 16px;  
+        }
+        td{
+            color:#767676;
+            font-weight: $normal;
+            padding: 16px;
+        }
+    }
+}

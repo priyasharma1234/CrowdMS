@@ -1,0 +1,78 @@
+@use 'sass:math';
+
+// ---------------font-size-----------------
+
+@mixin font-size($size: 12, $base: 16) {
+  font-size: $size + px;
+  font-size: math.div($size, $base) * 1rem;
+}
+
+// ----------------------breakpoint-----------------
+
+$breakpoints: ("phone": 400px,
+  "phone-wide": 480px,
+  "phablet": 560px,
+  "tablet-small": 640px,
+  "tablet": 768px,
+  "desktop-small": 992px,
+  "desktop": 1200px,
+  "desktop-wide": 1400px,
+  "desktop-xxl": 1900px);
+
+@mixin breakpoint($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if $type==max {
+      $width: $width - 1px;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+
+/* ===== pseudo ===== */
+@mixin pseudo($width: 100%,
+  $height: 100%,
+  $display: inline-block,
+  $pos: absolute,
+  $content: ""
+
+) {
+  content: $content;
+  display: $display;
+  position: $pos;
+  // @include box($width, $height);
+}
+
+/* ===== Usage ===== */
+// div {
+//   position: relative;
+//   width: 200px;
+//   height: 200px;
+
+//   &:after {
+//     @include pseudo(100px, 100px);
+//   }
+// }
+
+/* ===== vertically-center ===== */
+
+
+@mixin center-vertically {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include prefix(transform, translate(-50%, -50%), 'webkit''ms');
+}
+
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}

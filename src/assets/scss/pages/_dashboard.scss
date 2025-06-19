@@ -1,0 +1,82 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+
+
+.wrapper {
+  transition: all 0.5s ease;
+  position: relative;
+  margin-left: 47px;
+
+  @include breakpoint("desktop-wide", min) {
+    margin-left: 300px;
+  }
+  @include breakpoint("desktop-xxl", min) {
+    margin-left: 297px;
+  }
+}
+
+
+.topbar{
+   background:$white;
+    margin-bottom: 0;
+    padding:24px 15px;
+}
+.notification{
+background-color: #fff1e2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    gap: 30px;
+    a{
+        color:$black;
+        text-decoration:none;
+        font-weight:700;
+    }
+}
+.user-card{
+    background:$white;
+    border:1px solid #F7F7F7;
+    border-radius:15px;
+    h4{
+        font-weight:$normal;
+    }
+    .box{
+        background:#DAEEFF;
+        border-radius:20px;
+        width:82px;
+        height:93px;
+
+        &.box-pink{
+            background:#FFD9DC;
+        }
+    }
+    .box-img{
+    position: absolute;
+    top: 20px;
+    left: -22px;
+    }
+}
+.filter-box{
+    background:$white;
+    border:1px solid #E6EFF5;
+    border-radius:10px;
+    align-items: center;
+
+form{
+    .form-select,.form-control{
+    border: 1px solid #E6EFF5;
+    height: 55px;
+    border-radius:10px;
+    color: #808080;
+    font-weight:$normal;
+    }
+}
+}
+.deposit-table{
+     background:$white;
+   border: 1px solid #F7F7F7;
+    border-radius:10px;
+}

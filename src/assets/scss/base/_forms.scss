@@ -1,0 +1,133 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+
+form {
+  max-width: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+label {
+  font-weight: $medium;
+  font-size: 16px;
+
+  &.form-check-label {
+    font-family: $font-primary;
+  }
+}
+
+.errors {
+  color: $red;
+}
+
+input {
+  outline: 0 !important;
+}
+.form-control {
+  font-family: $font-primary;
+  font-weight: $medium;
+  font-size: 16px;
+  letter-spacing: 0.3px;
+border: 1px solid $border;
+  padding: 12px 15px;
+  line-height: 1.5;
+  height: auto;
+  box-shadow: none;
+
+  &:focus {
+    box-shadow: none;
+    border-color: $gray3;
+  }
+
+  input:not(
+      [type="file" i],
+      [type="image" i],
+      [type="checkbox" i],
+      [type="radio" i]
+    ) {
+    outline: 0 !important;
+    border: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    font-size: inherit;
+    line-height: inherit;
+  }
+}
+
+::placeholder {
+  color: rgba($black2, 0.3);
+}
+
+.form-check-label {
+  font-weight: $medium;
+  font-size: 12px;
+  color: #505154;
+}
+
+.input-group {
+  &.form-control {
+    flex-wrap: unset;
+  }
+
+  .input-group-text {
+    font-family: $font-primary;
+    font-weight: $medium;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    padding: 2px 5px;
+    border: 0;
+    border-right: 1px solid #efefef;
+    background-color: transparent;
+    margin-right: 10px;
+  }
+  input[type="text"] {
+    padding: 2px 5px;
+    border: none;
+    box-shadow: none;
+    flex: 1;
+  }
+}
+.input-group-prepend {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+}
+// --login input css-
+.login-form {
+  .form-control-placeholder {
+  position: absolute;
+  top: 0;
+  padding:13px;
+  transition: all 200ms;
+  left: 40px;
+}
+
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 75%;
+  transform: translate3d(0, -50%, 0);
+  opacity: 1;
+  background-color: $white;
+  padding: 0 5px;
+  margin-left: 8px;
+}
+.form-control{
+  padding: 12px 50px;
+}
+.bottom-label{
+  a{
+    font-size: 16px;
+color: $text-grey;
+font-weight: $normal;
+text-decoration:none;
+  }
+
+}
+}
