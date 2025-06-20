@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <h5 class="modal-title">Add {{ entityType | titlecase }}</h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label>{{ entityType | titlecase }} Type*</label>
+                <select class="form-control" formControlName="type">
+                    <option selected value="" disabled>Please Select {{ entityType | titlecase }} Type</option>
+                    <option [value]="item.value" *ngFor="let item of typeList">{{item.name}}</option>
+                </select>
+                <app-show-errors [ctrl]="form.get('type')" [requiredMesg]="typeRequiredMessage"></app-show-errors>
+            </div>
+
+            <div class="col-md-6" *ngIf="form.get('type')?.value === 'existing'">
+                <label>Choose {{ entityType | titlecase }}*</label>
+                <select class="form-control" formControlName="entity_id">
+                    <option selected value="" disabled>Please Select {{ entityType | titlecase }}</option>
+                    <option [value]="item.value" *ngFor="let item of typeList">{{item.name}}</option>
+                </select>
+                <app-show-errors [ctrl]="form.get('entity_id')"
+                    [requiredMesg]="entityRequiredMessage"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Company Name*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" formControlName="company_name"
+                    class="form-control" placeholder="Enter Company Name" />
+                <app-show-errors [ctrl]="form.get('company_name')"
+                    [requiredMesg]="'Company Name is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Company PAN*</label>
+                <input [appInputRestriction]="'alphanumeric'"
+                        maxlength="10" type="text" [readonly]="form.get('type')?.value !== 'new'" formControlName="company_pan"
+                    class="form-control" placeholder="Enter Company PAN" appUppercase />
+                <app-show-errors [ctrl]="form.get('company_pan')"
+                    [requiredMesg]="'Company Pan is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Company CIN*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" formControlName="company_cin"
+                    class="form-control" placeholder="Enter Company CIN" />
+                <app-show-errors [ctrl]="form.get('company_cin')"
+                    [requiredMesg]="'Company CIN is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Company Address*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" formControlName="company_address"
+                    class="form-control" placeholder="Enter Company Address" />
+                <app-show-errors [ctrl]="form.get('company_address')"
+                    [requiredMesg]="'Company Address is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Representative Name*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" formControlName="rep_name"
+                    class="form-control" placeholder="Enter Representative Name" />
+                <app-show-errors [ctrl]="form.get('rep_name')"
+                    [requiredMesg]="'Representative Name is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Representative Email*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" formControlName="rep_email"
+                    class="form-control" placeholder="Enter Representative Email" />
+                <app-show-errors [ctrl]="form.get('rep_email')"
+                    [requiredMesg]="'Representative Email is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Representative Mobile Number*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" [appInputRestriction]="'integer'"
+                    maxlength="10" formControlName="rep_mobile" class="form-control"
+                    placeholder="Enter Mobile Number" />
+                <app-show-errors [ctrl]="form.get('rep_mobile')"
+                    [requiredMesg]="'Representative Mobile Number is Required'"></app-show-errors>
+            </div>
+
+            <div class="col-md-6">
+                <label>Representative Alternate Mobile Number*</label>
+                <input type="text" [readonly]="form.get('type')?.value !== 'new'" [appInputRestriction]="'integer'"
+                    maxlength="10" formControlName="rep_alt_mobile" class="form-control"
+                    placeholder="Enter Alternate Mobile Number" />
+            </div>
+            <div class="col-md-6">
+                <label>Upload Photo*</label>
+                <input [disabled]="form.get('type')?.value !== 'new'" type="file" class="form-control"
+                    (change)="onPhotoSelected($event)"
+                    [class.is-invalid]="form.get('rep_profile_pic')?.invalid && form.get('rep_profile_pic')?.touched" accept="image/*" />
+                <app-show-errors [ctrl]="form.get('rep_profile_pic')" [requiredMesg]="'Photo is Required'">
+                </app-show-errors>
+            </div>
+
+            <div class="col-md-12">
+                <label>Remarks*</label>
+                <textarea type="text"
+                    [readonly]="form.get('type')?.value !== 'new'"
+                    formControlName="remark" class="form-control" placeholder="Enter Remarks"></textarea>
+                <app-show-errors [ctrl]="form.get('remark')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancel</button>
+    <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>

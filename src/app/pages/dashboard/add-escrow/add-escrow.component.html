@@ -1,0 +1,40 @@
+<div class="wrapper">
+    <nav class="navbar navbar-dark bg-dark d-lg-none">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsiveSidebar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-container">
+        <div class="topbar p-3 border-bottom">
+            <h5 class="text-primary m-0">{{ selectedService | titlecase}} Escrow</h5>
+        </div>
+
+        <div class="content-inside m-3">
+            <div class="d-flex align-items-start">
+                <div class="nav flex-column nav-pills me-3">
+                    <button *ngFor="let tab of tabs" class="nav-link" [ngClass]="{ active: selectedTab === tab.key }"
+                        (click)="selectTab(tab.key)" type="button">
+                        {{ tab.label }}
+                    </button>
+                </div>
+
+                <div class="tab-content w-100">
+                    <div *ngFor="let tab of tabs" class="tab-pane fade"
+                        [ngClass]="{ 'show active': selectedTab === tab.key }">
+                        <ng-container [ngSwitch]="tab.key">
+                            <div *ngSwitchCase="'basic'"><app-basic-details></app-basic-details></div>
+                            <div *ngSwitchCase="'agreement'"><app-agreement></app-agreement></div>
+                            <div *ngSwitchCase="'deposit'">Deposit Content</div>
+                            <div *ngSwitchCase="'release'">Release Condition Content</div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

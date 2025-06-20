@@ -1,0 +1,24 @@
+
+<!-- <div class="bank-modal">
+  <div class="bank-modal-header py-0">
+    <button type="button"  (click)="hideDocModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-txt">
+      <img *ngIf="imgExtension != 'pdf' " [src]="modalSetting" />
+      <object *ngIf="imgExtension == 'pdf' " [data]="modalSetting | safeUrl " width="500" height="600"></object>
+  </div>
+
+</div> -->
+<div class="div-wrap">
+  <div class="closeBtnBox">
+    <button  type="button" (click)="hideDocModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div>
+      <img *ngIf="imgExtension != 'pdf' " [src]="modalSetting" />
+      <object *ngIf="imgExtension == 'pdf' " [data]="modalSetting | safeUrl " width="500" height="600"></object>
+    </div>
+</div>

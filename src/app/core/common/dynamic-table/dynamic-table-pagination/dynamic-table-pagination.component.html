@@ -1,0 +1,37 @@
+<div class="dtPagination flex-wrap pt-2 pb-2" *ngIf="dynamicTableOptions.pagination!.totalPages > 1 && viewNewPagination !== 'newPagination'">
+    <a href="javascript:void(0);" *ngIf="dynamicTableOptions.pagination!.currentPage > 1"
+       (click)="dynamicTableOptions.pagination!.currentPage > 1? dtUpdateByPagination('first',dynamicTableOptions) : false">First</a>
+    <a href="javascript:void(0);" *ngIf="dynamicTableOptions.pagination!.currentPage > 1"
+       (click)="dynamicTableOptions.pagination!.currentPage > 1? dtUpdateByPagination('back',dynamicTableOptions) : false">Previous</a>
+    <!-- <a href="javascript:void(0);"
+       [ngStyle]="{'font-size': i+1 == dynamicTableOptions.pagination!.currentPage? '30px': 'unset'}"
+       *ngFor="let item of [].constructor(dynamicTableOptions.pagination!.totalPages); let i = index"
+       (click)="dynamicTableOptions.pagination!.currentPage != (i+1)?dtUpdateByPagination(i+1,dynamicTableOptions) : false">
+        {{ i + 1 + '' }}
+    </a> -->
+    <div appDynamicTablePagination [paginationDetails]="dynamicTableOptions" [totalPages]="dynamicTableOptions.pagination!.totalPages" [currentPage]="dynamicTableOptions.pagination!.currentPage"></div>
+    <a href="javascript:void(0);"
+       *ngIf="dynamicTableOptions.pagination!.totalPages > dynamicTableOptions.pagination!.currentPage"
+       (click)="dynamicTableOptions.pagination!.totalPages > dynamicTableOptions.pagination!.currentPage? dtUpdateByPagination('next',dynamicTableOptions) : false">Next</a>
+    <a href="javascript:void(0);"
+       *ngIf="dynamicTableOptions.pagination!.totalPages > dynamicTableOptions.pagination!.currentPage"
+       (click)="dynamicTableOptions.pagination!.totalPages > dynamicTableOptions.pagination!.currentPage? dtUpdateByPagination('last',dynamicTableOptions) : false">Last</a>
+</div>
+
+<!-- ======================================================== -->
+
+<div class="dtPagination flex-wrap mb-4 mb-4 pt-3" *ngIf="dynamicTableOptions.pagination!.totalPages > 1 && viewNewPagination === 'newPagination'">
+  <a href="javascript:void(0);" *ngIf="dynamicTableOptions.pagination!.currentPage > 1"
+      (click)="dynamicTableOptions.pagination!.currentPage > 1? dtUpdateByPagination('first',dynamicTableOptions) : false">First</a>
+  <a href="javascript:void(0);"  *ngFor="let page of updateVisiblePages(dynamicTableOptions.pagination!.totalPages); let i = index"
+  [ngStyle]="{
+    'color': page === dynamicTableOptions.pagination!.currentPage ? 'white' : 'unset',
+    'backgroundColor': page === dynamicTableOptions.pagination!.currentPage ? '#00659e' : 'unset'
+  }"
+      (click)="page !== dynamicTableOptions.pagination!.currentPage ? dtUpdateByPagination(page, dynamicTableOptions) : false">
+      {{page}}
+  </a>
+  <a href="javascript:void(0);"
+      *ngIf="dynamicTableOptions.pagination!.totalPages > dynamicTableOptions.pagination!.currentPage"
+      (click)="dynamicTableOptions.pagination!.totalPages > dynamicTableOptions.pagination!.currentPage? dtUpdateByPagination('last',dynamicTableOptions) : false">Last</a>
+</div>

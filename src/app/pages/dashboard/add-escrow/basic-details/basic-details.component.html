@@ -1,0 +1,22 @@
+<div class="row g-4">
+  <div
+    class="col-md-6"
+    *ngFor="let item of serviceOptions"
+  >
+    <div
+      class="service-card p-4 shadow-sm rounded-3 h-100 border"
+      role="button"
+      (click)="onSelect(item.key)"
+    >
+      <div class="d-flex align-items-center gap-3">
+        <img [src]="item.icon" width="40" />
+        <div>
+          <h5 class="mb-1">{{ item.title }}</h5>
+          <p class="text-muted mb-0">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

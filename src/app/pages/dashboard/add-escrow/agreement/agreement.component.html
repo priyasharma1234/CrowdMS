@@ -1,0 +1,75 @@
+<form [formGroup]="agreementForm">
+    <div class="mb-3">
+        <label><strong>Select Agreement Type:</strong></label><br />
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="agreementType" value="tripart" id="tripart" />
+            <label class="form-check-label" for="tripart">Triparty Agreement</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="agreementType" value="biparty" id="biparty" />
+            <label class="form-check-label" for="biparty">Biparty Agreement</label>
+        </div>
+    </div>
+
+    <!-- Upload Tripart/Biparty Agreement -->
+    <div class="mb-3" *ngIf="agreementForm.get('agreementType')?.value">
+        <label for="agreementDoc">Upload {{ agreementForm.get('agreementType')?.value | titlecase }} Document</label>
+        <p>An Escrow Agreement between the software developer or beneficiary and the escrow agent.</p>
+        <div class="d-flex align-items-center gap-2" role="button" (click)="openModal(content)">
+            <i class="bi bi-upload fs-4 text-primary"></i>
+            <span class="text-primary">Upload document (Max: 5MB)</span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="additionalDocs"><strong>Upload Additional Documents</strong></label>
+        <p>Other Documents related documents like SLA, NDA and other documents can be uploaded here.</p>
+        <input type="file" multiple (change)="onFileChange($event, 'additionalDocs')" class="form-control" />
+    </div>
+
+    <button type="submit" (click)="onSubmit()" class="btn btn-primary">Next</button>
+</form>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Upload Form</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="agreementDocumentForm">
+            <div class="mb-3">
+                <label>Signing Date</label>
+                <!-- <input type="date" formControlName="signingDate" class="form-control" /> -->
+                <app-custom-datepicker formControlName="signingDate" [datepickerType]="'bsDatepicker'"
+                    [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
+                    [bsCustConfg]="bsCustConfg"></app-custom-datepicker>
+                <!-- [minDate]="endMinScheduleDate"  -->
+
+                <span class="highlight"></span>
+                <!-- <label class="p-2" *ngIf="pickupForm.get('pickup_date')?.value">Pickup Date <span
+                                class="text-danger star">*</span></label> -->
+                <app-show-errors [ctrl]="agreementDocumentForm.get('signingDate')" [requiredMesg]="'Pickup date is Required'">
+                </app-show-errors>
+            </div>
+            <div class="mb-3">
+                <label>Effective Date</label>
+                <input type="date" formControlName="effectiveDate" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label>Expiry Date</label>
+                <input type="date" formControlName="expiryDate" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label>Upload Document</label>
+                <input type="file" (change)="handleModalFile($event)" class="form-control" />
+                <div class="text-danger" *ngIf="fileError">{{ fileError }}</div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button class="btn btn-primary" [disabled]="!agreementDocumentForm.valid || !selectedFile"
+            (click)="submitModal(modal)">Submit</button>
+    </div>
+</ng-template>

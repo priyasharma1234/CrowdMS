@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {catchError, Observable, retry, throwError} from 'rxjs';
-import {IApiRequestPayload, IGenericApiResponse} from '../types/global';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {AuthCoreService} from './auth-core.service';
+import { catchError, map, Observable, retry, throwError } from 'rxjs';
+import { IApiRequestPayload, IGenericApiResponse } from '../types/global';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { AuthCoreService } from './auth-core.service';
+import { apiRoutes } from '../config/api-request';
 
 
 
@@ -23,7 +24,7 @@ export class ApiRequestService {
     if (payload?.form) {
       headers = headers.set('from', payload.form);
     }
-    if( this._AuthCoreService.token()) {
+    if (this._AuthCoreService.token()) {
       console.log('Token found:', this._AuthCoreService.token());
       headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
     }
@@ -31,6 +32,26 @@ export class ApiRequestService {
     return this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload, { headers })
       .pipe(retry(0), catchError(this.errorHandl));
   };
+  postFormData<T>(formData: FormData, path: any): Observable<T> {
+    let headers = new HttpHeaders();
+    if (this._AuthCoreService.token()) {
+      headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
+    }
+
+    return this.http.post<T>(environment.baseUrl + path['url'], formData, { headers }).pipe(
+      retry(0),
+      catchError(this.errorHandl)
+    );
+  }
+  uploadDocument(file: File, dir: string): Observable<string> {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('dir', dir);
+
+  return this.postFormData<{ fileUrl: string }>(formData, apiRoutes.uploadDocument.fileUrl).pipe(
+    map((res:any) => res?.data?.url)
+  );
+}
 
   errorHandl(err: any) {
     //console.log(err);
