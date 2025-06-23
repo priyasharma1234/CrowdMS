@@ -1,13 +1,6 @@
 <div class="row g-4">
-  <div
-    class="col-md-6"
-    *ngFor="let item of serviceOptions"
-  >
-    <div
-      class="service-card p-4 shadow-sm rounded-3 h-100 border"
-      role="button"
-      (click)="onSelect(item.key)"
-    >
+  <div class="col-md-6" *ngFor="let item of serviceOptions">
+    <div class="service-card p-4 shadow-sm rounded-3 h-100 border" role="button" (click)="onSelect(item.key)">
       <div class="d-flex align-items-center gap-3">
         <img [src]="item.icon" width="40" />
         <div>
@@ -15,8 +8,35 @@
           <p class="text-muted mb-0">{{ item.description }}</p>
         </div>
       </div>
+
+      <div class="mt-3">
+        <ng-container [ngSwitch]="item.key">
+          <ng-container *ngSwitchCase="'depositor'">
+            <div *ngIf="depositor; else showAdd">
+              <p class="mb-1">Depositor: {{ depositor.name }}</p>
+              <button type="button" class="btn btn-outline-secondary btn-sm">Edit</button>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'beneficiary'">
+            <div *ngIf="beneficiary; else showAdd">
+              <p class="mb-1">Beneficiary: {{ beneficiary.name }}</p>
+              <button type="button" class="btn btn-outline-secondary btn-sm">Edit</button>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <ng-template #showAdd>
+          <button type="button" class="btn btn-outline-primary btn-sm"> {{ item.title }}</button>
+        </ng-template>
+      </div>
+
     </div>
   </div>
+        <div class="col-12 mt-3">
+            <button class="btn btn-dark" type="submit" (click)="submit()">Submit</button>
+        </div>
 </div>
+
 
 

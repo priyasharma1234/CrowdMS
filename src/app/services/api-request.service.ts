@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { AuthCoreService } from './auth-core.service';
 import { apiRoutes } from '../config/api-request';
+import { NgxToasterService } from '../core/services/toasterNgs.service';
 
 
 
@@ -16,7 +17,8 @@ export class ApiRequestService {
 
   constructor(
     private http: HttpClient,
-    private _AuthCoreService: AuthCoreService
+    private _AuthCoreService: AuthCoreService,
+    private _NgxToasterService: NgxToasterService
   ) { }
 
   postData<T, U>(payload: IApiRequestPayload<T>, path: any): Observable<IGenericApiResponse<U>> {
@@ -44,14 +46,20 @@ export class ApiRequestService {
     );
   }
   uploadDocument(file: File, dir: string): Observable<string> {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('dir', dir);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('dir', dir);
 
-  return this.postFormData<{ fileUrl: string }>(formData, apiRoutes.uploadDocument.fileUrl).pipe(
-    map((res:any) => res?.data?.url)
-  );
-}
+    return this.postFormData<{ fileUrl: string }>(formData, apiRoutes.uploadDocument.fileUrl).pipe(
+      map((res: any) => {
+        if (res?.statuscode == 200 && res?.data?.url) {
+          return res.data.url;
+        } else {
+         this._NgxToasterService.showError(res.message, "Error");
+        }
+      })
+    );
+  }
 
   errorHandl(err: any) {
     //console.log(err);

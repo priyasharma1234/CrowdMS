@@ -3,8 +3,8 @@
         <label><strong>Select Agreement Type:</strong></label><br />
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="agreementType" value="tripart" id="tripart" />
-            <label class="form-check-label" for="tripart">Triparty Agreement</label>
+            <input class="form-check-input" type="radio" formControlName="agreementType" value="triparty" id="triparty" />
+            <label class="form-check-label" for="triparty">Triparty Agreement</label>
         </div>
 
         <div class="form-check form-check-inline">
@@ -12,8 +12,6 @@
             <label class="form-check-label" for="biparty">Biparty Agreement</label>
         </div>
     </div>
-
-    <!-- Upload Tripart/Biparty Agreement -->
     <div class="mb-3" *ngIf="agreementForm.get('agreementType')?.value">
         <label for="agreementDoc">Upload {{ agreementForm.get('agreementType')?.value | titlecase }} Document</label>
         <p>An Escrow Agreement between the software developer or beneficiary and the escrow agent.</p>
@@ -24,9 +22,25 @@
     </div>
 
     <div class="mb-3">
-        <label for="additionalDocs"><strong>Upload Additional Documents</strong></label>
-        <p>Other Documents related documents like SLA, NDA and other documents can be uploaded here.</p>
-        <input type="file" multiple (change)="onFileChange($event, 'additionalDocs')" class="form-control" />
+        <label><strong>Upload Additional Documents</strong></label>
+        <p>Other documents like SLA, NDA, etc., can be uploaded here.</p>
+
+        <!-- MULTIPLE FILE INPUT -->
+        <input type="file" multiple (change)="onMultiFileSelect($event)" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx"
+            class="form-control" />
+
+        <!-- Display uploaded docs -->
+        <div *ngFor="let docCtrl of additionalDocs.controls; let i = index" class="border p-3 mb-2 rounded">
+            <label>Document {{ i + 1 }}</label>
+            <div *ngIf="docCtrl.get('url')?.value" class="text-success">
+                Uploaded ✔️ –
+                <a [href]="docCtrl.get('url')?.value" target="_blank">View</a>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeAdditionalDoc(i)"
+                *ngIf="additionalDocs.length > 1">
+                Remove
+            </button>
+        </div>
     </div>
 
     <button type="submit" (click)="onSubmit()" class="btn btn-primary">Next</button>
@@ -40,36 +54,46 @@
         <form [formGroup]="agreementDocumentForm">
             <div class="mb-3">
                 <label>Signing Date</label>
-                <!-- <input type="date" formControlName="signingDate" class="form-control" /> -->
-                <app-custom-datepicker formControlName="signingDate" [datepickerType]="'bsDatepicker'"
+                <app-custom-datepicker formControlName="signing_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
-                    [bsCustConfg]="bsCustConfg"></app-custom-datepicker>
-                <!-- [minDate]="endMinScheduleDate"  -->
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
 
                 <span class="highlight"></span>
-                <!-- <label class="p-2" *ngIf="pickupForm.get('pickup_date')?.value">Pickup Date <span
-                                class="text-danger star">*</span></label> -->
-                <app-show-errors [ctrl]="agreementDocumentForm.get('signingDate')" [requiredMesg]="'Pickup date is Required'">
+                <app-show-errors [ctrl]="agreementDocumentForm.get('signing_date')"
+                    [requiredMesg]="'Signing date is Required'">
                 </app-show-errors>
             </div>
             <div class="mb-3">
                 <label>Effective Date</label>
-                <input type="date" formControlName="effectiveDate" class="form-control" />
+                <app-custom-datepicker formControlName="effective_date" [datepickerType]="'bsDatepicker'"
+                    [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
+
+                <span class="highlight"></span>
+                <app-show-errors [ctrl]="agreementDocumentForm.get('effective_date')"
+                    [requiredMesg]="'Effective date is Required'">
+                </app-show-errors>
             </div>
             <div class="mb-3">
                 <label>Expiry Date</label>
-                <input type="date" formControlName="expiryDate" class="form-control" />
+                <app-custom-datepicker formControlName="expiry_date" [datepickerType]="'bsDatepicker'"
+                    [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
+
+                <span class="highlight"></span>
+                <app-show-errors [ctrl]="agreementDocumentForm.get('expiry_date')"
+                    [requiredMesg]="'Expiry date is Required'">
+                </app-show-errors>
             </div>
             <div class="mb-3">
                 <label>Upload Document</label>
                 <input type="file" (change)="handleModalFile($event)" class="form-control" />
-                <div class="text-danger" *ngIf="fileError">{{ fileError }}</div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
         <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
-        <button class="btn btn-primary" [disabled]="!agreementDocumentForm.valid || !selectedFile"
+        <button class="btn btn-primary" [disabled]="!agreementDocumentForm.valid"
             (click)="submitModal(modal)">Submit</button>
     </div>
 </ng-template>

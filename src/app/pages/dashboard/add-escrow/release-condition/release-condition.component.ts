@@ -1,11 +1,183 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { apiRoutes } from 'src/app/config/api-request';
+import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
+import { ApiRequestService } from 'src/app/services/api-request.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-  selector: 'app-release-condition',
-  imports: [],
-  templateUrl: './release-condition.component.html',
-  styleUrl: './release-condition.component.scss'
+    selector: 'app-release-condition',
+    imports: [SharedModule],
+    templateUrl: './release-condition.component.html',
+    styleUrl: './release-condition.component.scss'
 })
-export class ReleaseConditionComponent {
+export class ReleaseConditionComponent implements OnInit {
+    releaseForm!: FormGroup;
+    customForm!: FormGroup;
+    private _NgxToasterService = inject(NgxToasterService);
+    private _ApiRequestService = inject(ApiRequestService);
+    private fb = inject(FormBuilder);
+    private modalService = inject(NgbModal)
 
+    defaultOptions = [
+        {
+            key: 'bankruptcy',
+            label: 'Bankruptcy',
+            description: 'The software vendor or developer who deposits source code physically and related materials into escrow.',
+            icon: 'assets/icons/bankruptcy.svg',
+            isCustom: false,
+        },
+        {
+            key: 'insolvency',
+            label: 'Insolvency',
+            description: 'The licensee or client who gains access to the escrowed materials if release conditions are triggered.',
+            icon: 'assets/icons/insolvency.svg',
+            isCustom: false,
+        },
+        {
+            key: 'maintenance',
+            label: 'Maintenance obligation not met',
+            description: 'The software vendor or developer who deposits source code physically and related materials into escrow.',
+            icon: 'assets/icons/maintenance.svg',
+            isCustom: false,
+        }
+        // {
+        //     key: 'custom',
+        //     label: 'Custom',
+        //     description: 'Define your own release condition.',
+        //     icon: 'assets/icons/custom.svg',
+        //     isCustom: false,
+        // }
+    ];
+
+    allOptions = [...this.defaultOptions];
+
+    ngOnInit(): void {
+        this.releaseForm = this.fb.group({
+            release_conditions: [[], Validators.required],
+            document: [null, Validators.required],
+        });
+
+        this.customForm = this.fb.group({
+            title: ['', Validators.required],
+            description: ['', Validators.required],
+        });
+    }
+
+    isSelected(key: string): boolean {
+        return this.releaseForm.get('release_conditions')?.value.includes(key);
+    }
+
+    toggleOption(key: string) {
+        const selected = this.releaseForm.get('release_conditions')?.value || [];
+        const index = selected.indexOf(key);
+
+        if (index > -1) {
+            selected.splice(index, 1);
+        } else {
+            selected.push(key);
+        }
+
+        this.releaseForm.patchValue({ release_conditions: [...selected] });
+    }
+
+    openCustomModal(content: any): void {
+        this.customForm.reset();
+        this.modalService.open(content, { centered: true, backdrop: 'static', keyboard: false });
+    }
+
+    addCustom(modalRef: any): void {
+        this.customForm.markAllAsTouched();
+        if (this.customForm.valid) {
+            const newCustom = {
+                key: this.customForm.value.title.toLowerCase(),
+                label: this.customForm.value.title,
+                description: this.customForm.value.description,
+                icon: 'assets/icons/custom.svg',
+                isCustom: true
+            };
+            this.defaultOptions.push(newCustom);
+            console.log("")
+            this.allOptions = [...this.defaultOptions]
+            modalRef.close();
+        }
+
+    }
+
+    removeCustom(optionKey: string) {
+        const index = this.allOptions.findIndex(opt => opt.key === optionKey && opt.isCustom);
+        if (index !== -1) {
+            this.allOptions.splice(index, 1);
+        }
+
+        const selected = this.releaseForm.get('release_conditions')?.value || [];
+        this.releaseForm.patchValue({
+            release_conditions: selected.filter((k: string) => k !== optionKey),
+        });
+    }
+    cancelCustom(): void {
+        this.customForm.reset();
+    }
+
+    onFileUpload(event: any) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const allowedTypes = [
+            'application/pdf',
+            'image/png',
+            'image/jpeg',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            this._NgxToasterService.showError('File type not allowed', 'Invalid File');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            this._NgxToasterService.showError('File must be less than 5MB', 'Error');
+            return;
+        }
+
+        this._ApiRequestService.uploadDocument(file, 'releasecondition').subscribe({
+            next: (url: any) => {
+                if (url) {
+                    this.releaseForm.patchValue({ document: url });
+                    this.releaseForm.get('document')?.markAsTouched();
+                } else {
+                    this.releaseForm.patchValue({ document: null });
+                }
+            },
+            error: () => {
+                this.releaseForm.patchValue({ document: null });
+            }
+        });
+    }
+
+    async onSubmit() {
+        this.releaseForm.markAllAsTouched();
+        const payload = {
+            ...this.releaseForm.value,
+        };
+        if (this.releaseForm.valid) {
+            await this._ApiRequestService.postData({ payload: payload }, apiRoutes.escrow.releaseCondition)
+                .subscribe({
+                    next: (res: any) => {
+                        if (res?.statuscode == 200) {
+                            this._NgxToasterService.showSuccess(res.message, "Success");
+                        } else {
+                            this._NgxToasterService.showError(res?.message, "Error");
+                        }
+                    },
+                    error: (error) => {
+                        const errorMsg = error?.error?.message || error?.message;
+                        this._NgxToasterService.showError(errorMsg, 'Error');
+                    }
+                });
+        }
+    }
 }

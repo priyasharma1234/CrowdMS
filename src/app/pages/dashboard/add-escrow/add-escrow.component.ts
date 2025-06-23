@@ -1,20 +1,22 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DashboardService } from '../../../services/dashboard.service';
+import { EscrowService } from '../../../services/escrow.service';
 import { CommonModule } from '@angular/common';
 import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { AgreementComponent } from './agreement/agreement.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { ReleaseConditionComponent } from './release-condition/release-condition.component';
 
 @Component({
   selector: 'app-add-escrow',
-  imports: [CommonModule,BasicDetailsComponent,AgreementComponent],
+  imports: [CommonModule, BasicDetailsComponent, AgreementComponent,DepositComponent,ReleaseConditionComponent],
   templateUrl: './add-escrow.component.html',
   styleUrl: './add-escrow.component.scss'
 })
 export class AddEscrowComponent implements OnInit {
-  private _DashboardService = inject(DashboardService);
+  private _EscrowService = inject(EscrowService);
   selectedService: any = 'Software';
   constructor() {
-    this._DashboardService.getService().subscribe((serviceKey: any) => {
+    this._EscrowService.getService().subscribe((serviceKey: any) => {
       this.selectedService = serviceKey
       if (serviceKey === 'software') {
         // apply software-specific logic

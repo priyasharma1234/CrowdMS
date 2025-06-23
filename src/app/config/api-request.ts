@@ -21,8 +21,26 @@ export const apiRoutes = {
     list: {
       url: 'escrow/list',
     },
-     createDepositorOrBene: {
+     add: {
+      url: 'escrow/add',
+    },
+    createDepositorOrBene: {
       url: 'escrow/create-corporate',
+    },
+    aggreement: {
+      url: 'escrow/agreement',
+    },
+    deposit: {
+      url: 'escrow/deposit'
+    },
+    releaseCondition: {
+      url: 'escrow/release-condition'
+    },
+    corporateList: {
+      url: 'escrow/corporate-list',
+    },
+    depositData: {
+      url: 'escrow/get-deposit-data'
     }
   }
 } as const;

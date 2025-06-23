@@ -30,7 +30,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 // import { DynamicSearchComponent } from '@core/common/dynamic-search/dynamic-search.component';
 // import { CustomDatepickerModule } from '@core/custom-datepicker/custom-datepicker.module';
 // import { CdkDropDownModule } from '@features/customCDK/cdk-drop-down/cdk-drop-down.module';
-// import { NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 // import { DynamicOtpModule } from './components/dynamic-otp/dynamic-otp.module';
 // import { CustomDatepickerModule } from '@core/custom-datepicker/custom-datepicker.module';
 // import { NgOtpInputModule } from 'ng-otp-input';
@@ -74,7 +74,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     // }),
      HttpClientModule,
     //  CdkDropDownModule,
-    //  NgSelectModule,
+     NgSelectModule,
     // NewsModule,
     // FileUploadModule,
     // CustomDynamicOtpModule,
@@ -105,11 +105,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
      CustomDatepickerModule,
     // PipesModule,
     RouterModule,
-    
+    NgSelectModule,
     // ToastrModule,
     HttpClientModule,
       //  CdkDropDownModule,
-      //  NgSelectModule
     // NewsModule,
     // FileUploadModule,
     // CustomDynamicOtpModule,

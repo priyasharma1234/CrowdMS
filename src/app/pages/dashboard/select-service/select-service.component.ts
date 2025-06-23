@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { DashboardService } from '../../../services/dashboard.service';
+import { EscrowService } from '../../../services/escrow.service';
 
 @Component({
   selector: 'app-select-service',
@@ -25,7 +25,7 @@ export class SelectServiceComponent implements OnInit {
     }
   ];
   selectedService: string | null = null;
-  private _DashboardService = inject(DashboardService);
+  private _EscrowService = inject(EscrowService);
   constructor(private router: Router) {
 
   }
@@ -34,7 +34,7 @@ export class SelectServiceComponent implements OnInit {
   }
 
   selectService(key: string) {
-    this._DashboardService.setService(key);
+    this._EscrowService.setService(key);
     this.router.navigate(['/dashboard/add-escrow']);
   }
 

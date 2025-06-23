@@ -29,9 +29,10 @@
       "@features/*": [
         "src/app/features/*"
       ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
+      // ,
+      // "@shared/*": [
+      //   "src/app/shared/*"
+      // ],
       "@rnficonfig/*": [
         "src/app/rnfi-config/*"
       ],

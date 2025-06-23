@@ -28,8 +28,8 @@
                         <ng-container [ngSwitch]="tab.key">
                             <div *ngSwitchCase="'basic'"><app-basic-details></app-basic-details></div>
                             <div *ngSwitchCase="'agreement'"><app-agreement></app-agreement></div>
-                            <div *ngSwitchCase="'deposit'">Deposit Content</div>
-                            <div *ngSwitchCase="'release'">Release Condition Content</div>
+                            <div *ngSwitchCase="'deposit'"><app-deposit></app-deposit></div>
+                            <div *ngSwitchCase="'release'"><app-release-condition></app-release-condition></div>
                         </ng-container>
                     </div>
                 </div>

@@ -1,1 +1,63 @@
-<p>deposit works!</p>
+<form [formGroup]="depositForm">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label>Primary Account</label>
+            <select class="form-select" formControlName="primary_account">
+                <option *ngFor="let acc of primaryAccounts" [value]="acc">{{ acc }}</option>
+            </select>
+            <app-show-errors [ctrl]="depositForm.get('primary_account')"
+                [requiredMesg]="'Primary Account is Required'"></app-show-errors>
+        </div>
+        <div class="col-12">
+            <label class="mb-2">Select All the Mandatory Documents for the Depositor to Upload*</label>
+            <div class="d-flex flex-wrap gap-2">
+                <button type="button" *ngFor="let doc of uploadOptions" (click)="toggleDocument(doc.value)"
+                    [ngClass]="{'btn-primary': selectedDocuments.has(doc.value), 'btn-outline-secondary': !selectedDocuments.has(doc.value)}"
+                    class="btn btn-sm">
+                    {{ doc.value }}
+                </button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <label>Verification</label>
+            <ng-select [items]="verificationOptions" bindLabel="value" formControlName="verification_type" [multiple]="true"
+                placeholder="Select Verification" [closeOnSelect]="false" [searchable]="false">
+            </ng-select>
+            <app-show-errors [ctrl]="depositForm.get('verification_type')"
+                [requiredMesg]="'Verification is Required'"></app-show-errors>
+        </div>
+
+        <div class="col-md-12">
+            <label>Required Verification For</label>
+            <select class="form-select" formControlName="verification_for">
+                <option *ngFor="let option of verificationFor" [value]="option.value">{{ option.value }}</option>
+            </select>
+            <app-show-errors [ctrl]="depositForm.get('verification_for')"
+                [requiredMesg]="'Verification for is Required'"></app-show-errors>
+        </div>
+
+        <div class="col-12">
+            <label>Select Mandatory Certificates to Upload (For Depositor)</label>
+            <div class="d-flex flex-wrap gap-2">
+                <button type="button" *ngFor="let cert of certificateOptions" (click)="toggleCertificate(cert.value)"
+                    [ngClass]="{'btn-primary': selectedCertificates.has(cert.value), 'btn-outline-secondary': !selectedCertificates.has(cert.value)}"
+                    class="btn btn-sm">
+                    {{ cert.value }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label>Required these Certificates for</label>
+            <ng-select [items]="verificationOptions" bindLabel="value" formControlName="cert_usage" [multiple]="true"
+                placeholder="Select certificate usage" [closeOnSelect]="false" [searchable]="false">
+            </ng-select>
+            <app-show-errors [ctrl]="depositForm.get('cert_usage')"
+                [requiredMesg]="'Required these Certificates for is Required'"></app-show-errors>
+        </div>
+
+        <div class="col-12 mt-3">
+            <button class="btn btn-dark" type="submit" (click)="submit()">Submit</button>
+        </div>
+    </div>
+</form>
