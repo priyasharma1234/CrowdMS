@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../../../shared/shared.module';
 import { InputRestrictionDirective } from '../../../../../core/directives/InputRestriction/input-restriction.directive';
 import { apiRoutes } from '../../../../../config/api-request';
@@ -24,17 +24,28 @@ export class AddEntityModalComponent implements OnInit {
         { value: 'new', name: "New" },
         { value: 'existing', name: "Existing" }
     ]
-    escrowType: 'software' | 'physical';
+    escrowType: 'Software' | 'Physical';
     corporateList: any;
     @Input() entityData: any = null;
+    @Input() editId: any = null;
+    depositorId: any;
+    beneId: any;
     constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private _ApiRequestService: ApiRequestService,
         private _NgxToasterService: NgxToasterService, private _EscrowService: EscrowService) {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             this.escrowType = serviceKey
         });
+        this._EscrowService.getDepositorId().subscribe((id: any) => {
+            console.log("deposit", id)
+            this.depositorId = id
+        });
+        this._EscrowService.getBeneId().subscribe((id: any) => {
+            console.log("beneId", id)
+            this.beneId = id;
+        });
         this.form = this.fb.group({
             entity_type: ['', [Validators.required]],
-            entity_id: [''],
+            corp_id: [''],
             company_name: ['', [Validators.required]],
             company_pan: ['', [Validators.required]],
             company_cin: ['', [Validators.required]],
@@ -49,15 +60,16 @@ export class AddEntityModalComponent implements OnInit {
 
     }
     async ngOnInit() {
+        this.form.get('entity_type')?.enable();
         const response = await lastValueFrom(this._EscrowService.getCorporateList());
         this.corporateList = response?.data?.list || [];
         this.form.get('entity_type')?.valueChanges.subscribe((typeValue) => {
-            const entityIdControl = this.form.get('entity_id');
+            const entityIdControl = this.form.get('corp_id');
             if (typeValue == 'existing') {
                 entityIdControl?.setValidators([Validators.required]);
             } else {
                 this.form.patchValue({
-                    entity_id: '',
+                    corp_id: '',
                     company_name: '',
                     company_pan: '',
                     company_cin: '',
@@ -75,7 +87,7 @@ export class AddEntityModalComponent implements OnInit {
 
             entityIdControl?.updateValueAndValidity();
         });
-        this.form.get('entity_id')?.valueChanges.subscribe((entityId) => {
+        this.form.get('corp_id')?.valueChanges.subscribe((entityId) => {
             const selectedCorp = this.corporateList.find((corp: any) => corp.id === entityId);
             if (selectedCorp) {
                 this.form.patchValue({
@@ -96,30 +108,58 @@ export class AddEntityModalComponent implements OnInit {
         // In case of edit
         if (this.entityData) {
             this.form.patchValue(this.entityData);
+            this.form.get('entity_type')?.disable();
         }
+
     }
 
     submit() {
         this.form.markAllAsTouched();
         console.log(" this.entityType", this.entityType)
         if (this.form?.valid) {
-            const data = {
-                ...this.form.getRawValue(),
-                corporate_type: this.entityType == 'depositor' ? '1' : this.entityType == 'beneficiary' ? '2' : '',
-                escrow_type: this.escrowType
-                // ...(this.editable && this.editId ? { id: this.editId } : {})
-            };
-            this._ApiRequestService.postData({ payload: data }, apiRoutes.escrow.createDepositorOrBene)
+            // const data = {
+            //     ...this.form.getRawValue(),
+            //     corporate_type: this.entityType == 'depositor' ? '1' : this.entityType == 'beneficiary' ? '2' : '',
+            //     escrow_type: this.escrowType,
+            //     ...(this.editId ? { id: this.editId } : {}),
+            //     submit_type: this.editId ? 'update' : 'create'
+            // };
+            const formData = new FormData();
+
+            Object.keys(this.form.controls).forEach((key) => {
+                const control = this.form.get(key);
+                const value = control?.value;
+
+                if (value !== null && value !== undefined) {
+                    formData.append(key, value);
+                }
+            });
+
+            formData.append('corporate_type', this.entityType === 'depositor' ? '1' : '2');
+            formData.append('escrow_type', this.escrowType);
+            formData.append('submit_type', this.editId ? 'update' : 'create');
+
+            if (this.editId) {
+                formData.append('id', this.editId);
+            }
+            // const apiUrl = this.editId
+            //     ? apiRoutes.escrow.updateDepositorOrBene
+
+            //     : apiRoutes.escrow.createDepositorOrBene;
+            this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.submitCorporate)
                 .subscribe({
                     next: (res: any) => {
                         if (res?.statuscode == 200) {
+                            console.log("this.entityType", this.entityType)
                             if (this.entityType == 'depositor') {
-                                this._EscrowService.setDepositorId(res.user_id);
+                                this._EscrowService.setDepositorId(res?.data?.corp_id);
+                                this.activeModal.dismiss()
                             } else if (this.entityType == 'beneficiary') {
-                                this._EscrowService.setBeneId(res.user_id);
+                                this._EscrowService.setBeneId(res?.data?.corp_id);
+                                this.activeModal.dismiss()
                             }
                             this._NgxToasterService.showSuccess(res.message, "Success");
-                            this.activeModal.close(this.form.value);
+
                         } else {
                             this._NgxToasterService.showError(res?.message, "Error");
                         }
@@ -137,16 +177,25 @@ export class AddEntityModalComponent implements OnInit {
     get entityRequiredMessage() {
         return `${this.entityType?.charAt(0).toUpperCase() + this.entityType?.slice(1)} is Required`;
     }
-    onPhotoSelected(event: Event): void {
+    onPhotoSelected(event: Event, fileInput: HTMLInputElement): void {
         const file = (event.target as HTMLInputElement)?.files?.[0];
         if (!file) return;
+
         this._ApiRequestService.uploadDocument(file, this.entityType).subscribe({
             next: (url) => {
-                this.form.patchValue({ rep_profile_pic: url });
-                this.form.get('rep_profile_pic')?.markAsTouched();
+                if (url) {
+                    this.form.patchValue({ rep_profile_pic: url });
+                    this.form.get('rep_profile_pic')?.markAsTouched();
+                } else {
+                    this.form.patchValue({ rep_profile_pic: null });
+                    fileInput.value = '';
+                }
             },
             error: (err) => {
-                console.error('Upload failed', err);
+                this.form.patchValue({ rep_profile_pic: null });
+                fileInput.value = '';
+                const errorMsg = err?.error?.message || err?.message;
+                this._NgxToasterService.showError(errorMsg, 'Error');
             }
         });
     }

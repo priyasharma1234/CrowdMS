@@ -2,8 +2,21 @@
     <h5>Choose the agreed-upon conditions between you and your counterparty.</h5>
     <div class="mb-3">
         <label><strong>Upload Document</strong></label>
-        <input type="file" class="form-control" (change)="onFileUpload($event)" />
+        <input #fileInput type="file" class="form-control" (change)="onFileUpload($event, fileInput)" />
+          <app-show-errors [ctrl]="releaseForm.get('document')"
+            [requiredMesg]="'Document is required'">
+        </app-show-errors>
         <small class="text-muted">File size must be less than 5MB</small>
+
+        <p class="mb-1" *ngIf="releaseForm.get('document')?.value">
+            <a [href]="releaseForm.get('document')?.value" target="_blank" class="text-decoration-none">
+                👁️ View Uploaded Document
+            </a>
+            <button type="button" class="btn btn-outline-danger btn-sm"
+                (click)="removeUploadedDocument()">
+                Remove
+            </button>
+        </p>
     </div>
     <div class="row g-3">
         <div class="col-md-6 mb-3" *ngFor="let opt of allOptions">
@@ -23,6 +36,9 @@
                     (click)="removeCustom(opt.key)">Delete</button>
             </div>
         </div>
+        <app-show-errors [ctrl]="releaseForm.get('release_conditions')"
+            [requiredMesg]="'At least one condition is required'">
+        </app-show-errors>
     </div>
     <div class="mt-3">
         <button class="btn btn-outline-primary" type="button" (click)="openCustomModal(customConditionModal)">Add New

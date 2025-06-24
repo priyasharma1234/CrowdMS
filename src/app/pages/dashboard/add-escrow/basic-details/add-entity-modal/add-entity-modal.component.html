@@ -19,14 +19,13 @@
             <div class="col-md-6" *ngIf="form.get('entity_type')?.value === 'existing'">
                 <label>Choose {{ entityType | titlecase }}*</label>
                 <ng-select [items]="corporateList" bindLabel="company_name" bindValue="id"
-                    placeholder="Please select type" formControlName="entity_id">
+                    placeholder="Please select type" formControlName="corp_id">
                 </ng-select>
                 <!-- <select class="form-control" formControlName="entity_id">
                     <option selected value="" disabled>Please Select {{ entityType | titlecase }}</option>
                     <option [value]="item.id" *ngFor="let item of corporateList.list">{{item.name}}</option>
                 </select> -->
-                <app-show-errors [ctrl]="form.get('entity_id')"
-                    [requiredMesg]="entityRequiredMessage"></app-show-errors>
+                <app-show-errors [ctrl]="form.get('corp_id')" [requiredMesg]="entityRequiredMessage"></app-show-errors>
             </div>
 
             <div class="col-md-6">
@@ -108,16 +107,18 @@
                 <div *ngIf="form.get('entity_type')?.value !== 'new' && form.get('rep_profile_pic')?.value">
                     <p class="mb-1">
                         <a [href]="form.get('rep_profile_pic')?.value" target="_blank" class="text-decoration-none">
-                          👁️ View Uploaded Image
+                            👁️ View Uploaded Image
                         </a>
                     </p>
-                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearRepPhoto()">
+                    <!-- <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearRepPhoto()">
                         Remove
-                    </button>
+                    </button> -->
                 </div>
 
-                <input *ngIf="form.get('entity_type')?.value === 'new' || !form.get('rep_profile_pic')?.value"
-                    type="file" class="form-control" (change)="onPhotoSelected($event)"
+                <!-- <input *ngIf="form.get('entity_type')?.value == 'new'" type="file" class="form-control" (change)="onPhotoSelected($event)"
+                    [class.is-invalid]="form.get('rep_profile_pic')?.invalid && form.get('rep_profile_pic')?.touched" /> -->
+                <input #fileInput *ngIf="form.get('entity_type')?.value == 'new'" type="file" class="form-control"
+                    (change)="onPhotoSelected($event, fileInput)"
                     [class.is-invalid]="form.get('rep_profile_pic')?.invalid && form.get('rep_profile_pic')?.touched" />
 
                 <app-show-errors [ctrl]="form.get('rep_profile_pic')"
@@ -138,5 +139,5 @@
 
 <div class="modal-footer">
     <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancel</button>
-    <button class="btn btn-primary" (click)="submit()">Submit</button>
+    <button class="btn btn-primary" (click)="submit()">{{editId ? 'Update' : 'Add'}}</button>
 </div>

@@ -3,7 +3,8 @@
         <label><strong>Select Agreement Type:</strong></label><br />
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="agreementType" value="triparty" id="triparty" />
+            <input class="form-check-input" type="radio" formControlName="agreementType" value="triparty"
+                id="triparty" />
             <label class="form-check-label" for="triparty">Triparty Agreement</label>
         </div>
 
@@ -87,7 +88,21 @@
             </div>
             <div class="mb-3">
                 <label>Upload Document</label>
-                <input type="file" (change)="handleModalFile($event)" class="form-control" />
+                <input #fileInput type="file" 
+                    class="form-control" (change)="handleModalFile($event, fileInput)"
+                    [class.is-invalid]="agreementDocumentForm.get('document_url')?.invalid && agreementDocumentForm.get('document_url')?.touched" />
+                      <app-show-errors [ctrl]="agreementDocumentForm.get('document_url')"
+                    [requiredMesg]="'Document is Required'">
+                </app-show-errors>
+
+                <p class="mb-1" *ngIf="agreementDocumentForm.get('document_url')?.value">
+                    <a [href]="agreementDocumentForm.get('document_url')?.value" target="_blank" class="text-decoration-none">
+                        👁️ View Uploaded Image
+                    </a>
+                     <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearModalDocument()">
+                        Remove
+                    </button>
+                </p>
             </div>
         </form>
     </div>

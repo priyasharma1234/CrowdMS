@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, retry, throwError } from 'rxjs';
+import { catchError, map, Observable, of, retry, throwError } from 'rxjs';
 import { IApiRequestPayload, IGenericApiResponse } from '../types/global';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -34,6 +34,20 @@ export class ApiRequestService {
     return this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload, { headers })
       .pipe(retry(0), catchError(this.errorHandl));
   };
+  getData<T>(path: any, param?: any): Observable<IGenericApiResponse<T>> {
+    let headers = new HttpHeaders();
+
+    const token = this._AuthCoreService.token();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    const fullUrl = param ? `${environment.baseUrl}${path.url}/${param}` : `${environment.baseUrl}${path.url}`;
+
+    return this.http.get<any>(fullUrl, { headers }).pipe(
+      retry(0),
+      catchError(this.errorHandl)
+    );
+  }
   postFormData<T>(formData: FormData, path: any): Observable<T> {
     let headers = new HttpHeaders();
     if (this._AuthCoreService.token()) {
@@ -52,14 +66,20 @@ export class ApiRequestService {
 
     return this.postFormData<{ fileUrl: string }>(formData, apiRoutes.uploadDocument.fileUrl).pipe(
       map((res: any) => {
-        if (res?.statuscode == 200 && res?.data?.url) {
+        if (res?.statuscode === 200 && res?.data?.url) {
           return res.data.url;
         } else {
-         this._NgxToasterService.showError(res.message, "Error");
+          const msg = res?.message || 'Upload failed';
+          throw new Error(msg);
         }
+      }),
+      catchError((err) => {
+        const errorMsg = err?.error?.message || err?.message || 'Upload failed';
+        return throwError(() => new Error(errorMsg));
       })
     );
   }
+
 
   errorHandl(err: any) {
     //console.log(err);

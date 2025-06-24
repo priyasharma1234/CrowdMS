@@ -24,23 +24,32 @@ export const apiRoutes = {
      add: {
       url: 'escrow/add',
     },
-    createDepositorOrBene: {
-      url: 'escrow/create-corporate',
+    // createDepositorOrBene: {
+    //   url: 'escrow/create-corporate',
+    // },
+    //  updateDepositorOrBene: {
+    //   url: 'escrow/update-corporate',
+    // },
+     submitCorporate: {
+      url: 'escrow/corporates/submit',
     },
     aggreement: {
-      url: 'escrow/agreement',
+      url: 'escrow/agreements/create',
     },
     deposit: {
-      url: 'escrow/deposit'
+      url: 'escrow/deposits/submit'
     },
     releaseCondition: {
       url: 'escrow/release-condition'
     },
     corporateList: {
-      url: 'escrow/corporate-list',
+      url: 'escrow/corporates/list',
+    },
+    getCorporate: {
+      url: 'escrow/corporates'
     },
     depositData: {
-      url: 'escrow/get-deposit-data'
+      url: 'escrow/deposits'
     }
   }
 } as const;

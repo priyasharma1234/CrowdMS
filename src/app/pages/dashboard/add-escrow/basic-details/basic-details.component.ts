@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { AddEntityModalComponent } from './add-entity-modal/add-entity-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EscrowService } from 'src/app/services/escrow.service';
@@ -35,82 +35,96 @@ export class BasicDetailsComponent implements OnInit {
     depositorId: any;
     private _EscrowService = inject(EscrowService);
     private _NgxToasterService = inject(NgxToasterService);
-    private _ApiRequestService = inject(ApiRequestService)
+    private _ApiRequestService = inject(ApiRequestService);
+    @Output() completed = new EventEmitter<void>();
     constructor(private modalService: NgbModal) {
-        this._EscrowService.getService().subscribe((serviceKey: any) => {
-            this.selectedService = serviceKey
-        });
-        this._EscrowService.getDepositorId().subscribe((depositorId: any) => {
-            this.depositorId = depositorId
-        });
-        this._EscrowService.getBeneId().subscribe((beneId: any) => {
-            this.beneId = beneId
-        });
+
     }
     ngOnInit(): void {
+        this._EscrowService.getService().subscribe((serviceKey: any) => {
+            if (serviceKey) {
+                this.selectedService = serviceKey
+            } else {
+                this.selectedService = 'Software'
+            }
 
-    }
-    onSelect(serviceKey: string) {
-        const modalRef = this.modalService.open(AddEntityModalComponent, {
-            centered: true,
-            size: 'xl',
-            backdrop: 'static', // to prevent close on outside click
+        });
+        this._EscrowService.getDepositorId().subscribe((id: any) => {
+            console.log("depositorId", id)
+            this.depositorId = id;
+            if (id) this.fetchCorporateDetails(id, 'depositor');
         });
 
-        modalRef.componentInstance.entityType = serviceKey;
+        this._EscrowService.getBeneId().subscribe((id: any) => {
+            this.beneId = id;
+            if (id) this.fetchCorporateDetails(id, 'beneficiary');
+        });
 
-        if (serviceKey == 'depositor' && this.depositor) {
-            modalRef.componentInstance.entityData = this.depositor;
-        } else if (serviceKey == 'beneficiary' && this.beneficiary) {
-            modalRef.componentInstance.entityData = this.beneficiary;
-        }
 
-        modalRef.result.then(
-            (result: any) => {
-                if (serviceKey == 'depositor') this.depositor = result;
-                if (serviceKey == 'beneficiary') this.beneficiary = result;
-            },
-            () => { }
-        );
     }
+    fetchCorporateDetails(id: any, type: 'depositor' | 'beneficiary') {
+        // const formData = new FormData();
+        // formData.append('id', id);
+        this._ApiRequestService.getData(apiRoutes.escrow.getCorporate, id).subscribe({
+            next: (res: any) => {
+                if (res?.statuscode == 200) {
+                    if (type === 'depositor') {
+                        this.depositor = res.data;
+                    } else if (type === 'beneficiary') {
+                        this.beneficiary = res.data;
+                    }
+                }
+            },
+            error: (err) => {
+               this._NgxToasterService.showError(err?.message, "Error");
+            }
+        });
+    }
+    onSelect(type: any) {
+        const corpId = type == 'depositor' ? this.depositorId : this.beneId;
 
-    editEntity(type: 'depositor' | 'beneficiary') {
-        const entityData = type == 'depositor' ? this.depositor : this.beneficiary;
         const modalRef = this.modalService.open(AddEntityModalComponent, {
             centered: true,
             size: 'xl',
             backdrop: 'static',
             keyboard: false
         });
-
+        modalRef.componentInstance.entityData = type == 'depositor' ? this.depositor : this.beneficiary;;
         modalRef.componentInstance.entityType = type;
-        modalRef.componentInstance.entityData = entityData;
+        modalRef.componentInstance.editId = corpId || null;
 
-        modalRef.result.then(
-            (result: any) => {
-                if (type == 'depositor') this.depositor = result;
-                else if (type == 'beneficiary') this.beneficiary = result;
-            },
-            () => { }
-        );
+        modalRef.result.finally(() => {
+
+        });
     }
     async submit() {
+        this._EscrowService.getDepositorId().subscribe((id: any) => {
+            console.log("deposit", id)
+            this.depositorId = id
+        });
+        this._EscrowService.getBeneId().subscribe((id: any) => {
+            console.log("beneId", id)
+            this.beneId = id;
+        });
         if (!this.depositorId) {
             this._NgxToasterService.showError("Please add depositor", "Error");
+            return
         }
         if (!this.beneId) {
             this._NgxToasterService.showError("Please add beneficiary", "Error");
+            return
         }
         const payload = {
             depositor_id: this.depositorId,
             beneficiary_id: this.beneId,
-            type: this.selectedService
+            escrow_type: this.selectedService
         };
         await this._ApiRequestService.postData({ payload: payload }, apiRoutes.escrow.add)
             .subscribe({
                 next: (res: any) => {
                     if (res?.statuscode == 200) {
-                        console.log("message")
+                        this._EscrowService.setEscrowId(res?.data?.id);
+                        this.completed.emit();
                         this._NgxToasterService.showSuccess(res.message, "Success");
                     } else {
                         console.log("res", res)

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../../../../shared/shared.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,7 @@ import { CustConfg } from 'src/app/core/custom-datepicker/ngx-datePicker-CustCon
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { apiRoutes } from 'src/app/config/api-request';
+import { EscrowService } from 'src/app/services/escrow.service';
 // import { CustomDatepickerComponent } from '@core/custom-datepicker/custom-datepicker.component';
 // import { CustConfg } from '@core/custom-datepicker/ngx-datePicker-CustConfg';
 
@@ -26,7 +27,10 @@ export class AgreementComponent implements OnInit {
     bsCustConfg = CustConfg;
     agreementForm: FormGroup;
     agreementDocumentForm: FormGroup;
-
+    escrowId: any;
+    @Output() completed = new EventEmitter<void>();
+    private _EscrowService = inject(EscrowService);
+    @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService, private _NgxToasterService: NgxToasterService) {
         const date = new Date();
         this.endMinScheduleDate = date;
@@ -44,6 +48,10 @@ export class AgreementComponent implements OnInit {
 
     }
     ngOnInit(): void {
+        this._EscrowService.getEscrowId().subscribe((id: any) => {
+            console.log("escrow", id)
+            this.escrowId = id
+        });
     }
     get additionalDocs(): FormArray {
         return this.agreementForm.get('additional_docs') as FormArray;
@@ -169,30 +177,36 @@ export class AgreementComponent implements OnInit {
         }
 
         // Build payload
-        const payload = {
-            id: 1,
-            agreement_type: this.agreementForm.get('agreementType')?.value,
-            additional_docs: uploadedDocs.map(doc => doc.url),
-            agreement_details: this.agreementDocumentForm.value
-        };
+        // const payload = {
+        //     id: this.escrowId,
+        //     agreement_type: this.agreementForm.get('agreementType')?.value,
+        //     additional_docs: uploadedDocs.map(doc => doc.url),
+        //     agreement_details: this.agreementDocumentForm.value
+        const formData = new FormData();
+        formData.append('id', this.escrowId);
+        formData.append('agreement_type', this.agreementForm.get('agreementType')?.value);
+        const additionalDocs = uploadedDocs.map(doc => doc.url);
+        formData.append('additional_docs', JSON.stringify(additionalDocs));
+        formData.append('agreement_details', JSON.stringify(this.agreementDocumentForm.value));
 
-        console.log('Final Payload:', payload);
-                 this._ApiRequestService.postData({ payload: payload }, apiRoutes.escrow.aggreement)
-                    .subscribe({
-                        next: (res: any) => {
-                            if (res?.statuscode == 200) {
-                                this._NgxToasterService.showSuccess(res.message, "Success");
-                            } else {
-                                 console.log("res",res)
-                                this._NgxToasterService.showError(res?.message, "Error");
-                            }
-                        },
-                        error: (error) => {
-                            console.log("error",error)
-                            const errorMsg = error?.error?.message || error?.message;
-                            this._NgxToasterService.showError(errorMsg, 'Error');
-                        }
-                    });
+        console.log('Final Payload:', formData);
+        this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.aggreement)
+            .subscribe({
+                next: (res: any) => {
+                    if (res?.statuscode == 200) {
+                        this.completed.emit();
+                        this._NgxToasterService.showSuccess(res.message, "Success");
+                    } else {
+                        console.log("res", res)
+                        this._NgxToasterService.showError(res?.message, "Error");
+                    }
+                },
+                error: (error) => {
+                    console.log("error", error)
+                    const errorMsg = error?.error?.message || error?.message;
+                    this._NgxToasterService.showError(errorMsg, 'Error');
+                }
+            });
 
     }
 
@@ -225,45 +239,88 @@ export class AgreementComponent implements OnInit {
     //         }
     //     });
     // }
-    handleModalFile(event: any) {
-        const file = event.target.files[0];
+    // handleModalFile(event: any) {
+    //     const file = event.target.files[0];
 
-        const allowedTypes = [
-            'application/pdf',
-            'image/png',
-            'image/jpeg',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ];
+    //     const allowedTypes = [
+    //         'application/pdf',
+    //         'image/png',
+    //         'image/jpeg',
+    //         'application/msword',
+    //         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    //     ];
 
+    //     if (!file) return;
+
+    //     if (!allowedTypes.includes(file.type)) {
+    //         this._NgxToasterService.showError('File type not allowed', 'Invalid File');
+    //         return;
+    //     }
+
+    //     if (file.size > 5 * 1024 * 1024) {
+    //         this._NgxToasterService.showError('File must be less than 5MB', 'Error');
+    //         return;
+    //     }
+
+    //     this._ApiRequestService.uploadDocument(file, 'agreement').subscribe({
+    //         next: (url: any) => {
+    //             if (url) {
+    //                 this.agreementDocumentForm.patchValue({ document_url: url });
+    //                 this.agreementDocumentForm.get('document_url')?.markAsTouched();
+    //             } else {
+    //                 this.agreementDocumentForm.patchValue({ document_url: null });
+    //             }
+    //         },
+    //         error: () => {
+    //             this.agreementDocumentForm.patchValue({ document_url: null });
+    //         }
+    //     });
+    // }
+    handleModalFile(event: Event, fileInput: HTMLInputElement): void {
+        const file = (event.target as HTMLInputElement)?.files?.[0];
         if (!file) return;
 
+        const allowedTypes = ['image/png', 'image/jpeg'];
         if (!allowedTypes.includes(file.type)) {
-            this._NgxToasterService.showError('File type not allowed', 'Invalid File');
+            this._NgxToasterService.showError('Only PNG or JPEG allowed', 'Invalid File');
+            this.agreementDocumentForm.patchValue({ document_url: null });
+            fileInput.value = '';
             return;
         }
 
         if (file.size > 5 * 1024 * 1024) {
             this._NgxToasterService.showError('File must be less than 5MB', 'Error');
+            this.agreementDocumentForm.patchValue({ document_url: null });
+            fileInput.value = '';
             return;
         }
 
         this._ApiRequestService.uploadDocument(file, 'agreement').subscribe({
-            next: (url: any) => {
+            next: (url) => {
                 if (url) {
                     this.agreementDocumentForm.patchValue({ document_url: url });
                     this.agreementDocumentForm.get('document_url')?.markAsTouched();
                 } else {
                     this.agreementDocumentForm.patchValue({ document_url: null });
+                    fileInput.value = '';
                 }
             },
-            error: () => {
+            error: (err) => {
                 this.agreementDocumentForm.patchValue({ document_url: null });
+                fileInput.value = '';
+                const errorMsg = err?.error?.message || err?.message || 'Upload failed';
+                this._NgxToasterService.showError(errorMsg, 'Error');
             }
         });
     }
-
+    clearModalDocument() {
+        this.agreementDocumentForm.patchValue({ document_url: null });
+        this.agreementDocumentForm.get('document_url')?.markAsTouched();
+        if (this.fileInputRef?.nativeElement) {
+            this.fileInputRef.nativeElement.value = '';
+        }
+    }
 
     submitModal(modal: any) {
         console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)

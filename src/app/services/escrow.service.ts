@@ -41,7 +41,7 @@ export class EscrowService {
         return this._apiRequestService.postData({}, apiRoutes.escrow.corporateList);
     }
     getDepositData(): Observable<any> {
-        return this._apiRequestService.postData({}, apiRoutes.escrow.depositData);
+        return this._apiRequestService.getData(apiRoutes.escrow.depositData);
     }
 
 }
