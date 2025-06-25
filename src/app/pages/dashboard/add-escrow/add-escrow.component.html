@@ -14,11 +14,11 @@
         </div>
 
         <div class="content-inside m-3">
-            <div class="d-flex align-items-start">
-                <div class="nav flex-column nav-pills me-3">
-                    <button *ngFor="let tab of tabs" class="nav-link" [ngClass]="{ active: selectedTab === tab.key }"
+            <div class="escrow-tabs d-flex p-4">
+                <div class="nav flex-column nav-pills me-3 gap-2">
+                    <button *ngFor="let tab of tabs" class="nav-link text-start" [ngClass]="{ active: selectedTab === tab.key }"
                         (click)="selectTab(tab.key)" type="button">
-                        {{ tab.label }}
+                         <img [src]="tab.icon" alt="sprint excode"  class="pe-2"/> {{ tab.label }}
                     </button>
                 </div>
 

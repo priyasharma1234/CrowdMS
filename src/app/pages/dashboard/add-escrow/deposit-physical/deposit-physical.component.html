@@ -1,23 +1,28 @@
-<form [formGroup]="depositForm">
-    <div class="row g-3">
+<form [formGroup]="depositForm" >
+    <div class="row">
 
         <div class="col-md-6">
+            <div class="form-group">
             <label>Depositing Person Name</label>
             <input formControlName="depositor_name" class="form-control" placeholder="Enter Depositing Person Name" />
             <app-show-errors [ctrl]="depositForm.get('depositor_name')"
                 [requiredMesg]="'Depositing Person Name is Required'">
             </app-show-errors>
+            </div>
         </div>
 
         <div class="col-md-6">
+            <div class="form-group">
             <label>Depositing Person Mobile Number</label>
             <input formControlName="depositor_mobile" type="tel" class="form-control"
                  [appInputRestriction]="'integer'" maxlength="10" placeholder="Enter Mobile Number" />
             <app-show-errors [ctrl]="depositForm.get('depositor_mobile')" [requiredMesg]="'Mobile Number is Required'">
             </app-show-errors>
+            </div>
         </div>
 
         <div class="col-md-6">
+             <div class="form-group">
             <label>Select Device</label>
             <select formControlName="device" class="form-control">
                 <option value="">Select Device</option>
@@ -26,8 +31,10 @@
             <app-show-errors [ctrl]="depositForm.get('device')" [requiredMesg]="'Device Selection is Required'">
             </app-show-errors>
         </div>
+        </div>
 
         <div class="col-md-6">
+              <div class="form-group">
             <label>Date of Submit</label>
             <app-custom-datepicker formControlName="submit_date" [datepickerType]="'bsDatepicker'" class="form-control"
                 [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'" [bsCustConfg]="bsCustConfg"
@@ -35,9 +42,11 @@
             </app-custom-datepicker>
             <app-show-errors [ctrl]="depositForm.get('submit_date')" [requiredMesg]="'Submit Date is Required'">
             </app-show-errors>
+            </div>
         </div>
 
         <div class="col-md-6">
+             <div class="form-group">
             <label>Select Primary Location</label>
             <select formControlName="primary_location" class="form-control">
                 <option value="">Select Location</option>
@@ -46,41 +55,62 @@
             <app-show-errors [ctrl]="depositForm.get('primary_location')"
                 [requiredMesg]="'Primary Location is Required'">
             </app-show-errors>
+            </div>
         </div>
 
         <div class="col-md-6">
+             <div class="form-group">
             <label>Vault Number / Locker Number</label>
             <input formControlName="vault_number" class="form-control" placeholder="Enter Vault / Locker Number" />
             <app-show-errors [ctrl]="depositForm.get('vault_number')"
                 [requiredMesg]="'Vault / Locker Number is Required'">
             </app-show-errors>
+            </div>
         </div>
         <div class="col-md-6">
+               <div class="form-group">
             <label>KYC of Depositing Person</label>
              <input  [appInputRestriction]="'alphanumeric'" formControlName="kyc" class="form-control" placeholder="Enter KYC of Depositing Person" />
             <app-show-errors [ctrl]="depositForm.get('kyc')"
                 [requiredMesg]="'KYC of Depositing Person is Required'">
             </app-show-errors>
+            </div>
         </div>
 
         <ng-container *ngFor="let field of fileFields">
-            <div class="col-md-6">
+               
+            <div class="col-md-6 upload-doc">
+                <!-- <div class="form-group">
                 <label>{{ field.label }}</label>
                 <input type="file" #fileInput class="form-control"
                     (change)="handleCommonFileUpload($event, fileInput, field.controlName)" />
                 <app-show-errors [ctrl]="depositForm.get(field.controlName)"
                     [requiredMesg]="field.label + ' is Required'">
                 </app-show-errors>
+                </div> -->
+
+<div>
+                <label class="custom-file-upload">
+ <img src="assets/img/upload.png" class="me-2"> {{ field.label }}
+</label>
+ <input type="file" id="fileInput"  [multiple]="false"  #fileInput class="form-control"
+                    (change)="handleCommonFileUpload($event, fileInput, field.controlName)" />
+                      <app-show-errors [ctrl]="depositForm.get(field.controlName)"
+                    [requiredMesg]="field.label + ' is Required'">
+                </app-show-errors>
+</div>
             </div>
         </ng-container>
 
         <div class="col-md-12">
+               <div class="form-group">
             <label>Remarks</label>
             <textarea formControlName="remarks" class="form-control" rows="3" placeholder="Enter any remarks">
       </textarea>
+      </div>
         </div>
 
-        <div class="col-12 text-end">
+        <div class="col-12">
             <button class="btn btn-primary" [disabled]="!depositForm.valid" (click)="submit()">Submit</button>
         </div>
 
