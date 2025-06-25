@@ -1,0 +1,9 @@
+<div class="alert-error">
+    <div *ngIf="shouldShowErrors()">
+      <ng-container *ngFor="let error of listOfErrors(); first as isFirst">
+        <small class="col-red" *ngIf="isFirst">
+          {{getTypeOf(error) === 'function'? error():error}}
+        </small>
+      </ng-container>
+    </div>
+  </div>

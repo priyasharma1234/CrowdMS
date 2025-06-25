@@ -1,0 +1,42 @@
+<!-- search.component.html -->
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <div class="d-flex gap-4 flex-wrap">
+        <div class="ml-2">
+            <label for="selectedFilter">Select Filter:</label>
+            <select id="selectedFilter" formControlName="selectedFilter" class="form-control">
+                <option *ngFor="let option of filterOptions" [value]="option.name">{{ option.value }}</option>
+            </select>
+        </div>
+        <div class="ml-2">
+            <label for="selectedFilterType">Select Filter Type:</label>
+            <select  id="selectedFilterType" formControlName="selectedFilterType" class="form-control">
+                <option *ngFor="let option1 of this.selectedFilter?.searchType" [value]="option1">{{
+                    option1 }}</option>
+            </select>
+        </div>
+        <div class="ml-2">
+            <label for="filterValue">Filter Value:</label>
+            <input type="text" *ngIf="!this.selectedFilter?.values" id="filterValue" formControlName="filterValue"
+                class="form-control">
+            <select *ngIf="this.selectedFilter?.values" formControlName="filterValue" class="form-control">
+                <option *ngFor="let option of this.selectedFilter?.values | keyvalue" [value]="option.key">{{
+                    option.value }}</option>
+            </select>
+        </div>
+        <div class="ml-2 add-filter">
+            <button class="btn btn-yellow" type="submit">Add filter</button>
+        </div>
+    </div>
+</form>
+<div class="filter-search" *ngIf="appliedFilters.length">
+<div class="filter-inner" *ngFor="let filter of appliedFilters; let i = index">
+    <ng-container *ngIf="filter.values; else stringFilter">
+        {{ filter.selectedFilterValue }} {{filter.searchType == 'equal'? '=': filter.searchType ? filter.searchType : ':' }} {{ filter.values[filter.value] }}
+    </ng-container>
+
+    <ng-template #stringFilter>
+        {{ filter.selectedFilterValue }} {{filter.searchType == 'equal'? '=': filter.searchType ? filter.searchType : ':' }}  {{ filter.value }} 
+    </ng-template>
+    <button class="btn" (click)="removeFilter(i)"><i class="far fa-times-circle"></i></button>
+</div>
+</div>

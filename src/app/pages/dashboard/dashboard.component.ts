@@ -1,20 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiRequestService} from '../../services/api-request.service';
-import {apiRoutes} from '../../config/api-request';
+import { Component, OnInit } from '@angular/core';
+import { ApiRequestService } from '../../services/api-request.service';
+import { apiRoutes } from '../../config/api-request';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   standalone: true
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
-  constructor(private _ApiRequestService: ApiRequestService) {
-    this._ApiRequestService.postData({}, apiRoutes.escrow.list).subscribe(res => console.log(res));
-
-  }
   ngOnInit() {
   }
+
 }
