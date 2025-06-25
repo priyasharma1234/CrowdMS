@@ -34,9 +34,9 @@ export class AddEscrowComponent implements OnInit {
     selectedTab: string = 'basic';
     enabledTabs: { [key: string]: boolean } = {
         basic: true,
-        agreement: false,
-        deposit: false,
-        release: false
+        agreement: true,
+        deposit: true,
+        release: true
     };
 
     ngOnInit(): void {
