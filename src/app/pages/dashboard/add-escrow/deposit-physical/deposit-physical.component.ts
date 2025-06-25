@@ -46,6 +46,10 @@ export class DepositPhysicalComponent implements OnInit {
     ngOnInit(): void {
         const date = new Date();
         this.endMinScheduleDate = date;
+        this._EscrowService.getEscrowId().subscribe((id: any) => {
+            console.log("escrow", id)
+            this.escrowId = id
+        });
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
