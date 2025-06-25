@@ -1,29 +1,74 @@
-import {Injectable, signal} from '@angular/core';
-import {IUser} from '../types/global';
+import { inject, Injectable, signal } from '@angular/core';
+import { IUser } from '../types/global';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { SessionStorageService } from '../core/services/session-storage.service';
+import { ApiRequestService } from './api-request.service';
+import { NgxToasterService } from '../core/services/toasterNgs.service';
+import { apiRoutes } from '../config/api-request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthCoreService {
-  constructor() { }
-
   readonly user = signal<IUser | null>(null);
   readonly isAuthenticated = signal<boolean>(false);
   readonly token = signal<string | null>(null);
-  SetUser(_user: IUser | null, _token: string) {
+  encrypted: boolean | undefined = undefined;
+
+  private route = inject(Router);
+  private toaster = inject(NgxToasterService);
+  private session = inject(SessionStorageService);
+
+  SetUser(_user: IUser | null, _token: string): void {
+    console.log("user11111",_user);
+       console.log("_token",_token)
     if (_user) {
-      sessionStorage.setItem('user', JSON.stringify(_user));
+      this.session.setItem('user', _user);
     } else {
-      sessionStorage.removeItem('user');
+      this.session.removeItem('user');
     }
+
     if (_token) {
-      sessionStorage.setItem('authToken', _token);
+      this.session.setItem('authToken', _token);
     } else {
-      sessionStorage.removeItem('authToken');
+      this.session.removeItem('authToken');
     }
+
     this.user.set(_user);
     this.isAuthenticated.set(!!_user);
     this.token.set(_token);
-    console.log('User and token set in AuthCoreService:', _user, _token);
   }
+
+  logout(hardLogout: boolean = true, errorMsg?: string): void {
+    const clear = () => {
+      this.session.clearStorage();
+      this.user.set(null);
+      this.isAuthenticated.set(false);
+      this.token.set(null);
+    };
+
+    const api = inject(ApiRequestService); 
+
+    if (hardLogout) {
+      const payload = new FormData();
+      api.postData({ payload }, apiRoutes.auth.logout).subscribe({
+        next: (resp) => {
+          if (resp.statuscode === 200) this.toaster.showSuccess(resp?.message, "Success");
+          clear();
+          this.route.navigate(['/auth/login']);
+        },
+        error: () => {
+          clear();
+          this.route.navigate(['/auth/login']);
+        }
+      });
+    } else {
+      clear();
+      this.toaster.showError(errorMsg ?? 'Session Expired!!', 'Error');
+      this.route.navigate(['/auth/login']);
+    }
+  }
+
 }
+

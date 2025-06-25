@@ -24,6 +24,7 @@ export class DepositPhysicalComponent implements OnInit {
     verificationOptions = ['KYC', 'PAN', 'Aadhar'];
 
     fileFields = [
+        { controlName: 'kyc', label: 'KYC of Depositing Person' },
         { controlName: 'device_picture', label: 'Upload Device Picture' },
         { controlName: 'packaging_picture', label: 'Upload Packaging Pic' },
         { controlName: 'other_picture', label: 'Upload Other Picture' },
@@ -77,9 +78,27 @@ export class DepositPhysicalComponent implements OnInit {
         const file = (event.target as HTMLInputElement)?.files?.[0];
         if (!file) return;
 
-        const allowedTypes = ['image/png', 'image/jpeg'];
+        // Define allowed types conditionally
+        const documentTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
+        const imageTypes = ['image/png', 'image/jpeg'];
+
+        // Set allowedTypes based on controlName
+        const allowedTypes = controlName === 'other_documentation'
+            ? [...imageTypes, ...documentTypes]
+            : imageTypes;
+
         if (!allowedTypes.includes(file.type)) {
-            this._NgxToasterService.showError('Only PNG or JPEG allowed', 'Invalid File');
+            const docMsg = 'Only PDF, Word, Excel, PNG or JPEG allowed';
+            const imgMsg = 'Only PNG or JPEG allowed';
+            this._NgxToasterService.showError(
+                controlName === 'other_documentation' ? docMsg : imgMsg,
+                'Invalid File'
+            );
             this.depositForm.patchValue({ [controlName]: null });
             fileInput.value = '';
             return;
@@ -105,6 +124,7 @@ export class DepositPhysicalComponent implements OnInit {
             }
         });
     }
+
     async submit() {
         this.depositForm.markAllAsTouched();
         if (this.depositForm.valid) {

@@ -46,6 +46,21 @@ export class AgreementComponent implements OnInit {
             expiry_date: ['', Validators.required],
             document_url: ['', Validators.required]
         });
+        const today = new Date();
+        const expiry = new Date();
+        expiry.setFullYear(today.getFullYear() + 1);
+
+        const form = this.agreementDocumentForm;
+
+        if (!form.get('signing_date')?.value || form.get('signing_date')?.value == '') {
+            form.get('signing_date')?.setValue(today);
+        }
+        if (!form.get('effective_date')?.value || form.get('effective_date')?.value == '') {
+            form.get('effective_date')?.setValue(today);
+        }
+        if (!form.get('expiry_date')?.value || form.get('expiry_date')?.value == '') {
+            form.get('expiry_date')?.setValue(expiry);
+        }
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
@@ -291,7 +306,15 @@ export class AgreementComponent implements OnInit {
         const file = (event.target as HTMLInputElement)?.files?.[0];
         if (!file) return;
 
-        const allowedTypes = ['image/png', 'image/jpeg'];
+        const allowedTypes = [
+            'application/pdf',
+            'image/png',
+            'image/jpeg',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
+
         if (!allowedTypes.includes(file.type)) {
             this._NgxToasterService.showError('Only PNG or JPEG allowed', 'Invalid File');
             this.agreementDocumentForm.patchValue({ document_url: null });

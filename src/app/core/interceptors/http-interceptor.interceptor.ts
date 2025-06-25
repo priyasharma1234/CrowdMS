@@ -1,14 +1,13 @@
-import { LoaderService } from '@core/services/loader.service';
-import { Injectable } from '@angular/core';
+
+import { inject, Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment'
-import { AuthCoreService } from '@page/auth/auth.service';
-import { SessionStorageService } from '@core/services/session-storage.service';
+
 import Swal from 'sweetalert2';
-import { NgxToasterService } from '@core/services/toasterNgs.service';
-import { LocationService } from '@core/services/location.service';
-import { CryptoService } from '@core/services/crypto.service';
+import { AuthCoreService } from 'src/app/services/auth-core.service';
+import { NgxToasterService } from '../services/toasterNgs.service';
+import { LoaderService } from 'src/app/services/loader.service';
+import { SessionStorageService } from '../services/session-storage.service';
 
 
 @Injectable()
@@ -22,27 +21,14 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
   form_keys: any;
 
   secureCall: boolean = false;
-
   private requests: HttpRequest<any>[] = [];
 
 
   constructor(
     private loader: LoaderService,
     private authCoreService: AuthCoreService,
-    private sessionStorage: SessionStorageService,
     private toaster: NgxToasterService,
-    private locationService: LocationService,
-    private crypto: CryptoService
   ) {
-    // this.locationService.geterLocation.subscribe({
-    //   next: (value: any) => {
-    //     this.longitude = value?.long;
-    //     this.latitude = value?.lat;
-    //   }
-    // })
-    // let letLang: any = this.locationService.seterLocation.getValue()
-    // this.longitude = letLang.long;
-    // this.latitude = letLang?.lat;
   }
 
   removeRequest(req: HttpRequest<any>) {
@@ -52,7 +38,7 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
     if (i >= 0) {
       this.requests.splice(i, 1);
     }
-    this.loader.isLoading.next(this.requests.length > 0);
+    this.loader.setLoading(this.requests.length > 0);
   }
 
   intercept(request: HttpRequest<any> | any, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -63,35 +49,21 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
       this.form_keys = request.headers['lazyUpdate'][0].value;
     }
 
-
-    if (this.latitude) { }
-
-    // this.loader.show();
-    const isCaptchaRequest = request.url === `${environment.userBaseUrl}captcha/generate`;
-
-    if (!isCaptchaRequest) {
-      this.loader.isLoading.next(true);
-    }
-
-    if (request.url.indexOf(`${environment.corporateBaseUrl}company/list`) > -1) {
-      var headers = new HttpHeaders({})
-    } else {
-      let session: any = ''
-      this.loginSession = ''
-      session = this.sessionStorage.getItem('userDetails');
-      //  console.log("session////////////",session)
-      if (session) {
-        // console.log("session",session)
-        this.loginSession = JSON.parse(session).token; // getting login session to set in headers
-        // console.log("JSON.parse(session).token",JSON.parse(session).token)
-      }
-
-      var headers = new HttpHeaders({ // adding login session in api's header
-        'Authorization': this.loginSession ? 'Bearer ' + this.loginSession : '',
-        'token': '22509F2AE7BA71E4C3FB32AB94B6CEA8',
-      })
+    this.loader.show();
+    // let session: any = ''
+    this.loginSession = ''
+    let token = this.authCoreService.token()
+    console.log("token", token)
+    if (token) {
+      this.loginSession = token
 
     }
+
+    var headers = new HttpHeaders({ // adding login session in api's header
+      'Authorization': this.loginSession ? 'Bearer ' + this.loginSession : '',
+      'token': '22509F2AE7BA71E4C3FB32AB94B6CEA8',
+    })
+
     //  if (request.url.indexOf(`${environment.corporateBaseUrl}kyc/pan-ocr`) > -1) {
     //   var headers = new HttpHeaders({ // adding login session in api's header
     //     'Authorization': 'Bearer' + this.loginSession,
@@ -107,17 +79,17 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
       // request.clone({
       //   body: request.body.append('longitude', this.longitude)
       // })
-    //   for (let key of request.body.keys()) {
-    //     if (key == 'encrypt') {
-    //       // shouldEncrypt = false;
-    //       request.body.delete('encrypt');
-    //       break;
-    //     }
-    //     body[key] = request.body.get(key);
-    //   }
-    // } else {
-    //   body = request.body;
-    // }
+      //   for (let key of request.body.keys()) {
+      //     if (key == 'encrypt') {
+      //       // shouldEncrypt = false;
+      //       request.body.delete('encrypt');
+      //       break;
+      //     }
+      //     body[key] = request.body.get(key);
+      //   }
+      // } else {
+      //   body = request.body;
+      // }
     }
 
     // if (shouldEncrypt && this.secureCall) {
@@ -148,7 +120,6 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
                 observer.next(event);
               } else {
                 this.authCoreService.logout();
-                this.authCoreService.isSessionTimeOut.next(true);
                 const Toast = Swal.mixin({
                   toast: true,
                   position: 'top-end',

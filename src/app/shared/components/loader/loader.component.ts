@@ -1,8 +1,7 @@
-import { LoaderService } from './../../../core/services/loader.service';
 
 import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { SharedModule } from '@shared/shared.module';
-import { Subscription } from 'rxjs';
+import { SharedModule } from '../../shared.module';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
   standalone:true,
@@ -19,6 +18,7 @@ export class LoaderComponent implements OnInit,OnChanges {
     this.loader.isLoading.subscribe((isLoading: boolean) => {
       setTimeout(() => {
         this.active = isLoading;
+        console.log("isLoading11111111",isLoading)
       }, 1);
     });
   }
