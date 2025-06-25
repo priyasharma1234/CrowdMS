@@ -21,6 +21,7 @@ export class ReleaseConditionComponent implements OnInit {
     private fb = inject(FormBuilder);
     private modalService = inject(NgbModal);
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+    selectedService: any;
 
     defaultOptions = [
         {
@@ -70,6 +71,14 @@ export class ReleaseConditionComponent implements OnInit {
         this._EscrowService.getEscrowId().subscribe((id: any) => {
             console.log("escrow", id)
             this.escrowId = id
+        });
+        this._EscrowService.getService().subscribe((serviceKey: any) => {
+            if (serviceKey) {
+                this.selectedService = serviceKey
+            } else {
+                this.selectedService = 'Physical'
+            }
+
         });
     }
 
@@ -191,6 +200,7 @@ export class ReleaseConditionComponent implements OnInit {
         // };
         const formData = new FormData();
         formData.append('id', String(this.escrowId));
+        formData.append('escrow_type', this.selectedService);
         const formValues = this.releaseForm.value;
         Object.entries(formValues).forEach(([key, value]) => {
             if (key === 'release_conditions' && Array.isArray(value)) {

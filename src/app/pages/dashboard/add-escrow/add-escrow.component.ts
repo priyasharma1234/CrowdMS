@@ -5,22 +5,24 @@ import { BasicDetailsComponent } from './basic-details/basic-details.component';
 import { AgreementComponent } from './agreement/agreement.component';
 import { DepositComponent } from './deposit/deposit.component';
 import { ReleaseConditionComponent } from './release-condition/release-condition.component';
+import { DepositPhysicalComponent } from './deposit-physical/deposit-physical.component';
 
 @Component({
     selector: 'app-add-escrow',
-    imports: [CommonModule, BasicDetailsComponent, AgreementComponent, DepositComponent, ReleaseConditionComponent],
+    imports: [CommonModule, BasicDetailsComponent, AgreementComponent, DepositComponent, 
+        ReleaseConditionComponent,DepositPhysicalComponent],
     templateUrl: './add-escrow.component.html',
     styleUrl: './add-escrow.component.scss'
 })
 export class AddEscrowComponent implements OnInit {
     private _EscrowService = inject(EscrowService);
-    selectedService: any = 'Software';
+    selectedService: any = 'Physical';
     constructor() {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
             } else {
-                this.selectedService = 'Software'
+                this.selectedService = 'Physical'
             }
 
         });

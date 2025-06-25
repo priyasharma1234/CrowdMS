@@ -31,6 +31,7 @@ export class AgreementComponent implements OnInit {
     @Output() completed = new EventEmitter<void>();
     private _EscrowService = inject(EscrowService);
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+    selectedService: any;
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService, private _NgxToasterService: NgxToasterService) {
         const date = new Date();
         this.endMinScheduleDate = date;
@@ -44,6 +45,14 @@ export class AgreementComponent implements OnInit {
             effective_date: ['', Validators.required],
             expiry_date: ['', Validators.required],
             document_url: ['', Validators.required]
+        });
+        this._EscrowService.getService().subscribe((serviceKey: any) => {
+            if (serviceKey) {
+                this.selectedService = serviceKey
+            } else {
+                this.selectedService = 'Physical'
+            }
+
         });
 
     }
@@ -188,6 +197,7 @@ export class AgreementComponent implements OnInit {
         const additionalDocs = uploadedDocs.map(doc => doc.url);
         formData.append('additional_docs', JSON.stringify(additionalDocs));
         formData.append('agreement_details', JSON.stringify(this.agreementDocumentForm.value));
+        formData.append('escrow_type', this.selectedService);
 
         console.log('Final Payload:', formData);
         this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.aggreement)
