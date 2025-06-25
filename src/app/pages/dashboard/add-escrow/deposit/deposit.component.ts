@@ -27,6 +27,7 @@ export class DepositComponent implements OnInit {
     private _ApiRequestService = inject(ApiRequestService);
     escrowId: any;
     @Output() completed = new EventEmitter<void>();
+    selectedService: any;
     constructor(private fb: FormBuilder) {
         this.depositForm = this.fb.group({
             primary_account: [{ value: 'AWS', disabled: true }, Validators.required],
@@ -49,18 +50,16 @@ export class DepositComponent implements OnInit {
             console.log("escrow", id)
             this.escrowId = id
         });
+             this._EscrowService.getService().subscribe((serviceKey: any) => {
+            if (serviceKey) {
+                this.selectedService = serviceKey
+            } else {
+                this.selectedService = 'Physical'
+            }
+
+        });
 
     }
-
-    // toggleDocument(doc: string) {
-    //     if (this.selectedDocuments.has(doc)) this.selectedDocuments.delete(doc);
-    //     else this.selectedDocuments.add(doc);
-    // }
-
-    // toggleCertificate(cert: string) {
-    //     if (this.selectedCertificates.has(cert)) this.selectedCertificates.delete(cert);
-    //     else this.selectedCertificates.add(cert);
-    // }
     toggleDocument(doc: string) {
         if (this.selectedDocuments.has(doc)) {
             this.selectedDocuments.delete(doc);
@@ -84,13 +83,7 @@ export class DepositComponent implements OnInit {
     async submit() {
         this.depositForm.markAllAsTouched();
         if (this.depositForm.valid) {
-            // const payload = {
-            //     id: this.escrowId,
-            //     ...this.depositForm.getRawValue(),
-            //     documents: Array.from(this.selectedDocuments),
-            //     certificates: Array.from(this.selectedCertificates),
             const formData = new FormData();
-
             const formValues = this.depositForm.getRawValue();
             Object.entries(formValues).forEach(([key, value]) => {
                 if (Array.isArray(value)) {
@@ -99,12 +92,8 @@ export class DepositComponent implements OnInit {
                     formData.append(key, String(value ?? ''));
                 }
             });
-
-            // formData.append('documents', JSON.stringify(Array.from(this.selectedDocuments)));
-            // formData.append('certificates', JSON.stringify(Array.from(this.selectedCertificates)));
-
-            // Append escrow ID
             formData.append('id', this.escrowId);
+            formData.append('escrow_type', this.selectedService);
 
             // };
             await this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.deposit)

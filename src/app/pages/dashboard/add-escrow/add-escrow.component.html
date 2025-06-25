@@ -23,18 +23,24 @@
                 </div>
 
                 <div class="tab-content w-100">
-                 <div *ngFor="let tab of tabs" class="tab-pane fade"
-                    [ngClass]="{ 'show active': selectedTab === tab.key }">
-                    <ng-container [ngSwitch]="tab.key">
-                        <div *ngSwitchCase="'basic'"><app-basic-details
-                                (completed)="enableNextTab('basic')"></app-basic-details></div>
-                        <div *ngSwitchCase="'agreement'"><app-agreement
-                                (completed)="enableNextTab('agreement')"></app-agreement></div>
-                        <div *ngSwitchCase="'deposit'"><app-deposit
-                                (completed)="enableNextTab('deposit')"></app-deposit></div>
-                        <div *ngSwitchCase="'release'"><app-release-condition></app-release-condition></div>
-                    </ng-container>
-                </div>
+                    <div *ngFor="let tab of tabs" class="tab-pane fade"
+                        [ngClass]="{ 'show active': selectedTab === tab.key }">
+                        <ng-container [ngSwitch]="tab.key">
+                            <div *ngSwitchCase="'basic'"><app-basic-details
+                                    (completed)="enableNextTab('basic')"></app-basic-details></div>
+                            <div *ngSwitchCase="'agreement'"><app-agreement
+                                    (completed)="enableNextTab('agreement')"></app-agreement></div>
+                            <div *ngSwitchCase="'deposit'">
+                                <ng-container *ngIf="selectedService == 'Software'">
+                                    <app-deposit (completed)="enableNextTab('deposit')"></app-deposit>
+                                </ng-container>
+                                   <ng-container *ngIf="selectedService == 'Physical'">
+                                    <app-deposit-physical (completed)="enableNextTab('deposit')"></app-deposit-physical>
+                                </ng-container>
+                            </div>
+                            <div *ngSwitchCase="'release'"><app-release-condition></app-release-condition></div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </div>
