@@ -1,12 +1,13 @@
-<div class="modal-header">
-    <h5 class="modal-title">Add {{ entityType | titlecase }}</h5>
+<div class="modal-header text-center">
+    <h2 class="modal-title w-100 text-center">Add {{ entityType | titlecase }}</h2>
     <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 
-<div class="modal-body">
-    <form [formGroup]="form">
-        <div class="row g-3">
+<div class="modal-body p-4">
+    <form [formGroup]="form" class="p-2">
+        <div class="row">
             <div class="col-md-6">
+                <div class="form-group">
                 <label>{{ entityType | titlecase }} Type*</label>
                 <select class="form-control" formControlName="entity_type">
                     <option selected value="" disabled>Please Select {{ entityType | titlecase }} Type</option>
@@ -15,8 +16,10 @@
                 <app-show-errors [ctrl]="form.get('entity_type')"
                     [requiredMesg]="typeRequiredMessage"></app-show-errors>
             </div>
+            </div>
 
             <div class="col-md-6" *ngIf="form.get('entity_type')?.value === 'existing'">
+                 <div class="form-group">
                 <label>Choose {{ entityType | titlecase }}*</label>
                 <ng-select [items]="corporateList" bindLabel="company_name" bindValue="id"
                     placeholder="Please select type" formControlName="corp_id">
@@ -27,70 +30,86 @@
                 </select> -->
                 <app-show-errors [ctrl]="form.get('corp_id')" [requiredMesg]="entityRequiredMessage"></app-show-errors>
             </div>
-
+</div>
             <div class="col-md-6">
+                <div class="form-group">
                 <label>Company Name*</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_name"
                     class="form-control" placeholder="Enter Company Name" />
                 <app-show-errors [ctrl]="form.get('company_name')"
                     [requiredMesg]="'Company Name is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                  <div class="form-group">
                 <label>Company PAN*</label>
                 <input [appInputRestriction]="'alphanumeric'" maxlength="10" type="text"
                     [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_pan"
                     class="form-control" placeholder="Enter Company PAN" appUppercase />
                 <app-show-errors [ctrl]="form.get('company_pan')"
                     [requiredMesg]="'Company Pan is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                 <div class="form-group">
                 <label>Company CIN*</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_cin"
                     class="form-control" placeholder="Enter Company CIN" />
                 <app-show-errors [ctrl]="form.get('company_cin')"
                     [requiredMesg]="'Company CIN is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                 <div class="form-group">
                 <label>Company Address*</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
                     formControlName="company_address" class="form-control" placeholder="Enter Company Address" />
                 <app-show-errors [ctrl]="form.get('company_address')"
                     [requiredMesg]="'Company Address is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                  <div class="form-group">
                 <label>Representative Name*</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="rep_name"
                     class="form-control" placeholder="Enter Representative Name" />
                 <app-show-errors [ctrl]="form.get('rep_name')"
                     [requiredMesg]="'Representative Name is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                 <div class="form-group">
                 <label>Representative Email*</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="rep_email"
                     class="form-control" placeholder="Enter Representative Email" />
                 <app-show-errors [ctrl]="form.get('rep_email')"
                     [requiredMesg]="'Representative Email is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                 <div class="form-group">
                 <label>Representative Mobile Number*</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
                     [appInputRestriction]="'integer'" maxlength="10" formControlName="rep_mobile" class="form-control"
                     placeholder="Enter Mobile Number" />
                 <app-show-errors [ctrl]="form.get('rep_mobile')"
                     [requiredMesg]="'Representative Mobile Number is Required'"></app-show-errors>
+                    </div>
             </div>
 
             <div class="col-md-6">
+                 <div class="form-group">
                 <label>Representative Alternate Mobile Number</label>
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
                     [appInputRestriction]="'integer'" maxlength="10" formControlName="rep_alt_mobile"
                     class="form-control" placeholder="Enter Alternate Mobile Number" />
+                    </div>
             </div>
             <!-- <div class="col-md-6">
                 <label>Upload Photo*</label>
@@ -101,6 +120,7 @@
                 </app-show-errors>
             </div> -->
             <div class="col-md-6">
+                  <div class="form-group">
                 <label>Upload Photo*</label>
 
                 <!-- Show image URL with option to remove if existing -->
@@ -124,20 +144,22 @@
                 <app-show-errors [ctrl]="form.get('rep_profile_pic')"
                     [requiredMesg]="'Photo is Required'"></app-show-errors>
             </div>
-
+</div>
 
             <div class="col-md-12">
+                <div class="form-group">
                 <label>Remarks*</label>
                 <textarea type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="remark"
                     class="form-control" placeholder="Enter Remarks"></textarea>
                 <app-show-errors [ctrl]="form.get('remark')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
+                </div>
             </div>
         </div>
     </form>
 
 </div>
 
-<div class="modal-footer">
-    <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancel</button>
+<div class="modal-footer justify-content-center">
+    <button class="btn btn-white " (click)="activeModal.dismiss()">Cancel</button>
     <button class="btn btn-primary" (click)="submit()">{{editId ? 'Update' : 'Add'}}</button>
 </div>

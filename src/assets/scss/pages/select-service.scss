@@ -1,0 +1,81 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+.select-srvice {
+  border: 1px solid $gray4;
+  border-radius: 10px;
+  background: $white;
+}
+.escrow-tabs {
+  background: $white;
+  border: 1px solid $gray4;
+  border-radius: 10px;
+  .nav-pills {
+    .nav-link {
+      color: $text-grey;
+      width: max-content;
+      &.active {
+        background-color: $gray5;
+        color: $dark-blue;
+        border-radius: 40px;
+      }
+    }
+  }
+}
+
+.agreement {
+  label {
+    color: $dark-blue;
+    font-weight: 700;
+    font-size: 18px;
+    &.form-check-label {
+      font-weight: 400;
+    }
+  }
+  p {
+    color: $text-grey;
+  }
+  .upload-doc {
+    border: 1px solid #ececec;
+    border-radius: 10px;
+    width: 50%;
+    position: relative;
+    // &::after{
+    // content: "";
+    // width: 1px;
+    // height: 80px;
+    // position: absolute;
+    // left: 20rem;
+    // background: #ececec;
+    // }
+  }
+
+}
+
+.upload-doc{
+  .custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: $white;
+  color: #000;
+  border-radius: 5px;
+  font-weight: 500;
+  border: 1px solid $gray4;
+  width: 100%;
+  position: relative;
+}
+.custom-file-upload:hover {
+  background-color: $gray4;
+}
+input[type="file"] {
+position: absolute;
+    opacity: 0;
+    z-index: 9;
+    width: 100%;
+    // height: 100%;
+    // top:0
+}
+
+}

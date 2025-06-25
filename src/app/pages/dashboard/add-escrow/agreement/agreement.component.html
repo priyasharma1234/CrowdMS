@@ -1,6 +1,6 @@
-<form [formGroup]="agreementForm">
+<form [formGroup]="agreementForm" class="agreement">
     <div class="mb-3">
-        <label><strong>Select Agreement Type:</strong></label><br />
+        <label>Agreement Type:</label><br />
 
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" formControlName="agreementType" value="triparty"
@@ -16,19 +16,21 @@
     <div class="mb-3" *ngIf="agreementForm.get('agreementType')?.value">
         <label for="agreementDoc">Upload {{ agreementForm.get('agreementType')?.value | titlecase }} Document</label>
         <p>An Escrow Agreement between the software developer or beneficiary and the escrow agent.</p>
-        <div class="d-flex align-items-center gap-2" role="button" (click)="openModal(content)">
-            <i class="bi bi-upload fs-4 text-primary"></i>
-            <span class="text-primary">Upload document (Max: 5MB)</span>
+        <div class="d-flex align-items-center gap-2 upload-doc p-3" role="button" (click)="openModal(content)">
+           <img src="assets/img/upload.png">
+            <span class="text-primary">Upload document<p class="mb-0">File size must be less than 5mb</p></span>
         </div>
     </div>
 
     <div class="mb-3">
-        <label><strong>Upload Additional Documents</strong></label>
-        <p>Other documents like SLA, NDA, etc., can be uploaded here.</p>
+        <label>Upload Additional Document</label>
+        <p>Other Agreement related documents like SLA, NDA and other documents can be uploaded here.</p>
 
         <!-- MULTIPLE FILE INPUT -->
+         <div>
         <input type="file" multiple (change)="onMultiFileSelect($event)" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx"
-            class="form-control" />
+            class="form-control upload-doc p-3" />
+            </div>
 
         <!-- Display uploaded docs -->
         <div *ngFor="let docCtrl of additionalDocs.controls; let i = index" class="border p-3 mb-2 rounded">

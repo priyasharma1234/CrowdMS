@@ -9,21 +9,21 @@
 
     <!-- Main Wrapper -->
     <div class="main-container">
-        <div class="topbar p-3 border-bottom">
+        <div class="topbar">
             <h5 class="text-primary m-0">Select Service</h5>
         </div>
 
         <div class="content-inside m-3">
             <div class="row g-4">
                 <div class="col-md-6" *ngFor="let service of services">
-                    <div class="service-card p-4 shadow rounded-3 h-100 border" [ngClass]="{
+                    <div class="select-srvice p-4" [ngClass]="{
         'border-primary': selectedService === service.key,
         'border-light': selectedService !== service.key
       }" (click)="selectService(service.key)" role="button">
-                        <div class="d-flex align-items-center gap-3">
-                            <img [src]="service.icon" alt="" width="40" />
+                        <div class="">
+                            <img [src]="service.icon" alt="sprint excode" />
                             <div>
-                                <h5 class="mb-1">{{ service.name }}</h5>
+                                <h5 class="my-2">{{ service.name }}</h5>
                                 <p class="text-muted mb-0">{{ service.description }}</p>
                             </div>
                         </div>

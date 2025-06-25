@@ -15,13 +15,13 @@ export class SelectServiceComponent implements OnInit {
       key: 'Software',
       name: 'Software/SaaS Escrow',
       description: 'A third party securely holds software source code to ensure the client can access it if the developer can\'t support the software anymore.',
-      icon: 'assets/img/code-icon.svg'
+      icon: 'assets/img/software.png'
     },
     {
       key: 'Physical',
       name: 'Physical Escrow',
       description: 'A neutral party holds physical items and releases them only when all agreed conditions between the parties are fulfilled.',
-      icon: 'assets/img/house-icon.svg'
+      icon: 'assets/img/physical.png'
     }
   ];
   selectedService: string | null = null;

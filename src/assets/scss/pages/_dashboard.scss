@@ -61,13 +61,13 @@ background-color: #fff1e2;
 }
 .filter-box{
     background:$white;
-    border:1px solid #E6EFF5;
+    border:1px solid $gray4;
     border-radius:10px;
     align-items: center;
 
 form{
     .form-select,.form-control{
-    border: 1px solid #E6EFF5;
+    border: 1px solid $gray4;
     height: 55px;
     border-radius:10px;
     color: #808080;

@@ -18,13 +18,13 @@ export class BasicDetailsComponent implements OnInit {
         {
             title: 'Add Depositor',
             description: 'The software vendor or developer who deposits source code physically and related materials into escrow.',
-            icon: 'assets/img/add-depositor-icon.svg',
+            icon: 'assets/img/add-depositor.png',
             key: 'depositor'
         },
         {
             title: 'Add Beneficiary',
             description: 'The licensee or client who gains access to the escrowed materials if release conditions are triggered.',
-            icon: 'assets/img/house-icon.svg',
+            icon: 'assets/img/add-bene.png',
             key: 'beneficiary'
         }
     ];

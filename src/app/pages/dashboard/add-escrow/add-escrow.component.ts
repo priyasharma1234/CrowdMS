@@ -28,10 +28,10 @@ export class AddEscrowComponent implements OnInit {
         });
     }
     tabs = [
-        { key: 'basic', label: 'Basic Details' },
-        { key: 'agreement', label: 'Agreement' },
-        { key: 'deposit', label: 'Deposit' },
-        { key: 'release', label: 'Release Condition' }
+        { key: 'basic', label: 'Basic Details', icon: 'assets/img/basic.png' },
+        { key: 'agreement', label: 'Agreement', icon: 'assets/img/agreement.png' },
+        { key: 'deposit', label: 'Deposit', icon: 'assets/img/deposit.png' },
+        { key: 'release', label: 'Release Condition', icon: 'assets/img/release-condition.png' }
     ];
     selectedTab: string = 'basic';
     enabledTabs: { [key: string]: boolean } = {
