@@ -1,0 +1,10 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+
+.select-srvice{
+  border: 1px solid $gray4;
+  border-radius:10px;
+  background:$white;
+}
