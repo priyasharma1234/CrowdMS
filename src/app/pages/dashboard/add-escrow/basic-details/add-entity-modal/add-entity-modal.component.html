@@ -88,7 +88,7 @@
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="rep_email"
                     class="form-control" placeholder="Enter Representative Email" />
                 <app-show-errors [ctrl]="form.get('rep_email')"
-                    [requiredMesg]="'Representative Email is Required'"></app-show-errors>
+                    [requiredMesg]="'Representative Email is Required'" [patternMesg]="'Enter valid representative email'"></app-show-errors>
                     </div>
             </div>
 
