@@ -152,10 +152,10 @@ export class AddEntityModalComponent implements OnInit {
                         if (res?.statuscode == 200) {
                             console.log("this.entityType", this.entityType)
                             if (this.entityType == 'depositor') {
-                                this._EscrowService.setDepositorId(res?.data?.corp_id);
+                                this._EscrowService.setDepositorId(res?.data?.corpid);
                                 this.activeModal.dismiss()
                             } else if (this.entityType == 'beneficiary') {
-                                this._EscrowService.setBeneId(res?.data?.corp_id);
+                                this._EscrowService.setBeneId(res?.data?.corpid);
                                 this.activeModal.dismiss()
                             }
                             this._NgxToasterService.showSuccess(res.message, "Success");
