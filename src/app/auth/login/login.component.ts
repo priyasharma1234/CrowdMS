@@ -34,7 +34,6 @@ export class LoginComponent {
   }
 
   Login() {
-       this._Router.navigate(['/dashboard']);
     if (!this.loginForm.valid) {
       console.error('Form is invalid');
       return;
