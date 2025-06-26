@@ -18,7 +18,6 @@ export class LoaderComponent implements OnInit,OnChanges {
     this.loader.isLoading.subscribe((isLoading: boolean) => {
       setTimeout(() => {
         this.active = isLoading;
-        console.log("isLoading11111111",isLoading)
       }, 1);
     });
   }
