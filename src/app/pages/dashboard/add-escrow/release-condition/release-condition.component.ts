@@ -28,28 +28,28 @@ export class ReleaseConditionComponent implements OnInit {
             key: 'bankruptcy',
             label: 'Bankruptcy',
             description: 'The software vendor or developer who deposits source code physically and related materials into escrow.',
-            icon: 'assets/icons/bankruptcy.svg',
+            icon: 'assets/img/bankrup.png',
             isCustom: false,
         },
         {
             key: 'insolvency',
             label: 'Insolvency',
             description: 'The licensee or client who gains access to the escrowed materials if release conditions are triggered.',
-            icon: 'assets/icons/insolvency.svg',
+            icon: 'assets/img/insolvency.png',
             isCustom: false,
         },
         {
             key: 'maintenance',
             label: 'Maintenance obligation not met',
             description: 'The software vendor or developer who deposits source code physically and related materials into escrow.',
-            icon: 'assets/icons/maintenance.svg',
+            icon: 'assets/img/maintence.png',
             isCustom: false,
         }
         // {
         //     key: 'custom',
         //     label: 'Custom',
         //     description: 'Define your own release condition.',
-        //     icon: 'assets/icons/custom.svg',
+        //     icon: 'assets/img/custom.svg',
         //     isCustom: false,
         // }
     ];

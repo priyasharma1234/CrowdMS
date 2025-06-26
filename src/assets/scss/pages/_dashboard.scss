@@ -7,9 +7,9 @@
 .wrapper {
   transition: all 0.5s ease;
   position: relative;
-  margin-left: 47px;
+  margin-left: 0;
 
-  @include breakpoint("desktop-wide", min) {
+  @include breakpoint("desktop-small", min) {
     margin-left: 300px;
   }
   @include breakpoint("desktop-xxl", min) {
