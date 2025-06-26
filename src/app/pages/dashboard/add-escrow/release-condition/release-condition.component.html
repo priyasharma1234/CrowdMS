@@ -43,8 +43,8 @@
                 <input type="checkbox" class="form-check-input position-absolute top-0 end-0 m-3"
                     [checked]="isSelected(opt.key)" readonly />
                 <button *ngIf="opt.isCustom" type="button"
-                    class="btn btn-sm btn-outline-danger position-absolute bottom-0 end-0 m-3"
-                    (click)="removeCustom(opt.key)">Delete</button>
+                    class="btn btn-outline-danger position-absolute bottom-0 end-0 m-2 px-3"
+                    (click)="removeCustom(opt.key)"><i class="fas fa-trash-alt"></i></button>
             </div>
         </div>
         <app-show-errors [ctrl]="releaseForm.get('release_conditions')"

@@ -114,7 +114,7 @@ export class ReleaseConditionComponent implements OnInit {
                 key: this.customForm.value.title.toLowerCase(),
                 label: this.customForm.value.title,
                 description: this.customForm.value.description,
-                icon: 'assets/icons/custom.svg',
+                 icon: 'assets/img/custom.png',
                 isCustom: true
             };
             this.defaultOptions.push(newCustom);
