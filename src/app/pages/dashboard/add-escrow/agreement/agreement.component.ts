@@ -32,6 +32,7 @@ export class AgreementComponent implements OnInit {
     private _EscrowService = inject(EscrowService);
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
     selectedService: any;
+    private isFirstTimePatched = false;
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService, private _NgxToasterService: NgxToasterService) {
         const date = new Date();
         this.endMinScheduleDate = date;
@@ -46,21 +47,6 @@ export class AgreementComponent implements OnInit {
             expiry_date: ['', Validators.required],
             document_url: ['', Validators.required]
         });
-        const today = new Date();
-        const expiry = new Date();
-        expiry.setFullYear(today.getFullYear() + 1);
-
-        const form = this.agreementDocumentForm;
-
-        if (!form.get('signing_date')?.value || form.get('signing_date')?.value == '') {
-            form.get('signing_date')?.setValue(today);
-        }
-        if (!form.get('effective_date')?.value || form.get('effective_date')?.value == '') {
-            form.get('effective_date')?.setValue(today);
-        }
-        if (!form.get('expiry_date')?.value || form.get('expiry_date')?.value == '') {
-            form.get('expiry_date')?.setValue(expiry);
-        }
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
@@ -144,37 +130,6 @@ export class AgreementComponent implements OnInit {
         this._NgxToasterService.showError(message, 'Upload Error');
         this.additionalDocs.removeAt(index);
     }
-    // onFileSelect(event: any, index: number) {
-    //     const file: File = event.target.files[0];
-    //     const control = this.additionalDocs.at(index);
-
-    //     if (file && file.size <= 5 * 1024 * 1024) {
-    //         control.patchValue({ file });
-
-    //         this._ApiRequestService.uploadDocument(file, 'additional').subscribe({
-    //             next: (url: any) => {
-    //                 if (url) {
-    //                     control.patchValue({ url });
-    //                     control.get('file')?.markAsTouched();
-    //                 } else {
-    //                     this.handleUploadError(index, 'Upload failed: No URL returned from server.');
-    //                 }
-    //             },
-    //             error: (err) => {
-    //                 const msg = err?.error?.message || 'Upload failed due to server error.';
-    //                 this.handleUploadError(index, msg);
-    //             }
-    //         });
-    //     } else {
-    //         this._NgxToasterService.showError('File must be less than 5MB.', 'Error');
-    //     }
-    // }
-    // handleUploadError(index: number, message: string) {
-    //     this.additionalDocs.removeAt(index);
-    //     if (this.additionalDocs.length === 0) {
-    //         this.addAdditionalDoc();
-    //     }
-    // }
 
 
     onSubmit() {
@@ -190,22 +145,15 @@ export class AgreementComponent implements OnInit {
             .map(ctrl => ctrl.value)
             .filter(doc => !!doc.url);
 
-        if (uploadedDocs.length === 0) {
-            this._NgxToasterService.showError('Please upload at least one additional document.', 'Error');
-            return;
-        }
+        // if (uploadedDocs.length === 0) {
+        //     this._NgxToasterService.showError('Please upload at least one additional document.', 'Error');
+        //     return;
+        // }
         const mainAgreementUrl = this.agreementDocumentForm.get('document_url')?.value;
         if (!mainAgreementUrl) {
             this._NgxToasterService.showError('Please upload the main agreement document.', 'Error');
             return;
         }
-
-        // Build payload
-        // const payload = {
-        //     id: this.escrowId,
-        //     agreement_type: this.agreementForm.get('agreementType')?.value,
-        //     additional_docs: uploadedDocs.map(doc => doc.url),
-        //     agreement_details: this.agreementDocumentForm.value
         const formData = new FormData();
         formData.append('id', this.escrowId);
         formData.append('agreement_type', this.agreementForm.get('agreementType')?.value);
@@ -234,74 +182,33 @@ export class AgreementComponent implements OnInit {
             });
 
     }
-
-
-
     openModal(content: any) {
+
+        if (!this.isFirstTimePatched) {
+            const today = new Date();
+            const expiry = new Date();
+            expiry.setFullYear(today.getFullYear() + 1);
+
+            const form = this.agreementDocumentForm;
+
+            if (
+                !form.get('signing_date')?.value &&
+                !form.get('effective_date')?.value &&
+                !form.get('expiry_date')?.value
+            ) {
+                form.patchValue({
+                    signing_date: today,
+                    effective_date: today,
+                    expiry_date: expiry
+                });
+
+                this.isFirstTimePatched = true;
+            }
+        }
+
         this.modalService.open(content, { centered: true, size: 'xl' });
     }
 
-    // handleModalFile(event: any) {
-    //     const file = event.target.files[0];
-
-    //     if (file && file.size > 5 * 1024 * 1024) {
-    //         this._NgxToasterService.showError('File must be less than 5MB', 'Error');
-    //         return;
-    //     }
-
-    //     this._ApiRequestService.uploadDocument(file, 'agreement').subscribe({
-    //         next: (url: any) => {
-    //             if (url) {
-    //                 console.log("url", url)
-    //                 this.agreementDocumentForm.patchValue({ document_url: url });
-    //                 this.agreementDocumentForm.get('documentUrl')?.markAsTouched();
-    //             } else {
-    //                 this.agreementDocumentForm.patchValue({ document_url: null });
-    //             }
-    //         },
-    //         error: (err) => {
-    //             this.agreementDocumentForm.patchValue({ document_url: null });
-    //         }
-    //     });
-    // }
-    // handleModalFile(event: any) {
-    //     const file = event.target.files[0];
-
-    //     const allowedTypes = [
-    //         'application/pdf',
-    //         'image/png',
-    //         'image/jpeg',
-    //         'application/msword',
-    //         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    //         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    //     ];
-
-    //     if (!file) return;
-
-    //     if (!allowedTypes.includes(file.type)) {
-    //         this._NgxToasterService.showError('File type not allowed', 'Invalid File');
-    //         return;
-    //     }
-
-    //     if (file.size > 5 * 1024 * 1024) {
-    //         this._NgxToasterService.showError('File must be less than 5MB', 'Error');
-    //         return;
-    //     }
-
-    //     this._ApiRequestService.uploadDocument(file, 'agreement').subscribe({
-    //         next: (url: any) => {
-    //             if (url) {
-    //                 this.agreementDocumentForm.patchValue({ document_url: url });
-    //                 this.agreementDocumentForm.get('document_url')?.markAsTouched();
-    //             } else {
-    //                 this.agreementDocumentForm.patchValue({ document_url: null });
-    //             }
-    //         },
-    //         error: () => {
-    //             this.agreementDocumentForm.patchValue({ document_url: null });
-    //         }
-    //     });
-    // }
     handleModalFile(event: Event, fileInput: HTMLInputElement): void {
         const file = (event.target as HTMLInputElement)?.files?.[0];
         if (!file) return;
@@ -356,11 +263,30 @@ export class AgreementComponent implements OnInit {
     }
 
     submitModal(modal: any) {
-        console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)
+        // console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)
+        // const data = {
+        //     agreementType: this.agreementForm.get('agreementType')?.value,
+        //     ...this.agreementDocumentForm.value,
+        // };
+        const formatDate = (date: Date | string): string => {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = ('0' + (d.getMonth() + 1)).slice(-2);
+            const day = ('0' + d.getDate()).slice(-2);
+            return `${year}/${month}/${day}`;
+        };
+
+        const formValue = this.agreementDocumentForm.value;
+
         const data = {
             agreementType: this.agreementForm.get('agreementType')?.value,
-            ...this.agreementDocumentForm.value,
+            signing_date: formatDate(formValue.signing_date),
+            effective_date: formatDate(formValue.effective_date),
+            expiry_date: formatDate(formValue.expiry_date),
+            document_url: formValue.document_url
         };
+
+        console.log('Final Submit Payload', data);
         modal.close();
     }
 

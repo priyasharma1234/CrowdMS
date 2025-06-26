@@ -92,5 +92,14 @@ export class ApiRequestService {
     }
     return throwError(() => error)
   }
+  getTableApiHeaders(){
+     let headers = new HttpHeaders();
+
+    const token = this._AuthCoreService.token();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers
+  }
 
 }
