@@ -12,11 +12,11 @@ import { DynamicTableModule } from '@ciphersquare/dynamic-table';
   styleUrl: './dashboard-list.component.scss'
 })
 export class DashboardListComponent implements OnInit {
-    tableHeaders: any;
+  httpHeaders: any;
   constructor(private _ApiRequestService: ApiRequestService, private router: Router) {
     // this._ApiRequestService.postData({}, apiRoutes.escrow.list).subscribe(res => console.log(res));
-   this.tableHeaders = this._ApiRequestService.getTableApiHeaders();
-   console.log("tableHeaders",this.tableHeaders)
+    this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
+    console.log("httpHeaders", this.httpHeaders)
 
   }
 
@@ -26,14 +26,14 @@ export class DashboardListComponent implements OnInit {
     this.router.navigate(['/dashboard/select-service']);
   }
   onTableAction(event: any) {
-  console.log('Table action triggered:', event);
+    console.log('Table action triggered:', event);
 
-  // example: { type: 'edit', rowData: { id: 1, name: 'A' } }
+    // example: { type: 'edit', rowData: { id: 1, name: 'A' } }
 
-  if (event.type === 'edit') {
-    // this.openEditModal(event.rowData);
-  } else if (event.type === 'delete') {
-    // this.confirmDelete(event.rowData.id);
+    if (event.type === 'edit') {
+      // this.openEditModal(event.rowData);
+    } else if (event.type === 'delete') {
+      // this.confirmDelete(event.rowData.id);
+    }
   }
-}
 }
