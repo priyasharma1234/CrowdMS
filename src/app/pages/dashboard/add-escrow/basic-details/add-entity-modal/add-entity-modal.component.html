@@ -22,13 +22,13 @@
                  <div class="form-group">
                 <label>Choose {{ entityType | titlecase }}*</label>
                 <ng-select [items]="corporateList" bindLabel="company_name" bindValue="id"
-                    placeholder="Please select type" formControlName="corp_id">
+                    placeholder="Please select type" formControlName="corpid">
                 </ng-select>
                 <!-- <select class="form-control" formControlName="entity_id">
                     <option selected value="" disabled>Please Select {{ entityType | titlecase }}</option>
                     <option [value]="item.id" *ngFor="let item of corporateList.list">{{item.name}}</option>
                 </select> -->
-                <app-show-errors [ctrl]="form.get('corp_id')" [requiredMesg]="entityRequiredMessage"></app-show-errors>
+                <app-show-errors [ctrl]="form.get('corpid')" [requiredMesg]="entityRequiredMessage"></app-show-errors>
             </div>
 </div>
             <div class="col-md-6">

@@ -45,7 +45,7 @@ export class AddEntityModalComponent implements OnInit {
         });
         this.form = this.fb.group({
             entity_type: ['', [Validators.required]],
-            corp_id: [''],
+            corpid: [''],
             company_name: ['', [Validators.required]],
             company_pan: ['', [Validators.required]],
             company_cin: ['', [Validators.required]],
@@ -64,12 +64,12 @@ export class AddEntityModalComponent implements OnInit {
         const response = await lastValueFrom(this._EscrowService.getCorporateList());
         this.corporateList = response?.data?.list || [];
         this.form.get('entity_type')?.valueChanges.subscribe((typeValue) => {
-            const entityIdControl = this.form.get('corp_id');
+            const entityIdControl = this.form.get('corpid');
             if (typeValue == 'existing') {
                 entityIdControl?.setValidators([Validators.required]);
             } else {
                 this.form.patchValue({
-                    corp_id: '',
+                    corpid: '',
                     company_name: '',
                     company_pan: '',
                     company_cin: '',
@@ -87,7 +87,7 @@ export class AddEntityModalComponent implements OnInit {
 
             entityIdControl?.updateValueAndValidity();
         });
-        this.form.get('corp_id')?.valueChanges.subscribe((entityId) => {
+        this.form.get('corpid')?.valueChanges.subscribe((entityId) => {
             const selectedCorp = this.corporateList.find((corp: any) => corp.id === entityId);
             if (selectedCorp) {
                 this.form.patchValue({

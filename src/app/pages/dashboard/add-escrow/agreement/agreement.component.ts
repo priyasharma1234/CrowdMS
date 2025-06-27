@@ -9,6 +9,7 @@ import { ApiRequestService } from 'src/app/services/api-request.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { apiRoutes } from 'src/app/config/api-request';
 import { EscrowService } from 'src/app/services/escrow.service';
+import { DatePipe } from '@angular/common';
 // import { CustomDatepickerComponent } from '@core/custom-datepicker/custom-datepicker.component';
 // import { CustConfg } from '@core/custom-datepicker/ngx-datePicker-CustConfg';
 
@@ -33,7 +34,9 @@ export class AgreementComponent implements OnInit {
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
     selectedService: any;
     private isFirstTimePatched = false;
-    constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService, private _NgxToasterService: NgxToasterService) {
+    formData: any;
+    constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService,
+         private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe) {
         const date = new Date();
         this.endMinScheduleDate = date;
         this.agreementForm = this.fb.group({
@@ -182,30 +185,37 @@ export class AgreementComponent implements OnInit {
             });
 
     }
-    openModal(content: any) {
-
+   openModal(content: any) {
+ 
         if (!this.isFirstTimePatched) {
             const today = new Date();
             const expiry = new Date();
             expiry.setFullYear(today.getFullYear() + 1);
-
+ 
             const form = this.agreementDocumentForm;
-
-            if (
-                !form.get('signing_date')?.value &&
-                !form.get('effective_date')?.value &&
-                !form.get('expiry_date')?.value
-            ) {
+ 
+            if (!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value) {
                 form.patchValue({
                     signing_date: today,
                     effective_date: today,
                     expiry_date: expiry
                 });
-
+ 
                 this.isFirstTimePatched = true;
             }
+        }else{
+            console.log("this.formData", this.formData);
+           
+            this.agreementDocumentForm.patchValue({
+                signing_date:  this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
+                effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
+                expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
+                document_url: this.formData?.document_url
+            });
         }
-
+ 
+ 
+ 
         this.modalService.open(content, { centered: true, size: 'xl' });
     }
 
@@ -261,32 +271,14 @@ export class AgreementComponent implements OnInit {
             this.fileInputRef.nativeElement.value = '';
         }
     }
-
-    submitModal(modal: any) {
-        // console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)
-        // const data = {
-        //     agreementType: this.agreementForm.get('agreementType')?.value,
-        //     ...this.agreementDocumentForm.value,
-        // };
-        const formatDate = (date: Date | string): string => {
-            const d = new Date(date);
-            const year = d.getFullYear();
-            const month = ('0' + (d.getMonth() + 1)).slice(-2);
-            const day = ('0' + d.getDate()).slice(-2);
-            return `${year}/${month}/${day}`;
-        };
-
-        const formValue = this.agreementDocumentForm.value;
-
+  submitModal(modal: any) {
+        console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)
         const data = {
             agreementType: this.agreementForm.get('agreementType')?.value,
-            signing_date: formatDate(formValue.signing_date),
-            effective_date: formatDate(formValue.effective_date),
-            expiry_date: formatDate(formValue.expiry_date),
-            document_url: formValue.document_url
+            ...this.agreementDocumentForm.value,
         };
-
-        console.log('Final Submit Payload', data);
+        this.formData = data;
+        this.agreementDocumentForm.reset();
         modal.close();
     }
 
