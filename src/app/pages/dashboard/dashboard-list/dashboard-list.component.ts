@@ -27,13 +27,8 @@ export class DashboardListComponent implements OnInit {
   }
   onTableAction(event: any) {
     console.log('Table action triggered:', event);
-
-    // example: { type: 'edit', rowData: { id: 1, name: 'A' } }
-
     if (event.type === 'edit') {
-      // this.openEditModal(event.rowData);
-    } else if (event.type === 'delete') {
-      // this.confirmDelete(event.rowData.id);
-    }
+      this.router.navigate(['/dashboard/add-escrow']);
+    } 
   }
 }
