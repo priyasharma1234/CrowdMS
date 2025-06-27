@@ -16,9 +16,9 @@
         <div class="content-inside m-3">
             <div class="escrow-tabs d-flex p-4">
                 <div class="nav flex-column nav-pills me-3 gap-2 mb-sm-3 align-items-start">
-                    <button *ngFor="let tab of tabs" class="nav-link text-start" [ngClass]="{ active: selectedTab === tab.key }"
-                        (click)="selectTab(tab.key)" type="button">
-                         <img [src]="tab.icon" alt="sprint excode"  class="pe-2"/> {{ tab.label }}
+                    <button *ngFor="let tab of tabs" class="nav-link text-start"
+                        [ngClass]="{ active: selectedTab === tab.key }" (click)="selectTab(tab.key)" type="button">
+                        <img [src]="tab.icon" alt="sprint excode" class="pe-2" /> {{ tab.label }}
                     </button>
                 </div>
 
@@ -28,17 +28,30 @@
                         <ng-container [ngSwitch]="tab.key">
                             <div *ngSwitchCase="'basic'"><app-basic-details
                                     (completed)="enableNextTab('basic')"></app-basic-details></div>
-                            <div *ngSwitchCase="'agreement'"><app-agreement
-                                    (completed)="enableNextTab('agreement')"></app-agreement></div>
-                            <div *ngSwitchCase="'deposit'">
-                                <ng-container *ngIf="selectedService == 'Software'">
-                                    <app-deposit (completed)="enableNextTab('deposit')"></app-deposit>
-                                </ng-container>
-                                   <ng-container *ngIf="selectedService == 'Physical'">
-                                    <app-deposit-physical (completed)="enableNextTab('deposit')"></app-deposit-physical>
+                            <div *ngSwitchCase="'agreement'">
+                                <ng-container *ngIf="!escrowId || escrowData">
+                                    <app-agreement [agreementData]="escrowData?.agreements"
+                                        (completed)="enableNextTab('agreement')"></app-agreement>
                                 </ng-container>
                             </div>
-                            <div *ngSwitchCase="'release'"><app-release-condition></app-release-condition></div>
+                            <div *ngSwitchCase="'deposit'">
+                                <ng-container *ngIf="!escrowId || escrowData">
+                                    <ng-container *ngIf="selectedService == 'Software'">
+                                        <app-deposit [depositData]="escrowData?.deposit"
+                                            (completed)="enableNextTab('deposit')"></app-deposit>
+                                    </ng-container>
+                                    <ng-container *ngIf="selectedService == 'Physical'">
+                                        <app-deposit-physical [depositData]="escrowData?.deposit"
+                                            (completed)="enableNextTab('deposit')"></app-deposit-physical>
+                                    </ng-container>
+                                </ng-container>
+
+                            </div>
+                            <div *ngSwitchCase="'release'">
+                                <ng-container *ngIf="!escrowId || escrowData">
+                                    <app-release-condition [releaseData]="escrowData?.release"></app-release-condition>
+                                </ng-container>
+                            </div>
                         </ng-container>
                     </div>
                 </div>

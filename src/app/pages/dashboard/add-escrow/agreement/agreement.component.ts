@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../../../../shared/shared.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { apiRoutes } from 'src/app/config/api-request';
 import { EscrowService } from 'src/app/services/escrow.service';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 // import { CustomDatepickerComponent } from '@core/custom-datepicker/custom-datepicker.component';
 // import { CustConfg } from '@core/custom-datepicker/ngx-datePicker-CustConfg';
 
@@ -32,15 +33,16 @@ export class AgreementComponent implements OnInit {
     @Output() completed = new EventEmitter<void>();
     private _EscrowService = inject(EscrowService);
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+    @Input() agreementData: any
     selectedService: any;
-    private isFirstTimePatched = false;
     formData: any;
+    private route = inject(ActivatedRoute);
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService,
-         private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe) {
+        private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe) {
         const date = new Date();
         this.endMinScheduleDate = date;
         this.agreementForm = this.fb.group({
-            agreementType: [''],
+            agreement_type: [''],
             additional_docs: this.fb.array([]),
         },
         );
@@ -65,6 +67,25 @@ export class AgreementComponent implements OnInit {
             console.log("escrow", id)
             this.escrowId = id
         });
+        const id = this.route.snapshot.paramMap.get('id');
+        console.log("idddddddddd", id)
+        console.log("this.agreementData)", this.agreementData)
+        if (id) {
+            if (this.agreementData) {
+                this.patchAgreementDetails()
+            }
+        }
+    }
+    patchAgreementDetails() {
+        this.agreementForm.patchValue({
+            agreement_type: this.agreementData?.agreement_type
+        })
+        this.formData = {
+            signing_date: this.agreementData?.signing_date,
+            effective_date: this.agreementData?.effective_date,
+            expiry_date: this.agreementData?.expiry_date,
+            document_url: this.agreementData?.document_url
+        }
     }
     get additionalDocs(): FormArray {
         return this.agreementForm.get('additional_docs') as FormArray;
@@ -135,7 +156,23 @@ export class AgreementComponent implements OnInit {
     }
 
 
+
     onSubmit() {
+        if (this.agreementData) {
+            this.agreementDocumentForm.patchValue({
+                signing_date: this.formData?.signing_date,
+                effective_date: this.formData?.effective_date,
+                expiry_date: this.formData?.expiry_date,
+                document_url: this.formData?.document_url
+            });
+        } else {
+            this.agreementDocumentForm.patchValue({
+                signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
+                effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
+                expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
+                document_url: this.formData?.document_url
+            });
+        }
         if (!this.agreementForm.valid || !this.agreementDocumentForm.valid) {
             this.agreementForm.markAllAsTouched();
             this.agreementDocumentForm.markAllAsTouched();
@@ -159,7 +196,7 @@ export class AgreementComponent implements OnInit {
         }
         const formData = new FormData();
         formData.append('id', this.escrowId);
-        formData.append('agreement_type', this.agreementForm.get('agreementType')?.value);
+        formData.append('agreement_type', this.agreementForm.get('agreement_type')?.value);
         const additionalDocs = uploadedDocs.map(doc => doc.url);
         formData.append('additional_docs', JSON.stringify(additionalDocs));
         formData.append('agreement_details', JSON.stringify(this.agreementDocumentForm.value));
@@ -185,37 +222,40 @@ export class AgreementComponent implements OnInit {
             });
 
     }
-   openModal(content: any) {
- 
-        if (!this.isFirstTimePatched) {
+    openModal(content: any) {
+        const form = this.agreementDocumentForm;
+        if (!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value && !this.agreementData) {
             const today = new Date();
             const expiry = new Date();
             expiry.setFullYear(today.getFullYear() + 1);
- 
-            const form = this.agreementDocumentForm;
- 
-            if (!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value) {
-                form.patchValue({
-                    signing_date: today,
-                    effective_date: today,
-                    expiry_date: expiry
-                });
- 
-                this.isFirstTimePatched = true;
-            }
-        }else{
-            console.log("this.formData", this.formData);
-           
-            this.agreementDocumentForm.patchValue({
-                signing_date:  this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
-                effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
-                expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
-                document_url: this.formData?.document_url
+
+            form.patchValue({
+                signing_date: today,
+                effective_date: today,
+                expiry_date: expiry
             });
+        } else {
+            console.log("this.formData111", this.formData);
+            if (this.agreementData) {
+                this.agreementDocumentForm.patchValue({
+                    signing_date: this.formData?.signing_date,
+                    effective_date: this.formData?.effective_date,
+                    expiry_date: this.formData?.expiry_date,
+                    document_url: this.formData?.document_url
+                });
+            } else {
+                this.agreementDocumentForm.patchValue({
+                    signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
+                    effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
+                    expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
+                    document_url: this.formData?.document_url
+                });
+            }
+
         }
- 
- 
- 
+
+
+
         this.modalService.open(content, { centered: true, size: 'xl' });
     }
 
@@ -271,10 +311,10 @@ export class AgreementComponent implements OnInit {
             this.fileInputRef.nativeElement.value = '';
         }
     }
-  submitModal(modal: any) {
+    submitModal(modal: any) {
         console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)
         const data = {
-            agreementType: this.agreementForm.get('agreementType')?.value,
+            agreement_type: this.agreementForm.get('agreement_type')?.value,
             ...this.agreementDocumentForm.value,
         };
         this.formData = data;

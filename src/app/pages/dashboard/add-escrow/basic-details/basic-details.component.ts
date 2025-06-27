@@ -33,6 +33,7 @@ export class BasicDetailsComponent implements OnInit {
     selectedService: any;
     beneId: any;
     depositorId: any;
+    escrowId: any;
     private _EscrowService = inject(EscrowService);
     private _NgxToasterService = inject(NgxToasterService);
     private _ApiRequestService = inject(ApiRequestService);
@@ -76,7 +77,7 @@ export class BasicDetailsComponent implements OnInit {
                 }
             },
             error: (err) => {
-               this._NgxToasterService.showError(err?.message, "Error");
+                this._NgxToasterService.showError(err?.message, "Error");
             }
         });
     }
@@ -98,6 +99,10 @@ export class BasicDetailsComponent implements OnInit {
         });
     }
     async submit() {
+        this._EscrowService.getEscrowId().subscribe((id: any) => {
+            console.log("escrowdefe", id)
+            this.escrowId = id
+        });
         this._EscrowService.getDepositorId().subscribe((id: any) => {
             console.log("deposit", id)
             this.depositorId = id
@@ -117,7 +122,8 @@ export class BasicDetailsComponent implements OnInit {
         const payload = {
             depositor_id: this.depositorId,
             beneficiary_id: this.beneId,
-            escrow_type: this.selectedService
+            escrow_type: this.selectedService,
+            ...(this.escrowId ? { id: this.escrowId } : {})
         };
         await this._ApiRequestService.postData({ payload: payload }, apiRoutes.escrow.add)
             .subscribe({

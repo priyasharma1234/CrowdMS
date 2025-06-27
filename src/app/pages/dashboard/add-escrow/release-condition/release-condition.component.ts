@@ -1,5 +1,6 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { apiRoutes } from 'src/app/config/api-request';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
@@ -20,9 +21,11 @@ export class ReleaseConditionComponent implements OnInit {
     private _ApiRequestService = inject(ApiRequestService);
     private fb = inject(FormBuilder);
     private modalService = inject(NgbModal);
+    private router = inject(Router)
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
     selectedService: any;
-
+    @Input() releaseData: any;
+    private route = inject(ActivatedRoute)
     defaultOptions = [
         {
             key: 'bankruptcy',
@@ -45,13 +48,6 @@ export class ReleaseConditionComponent implements OnInit {
             icon: 'assets/img/maintence.png',
             isCustom: false,
         }
-        // {
-        //     key: 'custom',
-        //     label: 'Custom',
-        //     description: 'Define your own release condition.',
-        //     icon: 'assets/img/custom.svg',
-        //     isCustom: false,
-        // }
     ];
 
     allOptions = [...this.defaultOptions];
@@ -80,6 +76,18 @@ export class ReleaseConditionComponent implements OnInit {
             }
 
         });
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            if (this.releaseData) {
+                this.patchreleaseDetails()
+            }
+        }
+    }
+    patchreleaseDetails() {
+        this.releaseForm.patchValue({
+            release_conditions: this.releaseData?.release_conditions,
+            document: this.releaseData?.document,
+        })
     }
 
     isSelected(key: string): boolean {
@@ -114,7 +122,7 @@ export class ReleaseConditionComponent implements OnInit {
                 key: this.customForm.value.title.toLowerCase(),
                 label: this.customForm.value.title,
                 description: this.customForm.value.description,
-                 icon: 'assets/img/custom.png',
+                icon: 'assets/img/custom.png',
                 isCustom: true
             };
             this.defaultOptions.push(newCustom);
@@ -194,10 +202,6 @@ export class ReleaseConditionComponent implements OnInit {
 
     async onSubmit() {
         this.releaseForm.markAllAsTouched();
-        // const payload = {
-        //     id: this.escrowId,
-        //     ...this.releaseForm.value,
-        // };
         const formData = new FormData();
         formData.append('id', String(this.escrowId));
         formData.append('escrow_type', this.selectedService);
@@ -214,6 +218,7 @@ export class ReleaseConditionComponent implements OnInit {
                 .subscribe({
                     next: (res: any) => {
                         if (res?.statuscode == 200) {
+                            this.router.navigate(['/dashboard']);
                             this._NgxToasterService.showSuccess(res.message, "Success");
                         } else {
                             this._NgxToasterService.showError(res?.message, "Error");

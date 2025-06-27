@@ -18,19 +18,19 @@ export const apiRoutes = {
     }
   },
   escrow: {
+   getEscrow: {
+      url: 'escrow'
+    },
+    dashboardCount: {
+      url: 'escrow/count'
+    },
     list: {
       url: 'escrow/list',
     },
-     add: {
+    add: {
       url: 'escrow/add',
     },
-    // createDepositorOrBene: {
-    //   url: 'escrow/create-corporate',
-    // },
-    //  updateDepositorOrBene: {
-    //   url: 'escrow/update-corporate',
-    // },
-     submitCorporate: {
+    submitCorporate: {
       url: 'escrow/corporates/submit',
     },
     aggreement: {
@@ -49,7 +49,7 @@ export const apiRoutes = {
       url: 'escrow/corporates'
     },
     depositData: {
-      url: 'escrow/deposits'
+      url: 'escrow/deposits/data'
     }
   }
 } as const;

@@ -1,6 +1,8 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { lastValueFrom } from 'rxjs';
 import { apiRoutes } from 'src/app/config/api-request';
 import { CustomDatepickerComponent } from 'src/app/core/custom-datepicker/custom-datepicker.component';
 import { CustConfg } from 'src/app/core/custom-datepicker/ngx-datePicker-CustConfg';
@@ -19,10 +21,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 })
 export class DepositPhysicalComponent implements OnInit {
     depositForm!: FormGroup;
-    devices = ['Device A', 'Device B'];
-    locations = ['Location A', 'Location B'];
-    verificationOptions = ['KYC', 'PAN', 'Aadhar'];
-
     fileFields = [
         { controlName: 'kyc', label: 'KYC of Depositing Person' },
         { controlName: 'device_picture', label: 'Upload Device Picture' },
@@ -40,15 +38,18 @@ export class DepositPhysicalComponent implements OnInit {
     escrowId: any;
     selectedService: any;
     @Output() completed = new EventEmitter<void>();
+    devices: Array<any> = [];
+    locations: Array<any> = [];
+    @Input() depositData: any;
     private fb = inject(FormBuilder);
     private _NgxToasterService = inject(NgxToasterService);
     private _ApiRequestService = inject(ApiRequestService);
     private _EscrowService = inject(EscrowService);
-    ngOnInit(): void {
+    private route = inject(ActivatedRoute);
+    async ngOnInit() {
         const date = new Date();
         this.endMinScheduleDate = date;
         this._EscrowService.getEscrowId().subscribe((id: any) => {
-            console.log("escrow", id)
             this.escrowId = id
         });
         this._EscrowService.getService().subscribe((serviceKey: any) => {
@@ -73,6 +74,32 @@ export class DepositPhysicalComponent implements OnInit {
             other_picture: ['', Validators.required],
             other_documentation: ['', Validators.required]
         });
+        const response = await lastValueFrom(this._EscrowService.getDepositData());
+        this.devices = response?.data?.devices || [];
+        this.locations = response?.data?.locations || [];
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            if (this.depositData) {
+                this.patchdepositDetails()
+            }
+        }
+    }
+    patchdepositDetails() {
+        this.depositForm.patchValue({
+            depositor_name: this.depositData?.depositor_name,
+            depositor_mobile: this.depositData?.depositor_mobile,
+            device: this.depositData?.device,
+            submit_date: this.depositData?.submit_date,
+            primary_location: this.depositData?.primary_location,
+            vault_number: this.depositData?.vault_number,
+            kyc: this.depositData?.kyc,
+            remarks: this.depositData?.remarks,
+            device_picture: this.depositData?.device_picture,
+            packaging_picture: this.depositData?.packaging_picture,
+            other_picture: this.depositData?.other_picture,
+            other_documentation: this.depositData?.other_documentation,
+        })
+
     }
     handleCommonFileUpload(event: Event, fileInput: HTMLInputElement, controlName: string): void {
         const file = (event.target as HTMLInputElement)?.files?.[0];

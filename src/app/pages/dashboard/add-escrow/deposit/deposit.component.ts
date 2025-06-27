@@ -1,5 +1,6 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { apiRoutes } from 'src/app/config/api-request';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
@@ -28,6 +29,8 @@ export class DepositComponent implements OnInit {
     escrowId: any;
     @Output() completed = new EventEmitter<void>();
     selectedService: any;
+    @Input() depositData: any;
+    private route = inject(ActivatedRoute);
     constructor(private fb: FormBuilder) {
         this.depositForm = this.fb.group({
             primary_account: [{ value: 'AWS', disabled: true }, Validators.required],
@@ -50,13 +53,34 @@ export class DepositComponent implements OnInit {
             console.log("escrow", id)
             this.escrowId = id
         });
-             this._EscrowService.getService().subscribe((serviceKey: any) => {
+        this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
             } else {
                 this.selectedService = 'Physical'
             }
 
+        });
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            if (this.depositData) {
+                this.patchdepositDetails()
+            }
+        }
+
+    }
+    patchdepositDetails() {
+        const { documents = [], certificates = [] } = this.depositData || {};
+        this.selectedDocuments = new Set(documents);
+        this.selectedCertificates = new Set(certificates);
+
+        this.depositForm.patchValue({
+            primary_account: this.depositData?.primary_account,
+            verification_type: this.depositData?.verification_type,
+            verification_for: this.depositData?.verification_for,
+            certificates_for: this.depositData?.certificates_for,
+            documents: documents,
+            certificates: certificates,
         });
 
     }

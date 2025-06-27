@@ -88,7 +88,7 @@ export class AddEntityModalComponent implements OnInit {
             entityIdControl?.updateValueAndValidity();
         });
         this.form.get('corpid')?.valueChanges.subscribe((entityId) => {
-            const selectedCorp = this.corporateList.find((corp: any) => corp.id === entityId);
+            const selectedCorp = this.corporateList.find((corp: any) => corp.corpid === entityId);
             if (selectedCorp) {
                 this.form.patchValue({
                     company_name: selectedCorp.company_name,
@@ -107,6 +107,7 @@ export class AddEntityModalComponent implements OnInit {
 
         // In case of edit
         if (this.entityData) {
+            console.log("this.entityData",this.entityData)
             this.form.patchValue(this.entityData);
             this.form.get('entity_type')?.disable();
         }
