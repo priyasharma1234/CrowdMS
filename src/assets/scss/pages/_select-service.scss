@@ -11,6 +11,9 @@
   background: $white;
   border: 1px solid $gray4;
   border-radius: 10px;
+  @include breakpoint('desktop-small',max){
+    flex-direction:column;
+  }
   .nav-pills {
     .nav-link {
       color: $text-grey;
@@ -21,6 +24,7 @@
         border-radius: 40px;
       }
     }
+  
   }
 }
 
@@ -54,6 +58,10 @@
 }
 
 .upload-doc{
+  width:50%;
+  @include breakpoint('desktop-small',max){
+    width:100%
+  }
   .custom-file-upload {
   display:flex;
   padding: 10px 20px;
