@@ -122,7 +122,7 @@
         <button class="btn btn-primary" (click)="addNew()">Add New</button>
       </div>
 
-      <div class="deposit-table d-flex gap-4 p-3 mt-3">
+      <div class="deposit-table gap-4 p-3 mt-3">
         <dynamic-table [apiUrl]="'http://172.16.10.156/ExCode_Backend/api/console/escrow/list'" [pageSize]="10"
        [httpHeaders]="httpHeaders"   (action)="onTableAction($event)">
         </dynamic-table>

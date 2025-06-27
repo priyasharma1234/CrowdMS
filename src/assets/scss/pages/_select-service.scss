@@ -18,6 +18,9 @@
     .nav-link {
       color: $text-grey;
       width: max-content;
+        @include breakpoint('phablet',max){
+   width:100%;
+  }
       &.active {
         background-color: $gray5;
         color: $dark-blue;
@@ -43,7 +46,6 @@
   .upload-doc {
     border: 1px solid #ececec;
     border-radius: 10px;
-    width: 50%;
     position: relative;
     // &::after{
     // content: "";
@@ -58,7 +60,7 @@
 }
 
 .upload-doc{
-  width:50%;
+  width:45%;
   @include breakpoint('desktop-small',max){
     width:100%
   }
