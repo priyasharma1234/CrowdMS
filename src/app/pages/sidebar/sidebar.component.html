@@ -46,10 +46,10 @@
         <div class="subMenu" *ngIf="_payoutSideBar && cachedIndex == obj?.name">
           <ul>
             <li *ngFor="let item of _payoutSideBar;let i=index">
-              <a class="nav-link" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
+              <a class="nav-link ps-0" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
                 [routerLinkActive]="'active'" href="javascript:void(0);"
                 (isActiveChange)="$event ?_title = item.value:null">
-                <img [src]="item?.icon">{{item.value}}
+                <span class="pe-3"><img [src]="item?.icon"></span>{{item.value}}
               </a>
             </li>
 
