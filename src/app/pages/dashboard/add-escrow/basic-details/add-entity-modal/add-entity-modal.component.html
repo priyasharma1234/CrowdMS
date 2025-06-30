@@ -21,7 +21,7 @@
             <div class="col-md-6" *ngIf="form.get('entity_type')?.value === 'existing'">
                  <div class="form-group">
                 <label>Choose {{ entityType | titlecase }}*</label>
-                <ng-select [items]="corporateList" bindLabel="company_name" bindValue="id"
+                <ng-select [items]="corporateList" bindLabel="company_name" bindValue="corpid"
                     placeholder="Please select type" formControlName="corpid">
                 </ng-select>
                 <!-- <select class="form-control" formControlName="entity_id">

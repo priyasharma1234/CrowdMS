@@ -3,18 +3,18 @@
         <label>Agreement Type:</label><br />
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="agreementType" value="triparty"
+            <input class="form-check-input" type="radio" formControlName="agreement_type" value="triparty"
                 id="triparty" />
             <label class="form-check-label" for="triparty">Triparty Agreement</label>
         </div>
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="agreementType" value="biparty" id="biparty" />
+            <input class="form-check-input" type="radio" formControlName="agreement_type" value="biparty" id="biparty" />
             <label class="form-check-label" for="biparty">Biparty Agreement</label>
         </div>
     </div>
-    <div class="mb-3" *ngIf="agreementForm.get('agreementType')?.value">
-        <label for="agreementDoc">Upload {{ agreementForm.get('agreementType')?.value | titlecase }} Document</label>
+    <div class="mb-3" *ngIf="agreementForm.get('agreement_type')?.value">
+        <label for="agreementDoc">Upload {{ agreementForm.get('agreement_type')?.value | titlecase }} Document</label>
         <p>An Escrow Agreement between the software developer or beneficiary and the escrow agent.</p>
         <div class="d-flex align-items-center gap-2 upload-doc p-3" role="button" (click)="openModal(content)">
            <img src="assets/img/upload.png">

@@ -17,6 +17,9 @@ export const DashboardRoutes: Routes = [
       },{
         path: 'add-escrow',
         component: AddEscrowComponent
+      },{
+        path: 'edit-escrow/:id',
+        component: AddEscrowComponent
       }
     ]
 
