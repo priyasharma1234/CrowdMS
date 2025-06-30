@@ -50,9 +50,10 @@
   <!-- Main Wrapper -->
   <div class="main-container">
     <div class="content-inside m-3">
-      <dynamic-table [apiUrl]="'http://172.16.10.156/ExCode_Backend/api/console/roles/list'" [pageSize]="10"
-        [httpHeaders]="httpHeaders" (action)="onTableAction($event)">
-      </dynamic-table>
+    <dynamic-table [apiUrl]="'http://172.16.10.156/ExCode_Backend/api/console/roles/list'" [pageSize]="10"
+       [httpHeaders]="httpHeaders" [customParams]="customParams"  (action)="onTableAction($event)">
+        </dynamic-table>
     </div>
   </div>
 </div>
+
