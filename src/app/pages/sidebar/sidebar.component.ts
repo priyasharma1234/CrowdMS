@@ -201,14 +201,14 @@ export class SidebarComponent {
       this.selectedItem = item.name;
     }
   };
-  // @HostListener('document:click', ['$event'])
-  // OnClickOutside(event: Event) {
-  //   const sidebarElement = document.querySelector('.sidebar-wrapper');
-  //   const isClickInsideSidebar = sidebarElement?.contains(event.target as Node);
-  //   if (!isClickInsideSidebar) {
-  //     this._CommonService.subMenu.next(null);
-  //   }
-  // }
+  @HostListener('document:click', ['$event'])
+  OnClickOutside(event: Event) {
+    const sidebarElement = document.querySelector('.sidebar');
+    const isClickInsideSidebar = sidebarElement?.contains(event.target as Node);
+    if (!isClickInsideSidebar) {
+      this._CommonService.subMenu.next(null);
+    }
+  }
 
 
 
