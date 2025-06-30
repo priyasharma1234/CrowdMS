@@ -20,7 +20,7 @@
 
         <p class="mb-1" *ngIf="releaseForm.get('document')?.value">
             <a [href]="releaseForm.get('document')?.value" target="_blank" class="text-decoration-none">
-                👁️ View Uploaded Document
+                <img src="assets/img/view.png" class="me-2"> View Uploaded Document
             </a>
             <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeUploadedDocument()">
                 Remove

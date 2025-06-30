@@ -118,16 +118,18 @@ border:1px solid #E6EFF5;
   padding:13px;
   transition: all 200ms;
   left: 40px;
+  
 }
 
 .form-control:focus + .form-control-placeholder,
 .form-control:valid + .form-control-placeholder {
   font-size: 75%;
-  transform: translate3d(0, -50%, 0);
+  transform: translate3d(0, -50%, 0);  
   opacity: 1;
   background-color: $white;
   padding: 0 5px;
   margin-left: 8px;
+  
 }
 .form-control{
   padding: 12px 50px;
@@ -141,4 +143,5 @@ text-decoration:none;
   }
 
 }
+ 
 }
