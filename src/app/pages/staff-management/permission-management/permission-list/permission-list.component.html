@@ -1,40 +1,5 @@
-<div class="wrapper">
-    <!-- Main Wrapper -->
-    <div class="main-container">
-        <div class="content-inside m-3">
-            <div class="row">
-                <div class="col-12">
-                    <!-- || !permissionService.hasPermission('permission-create') -->
-                    <div [ngClass]="canSet || !permissionService.hasPermission('permissions-create') ? 'hidden' : ''"
-                        class="d-flex gap-3">
-                        <button class="btn btn-yellow" (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin
-                            #permission="cdkOverlayOrigin">Add Permission</button>
-                        <button class="btn btn-yellow" (click)="isCustom = !isCustom" type="button" cdkOverlayOrigin
-                            #custom="cdkOverlayOrigin">Custom</button>
-                        <!-- *ngIf="canDelete" -->
-                        <button class="btn btn-yellow" (click)="deleteMode = !deleteMode" type="button"
-                            cdkOverlayOrigin>Delete Permission</button>
-                    </div>
-                    <div class="col-12">
-                        <div class="permission-allow m-2">
-                            <div class="page-title py-2"> Set Permissions </div>
-                            <div class="row">
-                                <div class="permitallow-box d-flex p-2" *ngFor="let permission of permissions">
-                                    <h5>{{permission.module}}</h5>
-                                    <div class="d-flex justify-content-between"
-                                        *ngFor="let perm of permission?.permissions">
-                                        <label (click)="handleDelete(perm)">{{perm.name}}</label>
-                                        <input *ngIf="canSet" [disabled]="perm.Off" [checked]="perm.enabled || perm.Off"
-                                            type="checkbox" class="" name="chk1"
-                                            (change)="permissionEnable(perm, permission, $event)">
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="d-flex mb-3">
+<div class="layout-px-spacing">
+    <div class="row layout-top-spacing">
 
         <div class="col-12 layout-spacing">
             <!-- || !permissionService.hasPermission('permission-create') -->
