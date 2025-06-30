@@ -1,0 +1,36 @@
+.hidden {
+    display: none;
+}
+
+.enabled {
+    color: #0ba360;
+    cursor: pointer;
+}
+
+.disabled {
+    color: #f5222d;
+    cursor: pointer;
+}
+.menu-enable {
+    background-color: #0ba360;
+    cursor: pointer;
+    color: #fff;
+}
+.menu-disable {
+    background-color: #f5222d;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+td {
+    padding: 8px;
+    border: 3px solid black;
+    span{
+        white-space: nowrap;
+    }
+}
+
+input[type=checkbox], input[type=radio] {
+    width: 16px;}
+

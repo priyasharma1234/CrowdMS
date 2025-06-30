@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, retry, throwError } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, of, retry, throwError } from 'rxjs';
 import { IApiRequestPayload, IGenericApiResponse } from '../types/global';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -59,6 +59,22 @@ export class ApiRequestService {
       catchError(this.errorHandl)
     );
   }
+  
+  async postDataAsync(payload: any, path: any): Promise<any> {
+    let headers = new HttpHeaders();
+    if (payload?.form) {
+      headers = headers.set('from', payload.form);
+    }
+
+    try {
+      const response = await firstValueFrom(this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload, { headers })
+        .pipe(retry(0), catchError(this.errorHandl)));
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   uploadDocument(file: File, dir: string): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);

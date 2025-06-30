@@ -8,5 +8,6 @@ export interface CanComponentDeactivate {
 export const exitGuard: CanDeactivateFn<CanComponentDeactivate> = (
   component: CanComponentDeactivate
 ): boolean | Observable<boolean> => {
+    console.log('exitGuard fired');
      return component.canDeactivate ? component.canDeactivate() : true;
 };

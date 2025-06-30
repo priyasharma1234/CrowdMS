@@ -1,16 +1,16 @@
-import { SessionStorageService } from '@core/services/session-storage.service';
+
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { PermissionServiceService } from '@core/services/permission-service.service';
 import { Observable } from 'rxjs';
-import { SidebarService } from '@features/layouts/components/sidebar/sidebar-service.service';
 import {isArray} from "lodash";
+import { SessionStorageService } from '../services/session-storage.service';
+import { PermissionServiceService } from '../services/permission-service.service';
+import { SidebarService } from 'src/app/pages/sidebar/sidebar-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StamentsGuardGuard implements CanActivate {
-
   modules: any[] = [];
   payoutSideBar: any = null;
 

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SessionStorageService } from "@core/services/session-storage.service";
-import { ApiRequestService } from "@core/services/api-request.service";
-import { IPermissionsServiceElement } from '@core/common/common-config';
-
+import { IPermissionsServiceElement } from '../common/common-config';
+import { SessionStorageService } from './session-storage.service';
+import { ApiRequestService } from 'src/app/services/api-request.service';
 @Injectable(
   {
     providedIn: 'root'

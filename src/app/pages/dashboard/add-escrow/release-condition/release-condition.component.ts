@@ -84,10 +84,33 @@ export class ReleaseConditionComponent implements OnInit {
         }
     }
     patchreleaseDetails() {
+        const conditions = this.releaseData?.release_conditions;
+        const documentUrl = this.releaseData?.document;
+
+        if (!conditions) return;
+
+        const parsedConditions = typeof conditions === 'string' ? JSON.parse(conditions) : conditions;
+
+        parsedConditions.forEach((condition: any) => {
+            const exists = this.defaultOptions.find(opt => opt.key === condition.key);
+            if (!exists) {
+                const customCondition = {
+                    key: condition.key,
+                    label: condition.label,
+                    description: condition.description,
+                    icon: condition.icon || 'assets/img/custom.png',
+                    isCustom: true
+                };
+                this.defaultOptions.push(customCondition);
+            }
+        });
+
+        this.allOptions = [...this.defaultOptions];
+
         this.releaseForm.patchValue({
-            release_conditions: this.releaseData?.release_conditions,
-            document: this.releaseData?.document,
-        })
+            release_conditions: parsedConditions,
+            document: documentUrl
+        });
     }
 
     isSelected(key: string): boolean {

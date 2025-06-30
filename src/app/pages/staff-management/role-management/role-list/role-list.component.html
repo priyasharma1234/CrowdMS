@@ -1,0 +1,52 @@
+<!-- <div class="layout-px-spacing">
+  <div class="row layout-top-spacing">
+    <div class="col-12">
+      <div class="page-title">
+        Roles
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="single-transfer">
+            <div class="w-100 d-flex flex-wrap my-4">
+              <div class="d-flex gap flex-wrap">
+                <div class="filter-main my-2">
+                  <div class="d-flex align-items-center">
+                    <app-dynamic-search *ngIf="searchArray" [filters]="searchArray"
+                      (searchEvent)="OnSearch($event)"></app-dynamic-search>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="main-box">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h3>Roles List</h3>
+                    <button *ngIf="permissionService.hasPermission('roles-create')" class="btn btn-yellow" [routerLink]="this.userType == 'admin' ? '/roles/add' : '/staff/add'">
+                      Add Role
+                    </button>
+                </div>
+       <div class="border-down my-3"></div>
+                  <div class="super-table pt-4">
+                    <div class="customTbl" *ngIf="serviceRequestList$ | async as serviceRequestList">
+                      <app-dynamic-table-header [tableOptions]="serviceRequestList"></app-dynamic-table-header>
+                      <div class="customTblBox">
+                        <app-dynamic-table [data]="serviceRequestList$!"></app-dynamic-table>
+                      </div>
+                      <app-dynamic-table-pagination class="" *ngIf="serviceRequestList?.list?.length !== 0"
+                        [dynamicTableOptions]="dynamicTableOptions"></app-dynamic-table-pagination>
+                    </div>
+
+                  </div>
+
+                
+              </div>
+            
+     
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<dynamic-table [apiUrl]="'http://172.16.10.156/ExCode_Backend/api/console/roles/list'" [pageSize]="10"
+       [httpHeaders]="httpHeaders"   (action)="onTableAction($event)">
+        </dynamic-table>

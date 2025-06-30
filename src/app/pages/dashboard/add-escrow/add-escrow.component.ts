@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EscrowService } from '../../../services/escrow.service';
 import { CommonModule } from '@angular/common';
 import { BasicDetailsComponent } from './basic-details/basic-details.component';
@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 import { apiRoutes } from 'src/app/config/api-request';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
+import { Observable } from 'rxjs';
+import { CanComponentDeactivate } from 'src/app/core/guards/exit.guard';
 
 @Component({
     selector: 'app-add-escrow',
@@ -18,7 +20,13 @@ import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
     templateUrl: './add-escrow.component.html',
     styleUrl: './add-escrow.component.scss'
 })
-export class AddEscrowComponent implements OnInit, OnDestroy {
+
+export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+    @ViewChild('agreementComp') agreementComp!: AgreementComponent;
+    @ViewChild('depositComp') depositComp!: DepositComponent;
+    @ViewChild('depositPhyComp') depositPhyComp!: DepositPhysicalComponent;
+    @ViewChild('realseComp') realseComp!: ReleaseConditionComponent;
+    private m_unsavedChanges: boolean = false;
     private _EscrowService = inject(EscrowService);
     private route = inject(ActivatedRoute);
     selectedService: any = 'Physical';
@@ -63,6 +71,25 @@ export class AddEscrowComponent implements OnInit, OnDestroy {
 
 
     }
+    ngAfterViewInit(): void {
+        this.agreementComp?.agreementForm?.valueChanges?.subscribe(() => {
+            this.m_unsavedChanges = true;
+        });
+        if (this.selectedService == 'Software') {
+            this.depositComp?.depositForm?.valueChanges?.subscribe(() => {
+                this.m_unsavedChanges = true;
+            });
+        } else {
+            this.depositPhyComp?.depositForm?.valueChanges?.subscribe(() => {
+                this.m_unsavedChanges = true;
+            });
+        }
+
+        this.realseComp?.releaseForm?.valueChanges?.subscribe(() => {
+            this.m_unsavedChanges = true;
+        });
+
+    }
     selectTab(tabKey: string) {
         if (this.enabledTabs[tabKey]) {
             this.selectedTab = tabKey;
@@ -82,12 +109,15 @@ export class AddEscrowComponent implements OnInit, OnDestroy {
                 next: (res: any) => {
                     if (res?.statuscode == 200 && res?.data) {
                         this.escrowData = res?.data;
-                        console.log("this.escrowdata", this.escrowData);
+                        this.enabledTabs = {
+                            ...this.enabledTabs,
+                            agreement: !!this.escrowData?.agreements,
+                            deposit: !!this.escrowData?.deposit,
+                            release: !!this.escrowData?.release
+                        };
                         this._EscrowService.setService(res?.data?.basic_details?.escrow_type);
                         this._EscrowService.setDepositorId(res?.data?.basic_details?.depositor_id);
                         this._EscrowService.setBeneId(res?.data?.basic_details?.beneficiary_id)
-                        console.log("escrowData", res.data);
-
                         this._NgxToasterService.showSuccess(res.message, "Success");
                     } else {
                         this._NgxToasterService.showError(res?.message, "Error");
@@ -99,6 +129,27 @@ export class AddEscrowComponent implements OnInit, OnDestroy {
                 }
             });
     }
+    canDeactivate(): boolean | Observable<boolean> {
+        if (this.m_unsavedChanges) {
+            return confirm(
+                'You have unsaved changes. Are you sure you want to leave?'
+            );
+        }
+        return true;
+    }
+
+    @HostListener('window:beforeunload', ['$event'])
+    onBeforeUnload(event: BeforeUnloadEvent): void {
+        if (this.m_unsavedChanges) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+        this._EscrowService.setDepositorId('');
+        this._EscrowService.setBeneId('');
+        this._EscrowService.setService('');
+        this._EscrowService.setEscrowId('')
+    }
+
     ngOnDestroy() {
         this._EscrowService.setDepositorId('');
         this._EscrowService.setBeneId('');

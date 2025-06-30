@@ -39,8 +39,8 @@
                 Uploaded ✔️ –
                 <a [href]="docCtrl.get('url')?.value" target="_blank">View</a>
             </div>
-            <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeAdditionalDoc(i)"
-                *ngIf="additionalDocs.length > 1">
+            <!-- *ngIf="additionalDocs.length > 1" -->
+            <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeAdditionalDoc(i)">
                 Remove
             </button>
         </div>

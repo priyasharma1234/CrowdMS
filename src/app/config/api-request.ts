@@ -51,5 +51,58 @@ export const apiRoutes = {
     depositData: {
       url: 'escrow/deposits/data'
     }
-  }
+  },
+    roles: {
+    roleCreate: {
+      url: 'roles/store',
+    },
+    roleList: {
+      url: 'roles/list',
+    },
+    roleUpdate: {
+      url: 'roles/update',
+    },
+    roleDelete: {
+      url: 'roles/destroy',
+    }
+  },
+  permissions: {
+
+    permissionList: {
+      url: 'permissions/list',
+    },
+    permissionCreate: {
+      url: 'permissions/store',
+    },
+    customPermissionCreate: {
+      url: 'permissions/custom',
+    },
+    removePermission: {
+      url: 'permissions/remove',
+    },
+    canDelete: {
+      url: 'permission/can-delete-permission',
+    }
+
+  },
+  staff: {
+    rolelist: {
+      url: 'roles/admin-roles'
+    },
+    list: {
+      url: 'staff/list',
+    },
+    add: {
+      url: 'staff/store'
+    },
+    update: {
+      url: 'staff/update'
+    },
+    show: {
+      url: 'staff/show'
+    },
+    delete: {
+      url: 'staff/destroy'
+    },
+  },
 } as const;

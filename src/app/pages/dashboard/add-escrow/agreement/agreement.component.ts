@@ -21,6 +21,7 @@ import { ActivatedRoute } from '@angular/router';
     styleUrl: './agreement.component.scss'
 })
 export class AgreementComponent implements OnInit {
+    @Output() formInstance = new EventEmitter<FormGroup>();
     datepickerConfig = {
         container: 'body',
         containerClass: 'theme-blue'
@@ -75,11 +76,27 @@ export class AgreementComponent implements OnInit {
                 this.patchAgreementDetails()
             }
         }
+        this.formInstance.emit(this.agreementForm);
     }
     patchAgreementDetails() {
         this.agreementForm.patchValue({
             agreement_type: this.agreementData?.agreement_type
         })
+        this.additionalDocs.clear();
+
+        const additionalDocs: string[] = this.agreementData?.additional_docs || [];
+
+        if (additionalDocs.length > 0) {
+            additionalDocs.forEach((docUrl: string) => {
+                if (docUrl) {
+                    const docGroup = this.fb.group({
+                        file: [null],
+                        url: [docUrl, Validators.required]
+                    });
+                    this.additionalDocs.push(docGroup);
+                }
+            });
+        }
         this.formData = {
             signing_date: this.agreementData?.signing_date,
             effective_date: this.agreementData?.effective_date,
@@ -184,6 +201,7 @@ export class AgreementComponent implements OnInit {
         const uploadedDocs = this.additionalDocs.controls
             .map(ctrl => ctrl.value)
             .filter(doc => !!doc.url);
+        const additionalDocs = uploadedDocs.map(doc => doc.url);
 
         // if (uploadedDocs.length === 0) {
         //     this._NgxToasterService.showError('Please upload at least one additional document.', 'Error');
@@ -197,7 +215,6 @@ export class AgreementComponent implements OnInit {
         const formData = new FormData();
         formData.append('id', this.escrowId);
         formData.append('agreement_type', this.agreementForm.get('agreement_type')?.value);
-        const additionalDocs = uploadedDocs.map(doc => doc.url);
         formData.append('additional_docs', JSON.stringify(additionalDocs));
         formData.append('agreement_details', JSON.stringify(this.agreementDocumentForm.value));
         formData.append('escrow_type', this.selectedService);

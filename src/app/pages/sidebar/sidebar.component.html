@@ -7,7 +7,11 @@
     <img src="assets/img/logo-red.png" alt="Logo">
   </div>
 </nav>
-<!-- Offcanvas -->
+  <li class="nav-item theme-logo">
+      <a (click)="onSideBar(dashboardStatic, 0)" class="d-flex align-items-center">
+        <span><img src="assets/assets/img/logo.png" /></span>
+      </a>
+    </li>
 <div class="sidebar offcanvas offcanvas-start offcanvas-lg" tabindex="-1" id="responsiveSidebar">
   <div class="text-center py-4 d-none d-lg-block">
     <img src="assets/img/logo-red.png" alt="Logo">
@@ -22,7 +26,37 @@
   </div>
   <div class="offcanvas-body">
     <ul class="nav flex-column w-100">
-      <ng-container *ngFor="let item of m_sideBarLinks">
+      <li class="nav-item" *ngFor="let obj of sidebarList; let i = index">
+        <a (click)="onSideBar(obj, i)" data-toggle="collapse" [attr.aria-expanded]="obj.name === selectedItem"
+          *ngIf="_permissionService?.hasModule(obj?.module)" class="dropdown-toggle"
+          [ngClass]="{ active: obj?.name === selectedItem }" class="nav-link">
+    
+            <span class="pe-3"> <img [src]="obj?.icon"></span>
+             
+              {{ obj?.name }}
+          
+            <i *ngIf="obj?.subMenu && cachedIndex != obj?.name" class="fas fa-chevron-down"></i>
+            <i *ngIf="obj?.subMenu && cachedIndex == obj?.name" class="fas fa-chevron-right "></i>
+
+        
+
+
+
+        </a>
+        <div class="subMenu" *ngIf="_payoutSideBar && cachedIndex == obj?.name">
+          <ul>
+            <li *ngFor="let item of _payoutSideBar;let i=index">
+              <a class="nav-link" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
+                [routerLinkActive]="'active'" href="javascript:void(0);"
+                (isActiveChange)="$event ?_title = item.value:null">
+                <img [src]="item?.icon">{{item.value}}
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+      <!-- <ng-container *ngFor="let item of m_sideBarLinks">
         <li class="nav-item">
           <a [routerLink]="item.href ?? item.routerLink" class="nav-link" [ngClass]="{'active': item.active}">
             <span class="pe-3">
@@ -31,7 +65,7 @@
             {{item.name}}
           </a>
         </li>
-      </ng-container>
+      </ng-container> -->
     </ul>
   </div>
 </div>
