@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, Injector, signal } from '@angular/core';
 import { IUser } from '../types/global';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -6,7 +6,7 @@ import { SessionStorageService } from '../core/services/session-storage.service'
 import { ApiRequestService } from './api-request.service';
 import { NgxToasterService } from '../core/services/toasterNgs.service';
 import { apiRoutes } from '../config/api-request';
-
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -15,31 +15,32 @@ export class AuthCoreService {
   readonly isAuthenticated = signal<boolean>(false);
   readonly token = signal<string | null>(null);
   encrypted: boolean | undefined = undefined;
-
+ 
   private route = inject(Router);
   private toaster = inject(NgxToasterService);
   private session = inject(SessionStorageService);
-
+  private injector = inject(Injector); // ✅ lazy injector
+ 
   SetUser(_user: IUser | null, _token: string): void {
-    console.log("user11111",_user);
-       console.log("_token",_token)
+    console.log("user11111", _user);
+    console.log("_token", _token)
     if (_user) {
       this.session.setItem('user', _user);
     } else {
       this.session.removeItem('user');
     }
-
+ 
     if (_token) {
       this.session.setItem('authToken', _token);
     } else {
       this.session.removeItem('authToken');
     }
-
+ 
     this.user.set(_user);
     this.isAuthenticated.set(!!_user);
     this.token.set(_token);
   }
-
+ 
   logout(hardLogout: boolean = true, errorMsg?: string): void {
     const clear = () => {
       this.session.clearStorage();
@@ -47,12 +48,11 @@ export class AuthCoreService {
       this.isAuthenticated.set(false);
       this.token.set(null);
     };
-
-    const api = inject(ApiRequestService); 
-
+ 
+    const _ApiRequestService = this.injector.get(ApiRequestService);
     if (hardLogout) {
       const payload = new FormData();
-      api.postData({ payload }, apiRoutes.auth.logout).subscribe({
+      _ApiRequestService.postData({ payload }, apiRoutes.auth.logout).subscribe({
         next: (resp) => {
           if (resp.statuscode === 200) this.toaster.showSuccess(resp?.message, "Success");
           clear();
@@ -69,6 +69,5 @@ export class AuthCoreService {
       this.route.navigate(['/auth/login']);
     }
   }
-
+ 
 }
-

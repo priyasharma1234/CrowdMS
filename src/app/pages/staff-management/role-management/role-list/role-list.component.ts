@@ -17,7 +17,7 @@ import { DynamicTableModule } from "@ciphersquare/dynamic-table";
 })
 export class RoleListComponent implements OnInit {
     httpHeaders: any;
-    userType: string = ''
+    customParams:any;
     constructor(
         private _NgxToasterService: NgxToasterService,
         private _Router: Router,
@@ -25,12 +25,9 @@ export class RoleListComponent implements OnInit {
         private _activatedRoute: ActivatedRoute,
         public permissionService: PermissionServiceService
     ) {
-        this._activatedRoute.data.subscribe(async (data: any) => {
-            if (data['userType']) {
-                this.userType = data['userType']
-            }
-
-        })
+        this.customParams = {
+            gaurd_name: 'admin',
+        };
     }
 
     async ngOnInit(): Promise<void> {

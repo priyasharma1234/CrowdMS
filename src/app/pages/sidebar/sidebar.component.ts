@@ -260,6 +260,9 @@ export class SidebarComponent {
     sessionStorage.setItem('selectd_item', 'Service Requests');
     this._CommonService.pageTitle.next('Service Request List');
   }
+  logout() {
+    this._AuthCoreService.logout(false)
+  }
 
   protected readonly sessionStorage = sessionStorage;
 }
