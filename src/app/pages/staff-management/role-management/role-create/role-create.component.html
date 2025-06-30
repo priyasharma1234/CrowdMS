@@ -50,10 +50,26 @@
             <!--    <br><br>-->
 
 
-            <app-permission-list [userType]="this.userType" [canSet]="true"
+            <app-permission-list [canSet]="true"
                 (emitter)="permissions = $event"></app-permission-list>
             <button class="btn btn-yellow ms-4" (click)="onSubmit()">Submit</button>
 
         </div>
     </div>
 </div>
+<!--    <div class="col-3">-->
+<!--        <input type="text" class="form-control" [(ngModel)]="roleName">-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div class="col-3">-->
+<!--        <ng-select [items]="userTypeMaster" bindLabel="name" bindValue="id" placeholder="Select User Type" [(ngModel)]="userType" (change)="onUserTypeChange($event)"></ng-select>-->
+<!--    </div>-->
+<!--    <br><br>-->
+
+
+    <app-permission-list [canSet]="true" (emitter)="permissions = $event"></app-permission-list>
+    <button class="btn btn-yellow ms-4" (click)="onSubmit()">Submit</button>
+
+
+                    
+            
