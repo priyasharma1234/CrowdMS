@@ -12,23 +12,20 @@ export const staffManagementRoutes = [
         children: [
             {
                 path: 'role-list',
-                component: RoleListComponent,
-                data: { userType: 'corporate' }
+                component: RoleListComponent
             },
             {
                 path: 'add',
-                component: RoleCreateComponent,
-                data: { userType: 'corporate' }
+                component: RoleCreateComponent
             },
             {
                 path: 'role-edit',
                 component: RoleCreateComponent,
-                data: { edit: true, role: 'role-update', userType: 'corporate' }
+                data: { edit: true, role: 'role-update' }
             },
             {
                 path: 'permissions',
-                component: PermissionListComponent,
-                data: { userType: 'corporate' }
+                component: PermissionListComponent
             },
             {
                 path: 'staff-list',
@@ -41,7 +38,6 @@ export const staffManagementRoutes = [
             {
                 path: 'edit-staff/:id',
                 component: AddStaffComponent,
-                data: { userType: 'admin' }
             },
         ],
         component: StaffManagementComponent

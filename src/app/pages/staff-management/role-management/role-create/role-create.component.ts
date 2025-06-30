@@ -15,7 +15,7 @@ import { PermissionListComponent } from '../../permission-management/permission-
 
 @Component({
     standalone: true,
-    imports: [SharedModule, CommonModule,PermissionListComponent],
+    imports: [SharedModule, CommonModule, PermissionListComponent],
     selector: 'app-role-create',
     templateUrl: './role-create.component.html',
     styleUrls: ['./role-create.component.scss']
@@ -25,8 +25,6 @@ export class RoleCreateComponent implements OnInit {
     roleID: any;
     roleName: any = '';
     permissions: any;
-    // userTypeMaster: Array<any> = [{ name: 'Admin' }, { name: 'Corporate' }];
-    userType: any = '';
     roleNameStatic: any = "TEST";
 
     constructor(private router: Router, private sessionStorage: SessionStorageService,
@@ -37,21 +35,15 @@ export class RoleCreateComponent implements OnInit {
 
     async ngOnInit() {
         this._activatedRoute.data.subscribe(async data => {
-            if (data['userType']) {
-                this.userType = data['userType']
-            }
-
             if (data['edit']) {
                 console.log("history.stateeeeeeeee", history)
                 if (history.state.id != undefined) {
                     console.log("history.stateeeeeeeee", history.state)
                     this.sessionStorage.setItem('roles', history.state.id);
                     this.sessionStorage.setItem('roleName', history.state.roleName);
-                    // this.sessionStorage.setItem('roleUserType', history.state.userType);
                     console.log("history.state.permissionedittttttttt", history.state.permission)
                     this.store.set('permissions', history.state.permission);
                     this.roleID = history.state.id;
-                    // this.userType = history.state.userType;
                     this.roleName = history.state.roleName;
                     await waitUntil(() => this.permissions != undefined);
                     this.setPermissions(this.store.get('permissions'));
@@ -65,7 +57,7 @@ export class RoleCreateComponent implements OnInit {
                 }
                 if (this.roleID == undefined) {
                     this.toaster.showError("No Role Selected", "Error");
-                    this.router.navigate(this.userType == 'admin' ?['/roles/role-list'] : ['/staff/role-list']);
+                    this.router.navigate(['/staff/role-list']);
                 }
             }
         });
@@ -114,18 +106,17 @@ export class RoleCreateComponent implements OnInit {
             });
         });
         console.log(" this.permissions1111111", this.permissions);
-        console.log("userType11111111", this.userType)
 
         if (this.roleID == undefined) {
             this._apiRequestService.postDataAsync({
                 role: this.roleName,
                 permission: permissions,
                 // permission: JSON.stringify(permissions),
-                guard_name: this.userType
+                guard_name: 'admin'
             }, apiRoutes.roles.roleCreate).then((data: any) => {
                 if (data.statuscode == 200) {
                     this.toaster.showSuccess("Role Created Successfully", "Success");
-                    this.router.navigate(this.userType == 'admin' ?['/roles/role-list'] : ['/staff/role-list']);
+                    this.router.navigate(['/staff/role-list']);
                 }
             });
         } else {
@@ -134,11 +125,11 @@ export class RoleCreateComponent implements OnInit {
                 permission: permissions,
                 // permission: JSON.stringify(permissions),
                 id: this.roleID,
-                guard_name: this.userType
+                guard_name: 'admin'
             }, apiRoutes.roles.roleUpdate).then((data: any) => {
                 if (data.statuscode == 200) {
                     this.toaster.showSuccess("Role Updated Successfully", "Success");
-                    this.router.navigate(this.userType == 'admin' ?['/roles/role-list'] : ['/staff/role-list']);
+                    this.router.navigate(['/staff/role-list']);
                 }
             });
         }
@@ -149,7 +140,7 @@ export class RoleCreateComponent implements OnInit {
         if (window.history.length > 0) {
             window.history.back();
         } else {
-            this.router.navigate(['/roles/role-list']);
+            this.router.navigate(['/staff/role-list']);
         }
     }
 
