@@ -1,5 +1,8 @@
-<div class="layout-px-spacing" style="background-color: #f0f4f8f0;"  *ngIf="formState == 'user'">
-    <div class="row layout-top-spacing">
+<div class="wrapper">
+  <!-- Main Wrapper -->
+  <div class="main-container">
+    <div class="content-inside m-3" *ngIf="formState == 'user'">
+    <div class="row">
         <div class="col-12">
             <div class="page-title"> {{editable ? 'Edit' : 'Add'}} Staff</div>
             <div class="box-main my-4 p-4">
@@ -88,6 +91,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <div *ngIf="formState == 'permissions'" style="background: white">
     <app-permission-list  [canSet]="true" (emitter)="permissions = $event"></app-permission-list>
