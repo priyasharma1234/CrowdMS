@@ -90,19 +90,19 @@ export const apiRoutes = {
       url: 'roles/admin-roles'
     },
     list: {
-      url: 'staff/list',
+      url: 'usermanagement/staff/list',
     },
     add: {
-      url: 'staff/store'
+      url: 'usermanagement/staff/store'
     },
     update: {
-      url: 'staff/update'
+      url: 'usermanagement/staff/update'
     },
     show: {
-      url: 'staff/show'
+      url: 'usermanagement/staff/show'
     },
     delete: {
-      url: 'staff/destroy'
+      url: 'usermanagement/staff/destroy'
     },
   },
 } as const;

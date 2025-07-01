@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { lastValueFrom } from "rxjs";
 import Swal from "sweetalert2";
@@ -6,7 +6,7 @@ import { PermissionServiceService } from "src/app/core/services/permission-servi
 import { staffService } from "src/app/services/staffService";
 import { SharedModule } from "src/app/shared/shared.module";
 import { NgxToasterService } from "src/app/core/services/toasterNgs.service";
-import { DynamicTableModule } from "@ciphersquare/dynamic-table";
+import { DynamicTableComponent, DynamicTableModule } from "@ciphersquare/dynamic-table";
 
 @Component({
     standalone: true,
@@ -17,7 +17,8 @@ import { DynamicTableModule } from "@ciphersquare/dynamic-table";
 })
 export class RoleListComponent implements OnInit {
     httpHeaders: any;
-    customParams:any;
+    customParams: any;
+    @ViewChild(DynamicTableComponent) dynamicTable!: DynamicTableComponent;
     constructor(
         private _NgxToasterService: NgxToasterService,
         private _Router: Router,
@@ -42,10 +43,12 @@ export class RoleListComponent implements OnInit {
                 state: {
                     id: event?.row?.id,
                     roleName: event?.row?.name,
-                    permission: event?.row?.permissionCopy,
+                    permission: event?.row?.permissions,
                     userType: event?.row?.user_type
                 }
             });
+        } else if (event.type === 'delete') {
+            this.OnDelete(event?.row)
         }
     }
     // OnEdit(item: any) {
@@ -59,39 +62,39 @@ export class RoleListComponent implements OnInit {
     //         }
     //     });
     // }
-    // OnDelete(item: any) {
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: `Do you want to delete ${item.name} role!`,
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'Yes, Confirm',
-    //         cancelButtonText: 'No, cancel!',
-    //         reverseButtons: true,
-    //     }).then(async (result) => {
-    //         if (result.isConfirmed) {
-    //             const formdata = new FormData();
-    //             formdata.append('id', item.id);
-    //             formdata.append('guard_name', this.userType);
-    //             try {
-    //                 const resp = await lastValueFrom(this._staffService.deleteRole(formdata));
+    OnDelete(item: any) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `Do you want to delete ${item.name} role!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Confirm',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const formdata = new FormData();
+                formdata.append('id', item.id);
+                formdata.append('guard_name', 'admin');
+                try {
+                    const resp = await lastValueFrom(this._staffService.deleteRole(formdata));
 
-    //                 if (resp?.statuscode === 200) {
-    //                     this._NgxToasterService.showSuccess(resp.message, 'Success');
-    //                     this.GetRolesList();
-    //                 } else {
-    //                     this._NgxToasterService.showError(resp?.message, 'Error');
-    //                 }
-    //             } catch (error: any) {
-    //                 const errorMsg =
-    //                     error?.error?.message || error?.message;
+                    if (resp?.statuscode === 200) {
+                        this._NgxToasterService.showSuccess(resp.message, 'Success');
+                        this.dynamicTable.refresh();
+                    } else {
+                        this._NgxToasterService.showError(resp?.message, 'Error');
+                    }
+                } catch (error: any) {
+                    const errorMsg =
+                        error?.error?.message || error?.message;
 
-    //                 this._NgxToasterService.showError(errorMsg, 'Error');
-    //             }
-    //         } else if (result.dismiss === Swal.DismissReason.cancel) {
-    //         }
-    //     });
-    // }
+                    this._NgxToasterService.showError(errorMsg, 'Error');
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+            }
+        });
+    }
 
 
 }
