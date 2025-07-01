@@ -23,87 +23,6 @@ export class CommonService {
     
   }
 
-  getRequestType() {
-    const reqType = {
-      0: 'Cash Deposit',
-      1: 'NEFT',
-      2: 'RTGS / IMPS',
-      3: 'Bank Transfer',
-      4: 'Cash Pickup',
-      5: 'Exceptional Request',
-    };
-    return reqType;
-  }
-
-  getRoleType() {
-    const reqType = {
-      7: 'Admin',
-      8: 'Operations',
-      9: 'Finance',
-      10: 'Manager',
-      11: 'Customer Support',
-    };
-    return reqType;
-  }
-
-  getRequestType1() {
-    const reqType = [
-      { name: 'Cash Deposit', value: '0' },
-      { name: 'NEFT', value: '1' },
-      { name: 'RTGS / IMPS', value: '2' },
-      { name: 'Bank Transfer', value: '3' },
-      { name: 'Cash Pickup', value: '4' },
-      { name: 'Exceptional Request', value: '5' },
-    ];
-    return reqType;
-  }
-
-  getRequestPaymentMode() {
-    const reqType = [
-      { name: 'NEFT', value: '1' },
-      { name: 'RTGS', value: '2' },
-      { name: 'IMPS', value: '3' },
-      { name: 'UPI', value: '4' },
-      { name: 'IFT', value: '5' },
-    ];
-    return reqType;
-  }
-
-  getRAPStatusList() {
-    const reqType = {
-      0: 'rejected',
-      1: 'approved',
-      2: 'pending',
-    };
-    return reqType;
-  }
-
-  getExcep() {
-    const reqType = {
-      0: 'No',
-      1: 'Yes',
-    };
-    return reqType;
-  }
-
-  getStatus() {
-    const reqType = {
-      0: 'Rejected',
-      1: 'Accepted',
-      2: 'Pending',
-    };
-    return reqType;
-  }
-
-  getPaymentType() {
-    const reqType = [
-      { name: 'CC', value: 'Credit Card' },
-      { name: 'DC', value: 'Debit Card' },
-      { name: 'NB', value: 'Net Banking' },
-    ];
-    return reqType;
-  }
-
   // date transformation
   getTransformDate(date: any, formate?: any) {
     formate = formate ?? 'yyyy-MM-dd';
@@ -233,46 +152,6 @@ export class CommonService {
     return words_string;
   }
 
-  // popWitHtml(options: Partial<SweetAlertOptions>): Promise<SweetAlertResult> {
-  //    obj: Partial<SweetAlertOptions> = {
-  //     icon: options.icon ?? 'info', //`'warning'`, `'error'`, `'success'`, `'info'` and `'question'`
-  //     showCloseButton: options.showCloseButton ?? true,
-  //     showCancelButton: options.showCancelButton ?? false,
-  //     focusConfirm: options.focusConfirm ?? false,
-  //     confirmButtonText: options.confirmButtonText ?? 'OK',
-  //     backdrop: options.backdrop ?? !options?.allowOutsideClick,
-  //     allowOutsideClick: options.allowOutsideClick ?? true,
-  //   };
-  //   obj = {
-  //     ...obj,
-  //     ...options,
-  //   };
-  //   // let d: any = Swal;
-  //   // d = Swal.fire(options)
-  //   return Swal.fire(obj);
-  // }
-
-  // const printContent: any = document.getElementById("printIt");
-  // html2canvas(printContent).then(canvas => {
-  // // Few necessary setting options
-  //   var imgWidth = 208;
-  //   var pageHeight = 295;
-  //   var imgHeight = canvas.height * imgWidth / canvas.width;
-  //   var heightLeft = imgHeight;
-
-  //   const contentDataURL = canvas.toDataURL('image/png')
-  //   console.log(contentDataURL)
-  //   let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-  //   var position = 0;
-  //   pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-  //   pdf.save('FILE.pdf'); // Generated PDF
-  // });
-
-  // sideBarOverFlow(req: boolean) {
-  //   this.authService.isSubMenu.next(req);
-  //   this.authService.toggleCols(req);
-  // }
-
   GetSearchArray(header:any, type: 'order' | 'search') {
     let ret = header?.map((r: any) => {
       if (type === 'order' ? r.isorder : r.issearch) {
@@ -297,19 +176,6 @@ export class CommonService {
     }
     return false;
   }
-
-
-  //  async imageToDataUrl(url: string): Promise<string> {
-  //     const response = await fetch(url);
-  //     const blob = await response.blob();
-  //     return new Promise((resolve, reject) => {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => resolve(reader.result as string);
-  //       reader.onerror = reject;
-  //       reader.readAsDataURL(blob);
-  //     });
-  //   }
-
 
   TransformAmt(value: number, header: string) {
     return header === 'Balance' ? (value < 0 ? `${value} Dr.` : `${value} Cr.`) : value;

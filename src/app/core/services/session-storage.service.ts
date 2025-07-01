@@ -1,5 +1,4 @@
 import { CookieService } from 'ngx-cookie-service';
-import { config } from './request-url.service';
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 
