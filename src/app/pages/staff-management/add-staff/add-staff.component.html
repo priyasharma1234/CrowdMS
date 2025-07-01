@@ -1,89 +1,94 @@
 <div class="wrapper">
-  <!-- Main Wrapper -->
-  <div class="main-container">
-    <div class="content-inside m-4 bg-white p-4" *ngIf="formState == 'user'">
-                   <div class="page-title"> {{editable ? 'Edit' : 'Add'}} Staff</div>
-                        <form [formGroup]="addStaffForm">
-                      <div class="row g-3">
-                                <div class="col-3">
-                                     <div class="form-group">
-                                        <label>Role*</label>
-                                        <select [disabled]="editable" class="form-select" formControlName="role">
-                                            <option selected value="" disabled>Please Select Role</option>
-                                            <option [value]="item.id" *ngFor="let item of roleList?.data">
-                                                {{item.name}}
-                                            </option>
-                                        </select>
-                                        <app-show-errors [ctrl]="addStaffForm.get('role')"
-                                            [requiredMesg]="'Role is Required'">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                     <div class="form-group">
-                                        <label>Name*</label>
-                                        <input type="text" class="form-control" placeholder="Enter name" formControlName="name" />
-                                        <app-show-errors [ctrl]="addStaffForm.get('name')"
-                                            [requiredMesg]="'Name is Required'">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                     <div class="form-group">
-                                        <label>Username*</label>
-                                        <input type="text" class="form-control"  placeholder="Enter username" formControlName="username" />
-                                        <app-show-errors [ctrl]="addStaffForm.get('username')"
-                                            [requiredMesg]="'Username is Required'">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
+    <div class="main-container">
+        <div class="content-inside m-4 bg-white p-4" *ngIf="formState == 'user'">
+            <div class="page-title"> {{editable ? 'Edit' : 'Add'}} Staff</div>
+            <form [formGroup]="addStaffForm">
+                <div class="row g-3">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Role*</label>
+                            <select [disabled]="editable" class="form-select" formControlName="role">
+                                <option selected value="" disabled>Please Select Role</option>
+                                <option [value]="item.name" *ngFor="let item of roleList?.data">
+                                    {{item.name}}
+                                </option>
+                            </select>
+                            <app-show-errors [ctrl]="addStaffForm.get('role')" [requiredMesg]="'Role is Required'">
+                            </app-show-errors>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Name*</label>
+                            <input type="text" class="form-control" placeholder="Enter name" formControlName="name" />
+                            <app-show-errors [ctrl]="addStaffForm.get('name')" [requiredMesg]="'Name is Required'">
+                            </app-show-errors>
+                        </div>
+                    </div>
+                    <!-- <div class="col-3">
+                        <div class="form-group">
+                            <label>Username*</label>
+                            <input type="text" class="form-control" placeholder="Enter username"
+                                formControlName="username" />
+                            <app-show-errors [ctrl]="addStaffForm.get('username')"
+                                [requiredMesg]="'Username is Required'">
+                            </app-show-errors>
+                        </div>
+                    </div> -->
 
-                                <div class="col-3">
-                                     <div class="form-group">
-                                        <label>Email*</label>
-                                        <input class="form-control"  type="text" placeholder="Enter email" formControlName="email" />
-                                        <app-show-errors [ctrl]="addStaffForm.get('email')"
-                                            [requiredMesg]="'Email is Required'">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                     <div class="form-group">
-                                        <label>Phone*</label>
-                                        <input class="form-control"  [appInputRestriction]="'integer'" maxlength="10" type="text"
-                                            placeholder="Enter phone" formControlName="phone" />
-                                        <app-show-errors [ctrl]="addStaffForm.get('phone')"
-                                            [requiredMesg]="'Phone is Required'">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label>Password{{editable ? '' : '*'}}</label>
-                                        <input class="form-control"  type="text" placeholder="Enter password" formControlName="password" />
-                                        <app-show-errors [ctrl]="addStaffForm.get('password')"
-                                            [requiredMesg]="'Password is Required'">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <button class="btn btn-primary" (click)="addStaff()">
-                                        {{editable ? 'Update' : 'Submit'}}
-                                    </button>
-                                     <div class="mt-5 text-center"
-                                           *ngIf="editable" >
-                                            <button class="btn btn-primary" (click)="onOpen()" type="button">Modify
-                                                Permission
-                                            </button>
-                                        </div>
-                                </div>
-
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Email*</label>
+                            <input class="form-control" type="text" placeholder="Enter email" formControlName="email" />
+                            <app-show-errors [ctrl]="addStaffForm.get('email')" [requiredMesg]="'Email is Required'">
+                            </app-show-errors>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Phone*</label>
+                            <input class="form-control" [appInputRestriction]="'integer'" maxlength="10" type="text"
+                                placeholder="Enter phone" formControlName="phone" />
+                            <app-show-errors [ctrl]="addStaffForm.get('phone')" [requiredMesg]="'Phone is Required'">
+                            </app-show-errors>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-label d-block mb-2">Rights:</label>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" formControlName="rights" [value]="'edit'"
+                                    id="rights-edit">
+                                <label class="form-check-label" for="rights-edit">Edit</label>
                             </div>
-                        </form>
-</div>
-</div>
-<!-- <div *ngIf="formState == 'permissions'" style="background: white">
+
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" formControlName="rights"
+                                    [value]="'readonly'" id="rights-readonly">
+                                <label class="form-check-label" for="rights-readonly">Read Only</label>
+                            </div>
+                               <app-show-errors [ctrl]="addStaffForm.get('rights')" [requiredMesg]="'Rights is Required'">
+                            </app-show-errors>
+                        </div>
+                    </div>
+
+
+                    <div class="mt-4">
+                        <button class="btn btn-primary" (click)="addStaff()">
+                            {{editable ? 'Update' : 'Submit'}}
+                        </button>
+                        <!-- <div class="mt-5 text-center" *ngIf="editable">
+                            <button class="btn btn-primary" (click)="onOpen()" type="button">Modify
+                                Permission
+                            </button>
+                        </div> -->
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- <div *ngIf="formState == 'permissions'" style="background: white">
     <app-permission-list  [canSet]="true" (emitter)="permissions = $event"></app-permission-list>
     <button type="submit" name="submit" (click)="onSubmit()" class="btn login-btn w-auto">Submit</button>
 </div> -->

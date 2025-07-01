@@ -14,7 +14,7 @@ import { InputRestrictionDirective } from 'src/app/core/directives/InputRestrict
 @Component({
     selector: 'app-add-staff',
     standalone: true,
-    imports: [CommonModule, SharedModule, ShowErrorsComponent,InputRestrictionDirective],
+    imports: [CommonModule, SharedModule, ShowErrorsComponent, InputRestrictionDirective],
     templateUrl: './add-staff.component.html',
     styleUrl: './add-staff.component.scss'
 })
@@ -33,14 +33,13 @@ export class AddStaffComponent {
         private route: ActivatedRoute,
         private _StaffService: staffService
     ) {
-    this.addStaffForm = this.fb.group({
-        role: ['', Validators.required],
-        name: ['', Validators.required],
-        username: ['', Validators.required],
-        email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
-        phone: ['', [Validators.required, Validators.minLength(10)]],
-        password: ['']
-    });
+        this.addStaffForm = this.fb.group({
+            role: ['', Validators.required],
+            name: ['', Validators.required],
+            email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
+            phone: ['', [Validators.required, Validators.minLength(10)]],
+            rights: ['', Validators.required]
+        });
     }
 
 
@@ -54,12 +53,8 @@ export class AddStaffComponent {
             this.editable = true;
             this.loadDataForEdit(id);
             this.addStaffForm.get('role')?.disable();
-            this.addStaffForm.get('password')?.clearValidators();
-            this.addStaffForm.get('password')?.updateValueAndValidity();
         } else {
             this.addStaffForm.get('role')?.enable();
-            this.addStaffForm.get('password')?.setValidators(Validators.required);
-            this.addStaffForm.get('password')?.updateValueAndValidity();
         }
     }
     async addStaff() {
@@ -102,7 +97,6 @@ export class AddStaffComponent {
                         role: staffData?.role,
                         name: staffData?.name,
                         email: staffData?.email,
-                        username: staffData?.username,
                         phone: staffData?.phone
                     });
                     this.userPermissions = resp.data.permissions
@@ -131,10 +125,6 @@ export class AddStaffComponent {
 
         await waitUntil(() => this.permissions != undefined);
 
-        // console.log(this.permissions);
-
-        // console.log(permissions);
-
         permissions.forEach((permission: any) => {
             let perm = this.permissions.find((perm: any) => perm.module == permission.module);
             if (perm) {
@@ -153,7 +143,7 @@ export class AddStaffComponent {
 
     }
 
-   async  onSubmit() {
+    async onSubmit() {
         let permissions: any = [];
         this.permissions.forEach((element: { permissions: any[]; }) => {
             element.permissions.forEach(element => {
@@ -167,18 +157,18 @@ export class AddStaffComponent {
         if (this.editable) {
             const staffData = this.addStaffForm.getRawValue();
             let data = {
-                  ...staffData,
+                ...staffData,
                 permissions: JSON.stringify(permissions),
                 id: this.editId,
                 gaurd_name: 'admin'
             }
             resp = await lastValueFrom(this._StaffService.updateStaff({ payload: data, form: this.addStaffForm }));
             if (resp.statuscode == 200)
-               this._NgxToasterService.showSuccess(resp.message , 'Success')
-                this.router.navigate(['/staff/staff-list']);
-            }
+                this._NgxToasterService.showSuccess(resp.message, 'Success')
+            this.router.navigate(['/staff/staff-list']);
         }
-
     }
+
+}
 
 
