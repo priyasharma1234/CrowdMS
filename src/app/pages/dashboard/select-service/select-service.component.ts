@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { EscrowService } from '../../../services/escrow.service';
+import { CommonService } from 'src/app/core/services/common.service';
 
 @Component({
   selector: 'app-select-service',
@@ -26,8 +27,8 @@ export class SelectServiceComponent implements OnInit {
   ];
   selectedService: string | null = null;
   private _EscrowService = inject(EscrowService);
-  constructor(private router: Router) {
-
+  constructor(private router: Router,private _CommonService: CommonService) {
+    this._CommonService.pageTitle.next('Select Service');
   }
   ngOnInit(): void {
 

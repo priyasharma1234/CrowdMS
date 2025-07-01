@@ -12,6 +12,7 @@ import { ApiRequestService } from 'src/app/services/api-request.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { Observable } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/core/guards/exit.guard';
+import { CommonService } from 'src/app/core/services/common.service';
 
 @Component({
     selector: 'app-add-escrow',
@@ -33,7 +34,8 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
     escrowData: any;
     escrowId: any;
     private _ApiRequestService = inject(ApiRequestService);
-    private _NgxToasterService = inject(NgxToasterService)
+    private _NgxToasterService = inject(NgxToasterService);
+    private _CommonService = inject(CommonService)
     constructor() {
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
@@ -48,6 +50,9 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
             } else {
                 this.selectedService = 'Physical'
             }
+            let pageTitle = `${this.selectedService} Escrow`;
+            this._CommonService.pageTitle.next(pageTitle);
+
 
         });
     }

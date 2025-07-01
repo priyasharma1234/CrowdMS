@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonService } from 'src/app/core/services/common.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -7,6 +8,26 @@ import { RouterModule } from '@angular/router';
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss'
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit {
+  titleName: any;
 
+  public set _titleName(v: string) {
+    this.titleName = v;
+  }
+
+  public get _titleName(): string {
+    return this.titleName;
+  }
+  constructor(
+    private _CommonService: CommonService,
+  ) {
+    this._CommonService.pageTitle.subscribe((e: any) => {
+      this._titleName = e;
+    })
+  }
+
+
+  ngOnInit(): void {
+
+  }
 }

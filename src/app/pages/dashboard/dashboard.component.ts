@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ApiRequestService } from '../../services/api-request.service';
-import { apiRoutes } from '../../config/api-request';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { CommonService } from 'src/app/core/services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,9 +11,12 @@ import { SessionStorageService } from 'src/app/core/services/session-storage.ser
   standalone: true
 })
 export class DashboardComponent implements OnInit {
- private _SessionStorageService = inject(SessionStorageService)
+  private _SessionStorageService = inject(SessionStorageService);
+  private _CommonService = inject(CommonService);
+
   ngOnInit() {
     this._SessionStorageService.setItem('selectd_item', 'Dashboard');
+    this._CommonService.pageTitle.next('Dashboard');
   }
 
 }
