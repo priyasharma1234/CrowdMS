@@ -19,6 +19,13 @@
   background: $white;
   margin-bottom: 0;
   padding: 24px 15px;
+    margin-left: 0;
+    @include breakpoint("desktop-small", min) {
+    margin-left: 300px;
+  }
+  @include breakpoint("desktop-xxl", min) {
+    margin-left: 297px;
+  }
 }
 .notification {
   background-color: #fff1e2;
