@@ -1,6 +1,6 @@
-<div [ngClass]="{ 'wrapper': isPermissionPage }">
+<div [ngClass]="{ 'wrapper': !type }">
   <!-- Main Wrapper -->
-  <div [ngClass]="{ 'main-container': isPermissionPage }">
+  <div [ngClass]="{ 'main-container': !type }">
     <div class="content-inside bg-white p-4">
             <!-- || !permissionService.hasPermission('permission-create') -->
             <div [ngClass]="canSet || !permissionService.hasPermission('permissions-create') ? 'hidden' : ''"

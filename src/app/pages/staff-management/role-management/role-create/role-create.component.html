@@ -50,7 +50,7 @@
             <!--    <br><br>-->
 
 
-            <app-permission-list [canSet]="true"
+            <app-permission-list [type]="'role'" [canSet]="true"
                 (emitter)="permissions = $event"></app-permission-list>
             <button class="btn btn-yellow ms-4" (click)="onSubmit()">Submit</button>
 

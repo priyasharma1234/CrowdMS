@@ -23,9 +23,7 @@ export class staffService {
         return this._ApiRequestService.postData(params, apiRoutes.staff.list);
     }
     getStaffById(id: string): Observable<any> {
-        const formData = new FormData();
-        formData.append('id', id);
-        return this._ApiRequestService.postData({ payload: formData }, apiRoutes.staff.show);
+        return this._ApiRequestService.getData(apiRoutes.staff.getStaff,id);
     }
     addStaff(params: any): Observable<any> {
         console.log('Params', params)

@@ -89,6 +89,9 @@ export const apiRoutes = {
     rolelist: {
       url: 'roles/admin-roles'
     },
+     getStaff: {
+      url: 'usermanagement/staff'
+    },
     list: {
       url: 'usermanagement/staff/list',
     },

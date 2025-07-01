@@ -8,13 +8,13 @@
                                 <div class="col-3">
                                      <div class="form-group">
                                         <label>Role*</label>
-                                        <select [disabled]="editable" class="form-select" formControlName="role_id">
+                                        <select [disabled]="editable" class="form-select" formControlName="role">
                                             <option selected value="" disabled>Please Select Role</option>
                                             <option [value]="item.id" *ngFor="let item of roleList?.data">
                                                 {{item.name}}
                                             </option>
                                         </select>
-                                        <app-show-errors [ctrl]="addStaffForm.get('role_id')"
+                                        <app-show-errors [ctrl]="addStaffForm.get('role')"
                                             [requiredMesg]="'Role is Required'">
                                         </app-show-errors>
                                     </div>
@@ -83,7 +83,7 @@
                         </form>
 </div>
 </div>
-<div *ngIf="formState == 'permissions'" style="background: white">
+<!-- <div *ngIf="formState == 'permissions'" style="background: white">
     <app-permission-list  [canSet]="true" (emitter)="permissions = $event"></app-permission-list>
     <button type="submit" name="submit" (click)="onSubmit()" class="btn login-btn w-auto">Submit</button>
-</div>
+</div> -->

@@ -22,6 +22,7 @@ export class PermissionListComponent implements OnInit {
   // isProduction = environment.production;
   @Input() permissionInput: any;
   @Input() canSet: boolean = false;
+  @Input() type: string;
   @Output() emitter = new EventEmitter<string>();
   deleteMode: boolean = false;
   get debug(): any {
@@ -44,35 +45,19 @@ export class PermissionListComponent implements OnInit {
   permissionToAdd: any;
   private _debug: any;
   canDelete: boolean = false;
-  isPermissionPage = false;
   constructor(
     private _apiRequestService: ApiRequestService,
     private toaster: NgxToasterService,
     public permissionService: PermissionService,
-    public permissionServiceService: PermissionServiceService,
-    private _activatedRoute: ActivatedRoute,
-    private router: Router
+    public permissionServiceService: PermissionServiceService
   ) {
   
   }
 
   async ngOnInit() {
-      this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        const deepestRoute = this.getDeepestRoute(this._activatedRoute);
-        const page = deepestRoute.snapshot.data['page'];
-        this.isPermissionPage = page === 'permission';
-      });
     await this.getPermissionList();
 
     // this.canDelete = (await this._apiRequestService.postDataAsync({}, config.permissions.canDelete)).status;
-  }
-  getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
-    return route;
   }
 
   async handleDelete(permission: any) {

@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import waitUntil from 'async-wait-until';
 import { lastValueFrom } from 'rxjs';
-import { PermissionListComponent } from '../permission-management/permission-list/permission-list.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { regExpPattern } from 'src/app/core/validators/regExpPatternList';
@@ -15,7 +14,7 @@ import { InputRestrictionDirective } from 'src/app/core/directives/InputRestrict
 @Component({
     selector: 'app-add-staff',
     standalone: true,
-    imports: [CommonModule, SharedModule, ShowErrorsComponent, PermissionListComponent,InputRestrictionDirective],
+    imports: [CommonModule, SharedModule, ShowErrorsComponent,InputRestrictionDirective],
     templateUrl: './add-staff.component.html',
     styleUrl: './add-staff.component.scss'
 })
@@ -35,7 +34,7 @@ export class AddStaffComponent {
         private _StaffService: staffService
     ) {
     this.addStaffForm = this.fb.group({
-        role_id: ['', Validators.required],
+        role: ['', Validators.required],
         name: ['', Validators.required],
         username: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
@@ -54,11 +53,11 @@ export class AddStaffComponent {
             this.editId = id
             this.editable = true;
             this.loadDataForEdit(id);
-            this.addStaffForm.get('role_id')?.disable();
+            this.addStaffForm.get('role')?.disable();
             this.addStaffForm.get('password')?.clearValidators();
             this.addStaffForm.get('password')?.updateValueAndValidity();
         } else {
-            this.addStaffForm.get('role_id')?.enable();
+            this.addStaffForm.get('role')?.enable();
             this.addStaffForm.get('password')?.setValidators(Validators.required);
             this.addStaffForm.get('password')?.updateValueAndValidity();
         }
@@ -100,7 +99,7 @@ export class AddStaffComponent {
                 if (resp.data) {
                     const staffData = resp.data;
                     this.addStaffForm.patchValue({
-                        role_id: staffData?.role_id,
+                        role: staffData?.role,
                         name: staffData?.name,
                         email: staffData?.email,
                         username: staffData?.username,
