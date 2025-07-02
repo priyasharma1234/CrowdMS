@@ -27,9 +27,9 @@
   <div class="offcanvas-body">
     <ul class="nav flex-column w-100 ps-height">
       <li class="nav-item" *ngFor="let obj of sidebarList; let i = index">
-        <a (click)="onSideBar(obj, i)" data-toggle="collapse" [attr.aria-expanded]="obj.name === selectedItem"
+        <a (click)="onSideBar(obj, i)" data-toggle="collapse" [attr.aria-expanded]="obj.name == selectedItem"
           *ngIf="_permissionService?.hasModule(obj?.module)" class="dropdown-toggle"
-          [ngClass]="{ active: obj?.name === selectedItem }" class="nav-link">
+          [ngClass]="{ active: obj?.name == selectedItem }" class="nav-link">
     
             <span class="pe-3"> <img [src]="obj?.icon"></span>
              
@@ -40,7 +40,7 @@
 
         </a>
         <div class="subMenu" *ngIf="_payoutSideBar && cachedIndex == obj?.name">
-          <ul>
+          <ul class="ps-0">
             <li *ngFor="let item of _payoutSideBar;let i=index">
               <a class="nav-link ps-0" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
                 [routerLinkActive]="'active'" href="javascript:void(0);"

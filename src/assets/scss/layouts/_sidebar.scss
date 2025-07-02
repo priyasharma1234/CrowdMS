@@ -11,10 +11,15 @@
   .nav-link {
     color: $white;
     padding: 14px 0 14px 40px;
+    margin: 0 10px;
     span {
       svg {
         stroke: $white;
       }
+    }
+    &.active{
+       background:$red;
+           border-radius: 10px;
     }
   }
 
