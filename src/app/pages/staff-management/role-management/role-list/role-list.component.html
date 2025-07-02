@@ -55,7 +55,7 @@
         <button class="btn btn-primary" [routerLink]="'/staff/add'"> Add Role</button>
       </div>
 
-        <dynamic-table [apiUrl]="'http://172.16.10.156/ExCode_Backend/api/console/roles/list'" [pageSize]="10"
+        <dynamic-table [apiUrl]="'http://172.16.10.166/ExCode_Backend/api/console/roles/list'" [pageSize]="10"
           [showHeader]="false" [httpHeaders]="httpHeaders" [customParams]="customParams"
           (action)="onTableAction($event)">
         </dynamic-table>
