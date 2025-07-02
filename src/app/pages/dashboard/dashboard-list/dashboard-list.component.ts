@@ -5,6 +5,7 @@ import { apiRoutes } from '../../../config/api-request';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DynamicTableModule } from '@ciphersquare/dynamic-table';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
+import {environment} from '../../../../environments/environment';
 @Component({
     selector: 'app-dashboard-list',
     imports: [RouterModule, SharedModule, DynamicTableModule],
@@ -50,4 +51,6 @@ export class DashboardListComponent implements OnInit {
                 }
             });
     }
+
+  protected readonly environment = environment;
 }

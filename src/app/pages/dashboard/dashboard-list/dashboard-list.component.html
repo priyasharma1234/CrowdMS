@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="col-12 col-lg-6">
-          
+
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Draft Escrow</h4>
@@ -91,7 +91,7 @@
       </div>
 
       <div class="deposit-table gap-4 p-3 mt-3">
-        <dynamic-table [apiUrl]="'http://172.16.10.166/ExCode_Backend/api/console/escrow/list'" [pageSize]="10"
+        <dynamic-table [apiUrl]="environment.baseUrl + 'escrow/list'" [pageSize]="10"
        [httpHeaders]="httpHeaders"   (action)="onTableAction($event)">
         </dynamic-table>
         <!-- <table class="table">
