@@ -16,16 +16,19 @@
 
             <app-show-errors [ctrl]="releaseForm.get('document')" [requiredMesg]="'Document is required'">
             </app-show-errors>
-        </div>
-
+            <div class="view-img">
+                
         <p class="mb-1" *ngIf="releaseForm.get('document')?.value">
             <a [href]="releaseForm.get('document')?.value" target="_blank" class="text-decoration-none">
-                <img src="assets/img/view.png" class="me-2"> View Uploaded Document
+                <img src="assets/img/view.png" class="me-2"> 
             </a>
-            <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeUploadedDocument()">
-                Remove
+            <button type="button" class="btn border-0" (click)="removeUploadedDocument()">
+                <img src="assets/img/delete.png"> 
             </button>
         </p>
+            </div>
+        </div>
+
     </div>
 
 
