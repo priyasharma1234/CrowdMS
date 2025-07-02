@@ -88,5 +88,14 @@ position: absolute;
 position:absolute;
 top:6px;
 right:6px;
+p{
+  a{
+      font-size:12px;
+  @include breakpoint ('desktop-wide',min){
+      font-size:15px;
+  }
+  
+  }
+}
 }
 }
