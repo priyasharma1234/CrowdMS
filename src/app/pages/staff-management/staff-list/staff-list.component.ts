@@ -38,7 +38,7 @@ export class StaffListComponent {
   openModal(id?:any) { 
         const modalRef = this.modalService.open(AddStaffComponent, {
             centered: true,
-            size: 'lg',
+            size: 'md',
             backdrop: 'static',
             keyboard: false
         });
