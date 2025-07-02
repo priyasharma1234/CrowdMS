@@ -19,6 +19,7 @@ label {
 
   &.form-check-label {
     font-family: $font-primary;
+        font-size: 16px;
   }
 }
 
@@ -88,8 +89,8 @@ border:1px solid #E6EFF5;
     margin-right: 10px;
   }
   input[type="text"] {
-    padding: 2px 5px;
-    border: none;
+    padding: 12px 5px;
+    // border: none;
     box-shadow: none;
     flex: 1;
   }
