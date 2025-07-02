@@ -8,6 +8,8 @@ import { DynamicTableComponent, DynamicTableModule } from '@ciphersquare/dynamic
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { staffService } from 'src/app/services/staffService';
+import { AddStaffComponent } from '../add-staff/add-staff.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-staff-list',
@@ -22,7 +24,9 @@ export class StaffListComponent {
     private _StaffService = inject(staffService);
     private _NgxToasterService = inject(NgxToasterService)
 
-    constructor(private _ApiRequestService: ApiRequestService, private router: Router) {
+    constructor(private _ApiRequestService: ApiRequestService, private router: Router,
+        private modalService: NgbModal
+    ) {
         this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
         console.log("httpHeaders", this.httpHeaders)
     }
@@ -31,11 +35,23 @@ export class StaffListComponent {
 
 
     }
+  openModal(id?:any) { 
+        const modalRef = this.modalService.open(AddStaffComponent, {
+            centered: true,
+            size: 'md',
+            backdrop: 'static',
+            keyboard: false
+        });
+         modalRef.componentInstance.editId = id;
+        modalRef.result.finally(() => {
 
+        });
+    }
     onTableAction(event: any) {
         console.log('Table action triggered:', event);
         if (event.type === 'edit') {
-            this.router.navigate(['/staff/edit-staff', event?.row?.id]);
+            // this.router.navigate(['/staff/edit-staff', event?.row?.id]);
+            this.openModal(event?.row?.id)
         } else if (event.type === 'selectChange') {
             console.log('New select value:', event.row);
             this.OnUpdateStatus(event.row)

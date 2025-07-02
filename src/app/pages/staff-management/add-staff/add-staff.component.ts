@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import waitUntil from 'async-wait-until';
@@ -10,6 +10,7 @@ import { regExpPattern } from 'src/app/core/validators/regExpPatternList';
 import { staffService } from 'src/app/services/staffService';
 import { ShowErrorsComponent } from 'src/app/features/show-errors/show-errors.component';
 import { InputRestrictionDirective } from 'src/app/core/directives/InputRestriction/input-restriction.directive';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-add-staff',
@@ -20,17 +21,17 @@ import { InputRestrictionDirective } from 'src/app/core/directives/InputRestrict
 })
 export class AddStaffComponent {
     editable: boolean = false;
-    editId: string;
+    @Input() editId: string;
     roleList: any;
     permissions: any = undefined;
     formState: 'user' | 'permissions' = 'user';
     private userPermissions: any;
     addStaffForm: FormGroup
     constructor(
+        public activeModal: NgbActiveModal,
         private fb: FormBuilder,
         private _NgxToasterService: NgxToasterService,
         private router: Router,
-        private route: ActivatedRoute,
         private _StaffService: staffService
     ) {
         this.addStaffForm = this.fb.group({
@@ -46,12 +47,9 @@ export class AddStaffComponent {
     async ngOnInit() {
         this.roleList = await lastValueFrom(this._StaffService.getStaffRoleList({}));
         console.log("this.roleList", this.roleList)
-        const id = this.route.snapshot.paramMap.get('id');
-
-        if (id) {
-            this.editId = id
+        if (this.editId) {
             this.editable = true;
-            this.loadDataForEdit(id);
+            this.loadDataForEdit(this.editId);
             this.addStaffForm.get('role')?.disable();
         } else {
             this.addStaffForm.get('role')?.enable();
@@ -76,7 +74,7 @@ export class AddStaffComponent {
 
                 if (resp?.statuscode === 200) {
                     this._NgxToasterService.showSuccess(resp.message, "Success");
-                    this.router.navigate(['/staff/staff-list']);
+                    this.activeModal.close()
                 } else {
                     this._NgxToasterService.showError(resp?.message, "Error");
                 }
@@ -97,11 +95,13 @@ export class AddStaffComponent {
                         role: staffData?.role,
                         name: staffData?.name,
                         email: staffData?.email,
-                        phone: staffData?.phone
+                        phone: staffData?.phone,
+                        rights: staffData?.rights
                     });
-                    this.userPermissions = resp.data.permissions
+                    this.userPermissions = resp.data.permissions;
+                    this._NgxToasterService.showSuccess(resp.message, "Success");
                 }
-                this._NgxToasterService.showSuccess(resp.message, "Success");
+
 
             } else {
                 this._NgxToasterService.showError(resp?.message, 'Error');
