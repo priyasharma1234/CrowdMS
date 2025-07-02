@@ -155,14 +155,15 @@ export class SidebarComponent {
   async ngOnInit() {
     this._SidebarService.selectedItemActive$.subscribe((res: string) => {
       this.selectedItem = res;
+      console.log("onSideBar",this.selectedItem)
     });
     this._SidebarService.refreshSidebar();
     // console.log("JSON.parse(",JSON.parse(this._SessionStorageService.getItem('selectd_item')));
-    const selectItem = this._SessionStorageService.getItem('selectd_item') || '';
+    const selectItem = this._SessionStorageService.getItem('selectd_item') ? JSON.parse(this._SessionStorageService.getItem('selectd_item')) : '';
     console.log('Selected item:', selectItem);
     this.selectedBottom = selectItem;
-    const pageTitle = this._SessionStorageService.getItem('pageTitle') || '';
-    this._CommonService.pageTitle.next(pageTitle)
+    // const pageTitle = this._SessionStorageService.getItem('pageTitle') || '';
+    // this._CommonService.pageTitle.next(pageTitle)
 
   }
 
