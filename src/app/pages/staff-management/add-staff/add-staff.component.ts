@@ -26,7 +26,8 @@ export class AddStaffComponent {
     permissions: any = undefined;
     formState: 'user' | 'permissions' = 'user';
     private userPermissions: any;
-    addStaffForm: FormGroup
+    addStaffForm: FormGroup;
+    staffData: any
     constructor(
         public activeModal: NgbActiveModal,
         private fb: FormBuilder,
@@ -37,6 +38,7 @@ export class AddStaffComponent {
         this.addStaffForm = this.fb.group({
             role: ['', Validators.required],
             name: ['', Validators.required],
+            username: ['', Validators.required],
             email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
             phone: ['', [Validators.required, Validators.minLength(10)]],
             rights: ['', Validators.required]
@@ -62,7 +64,8 @@ export class AddStaffComponent {
         if (this.addStaffForm.valid) {
             const data = {
                 ...formValue,
-                ...(this.editable && this.editId ? { id: this.editId } : {})
+                ...(this.editable && this.editId ? { id: this.editId } : {}),
+                  ...(this.editable && this.editId ? { status: this.staffData?.status } : {})
             };
             try {
                 let resp;
@@ -90,13 +93,14 @@ export class AddStaffComponent {
             const resp = await lastValueFrom(this._StaffService.getStaffById(id));
             if (resp?.statuscode == 200) {
                 if (resp.data) {
-                    const staffData = resp.data;
+                    this.staffData = resp.data;
                     this.addStaffForm.patchValue({
-                        role: staffData?.role,
-                        name: staffData?.name,
-                        email: staffData?.email,
-                        phone: staffData?.phone,
-                        rights: staffData?.rights
+                        role: this.staffData?.role,
+                        name: this.staffData?.name,
+                        username: this.staffData?.username,
+                        email: this.staffData?.email,
+                        phone: this.staffData?.phone,
+                        rights: this.staffData?.rights
                     });
                     this.userPermissions = resp.data.permissions;
                     this._NgxToasterService.showSuccess(resp.message, "Success");

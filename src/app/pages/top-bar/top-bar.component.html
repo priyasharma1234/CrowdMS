@@ -13,8 +13,8 @@
               type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="name-label">M</span>
               <div class="text-start m-0">
-                <p class="text-primary m-0"><strong>matlab pvt ltd</strong></p>
-                <h6 class="text-start m-0">NXT764944</h6>
+                <p class="text-primary m-0"><strong>{{this._AuthCoreService.user()?.name}}</strong></p>
+                <h6 class="text-start m-0">{{this._AuthCoreService.user()?.username}}</h6>
               </div>
               <i class="fas fa-chevron-down ms-2"></i>
             </button>

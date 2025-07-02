@@ -154,14 +154,26 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
             if (err.error.statuscode == 400 || err.error.statuscode == 401 || err.error.statuscode == 520) {
               this.authCoreService.logout(false);
             } else if (err.error.statuscode == 422) {
-
-              for (const key in err.error.data) {
-                const element = err.error.data[key];
-                if (this.form_keys) {
-                  this.form_keys.get(key)?.setErrors({ 'dynError': element.split('<br')[0] });
+              for (const key in err.error.errors) {
+                const elementValue = err.error.errors[key];
+                let element
+                if (Array.isArray(elementValue)) {
+                  element = elementValue[0]
+                } else {
+                  element = elementValue
                 }
+                // if (this.form_keys) {
+                //   this.form_keys.get(key)?.setErrors({ 'dynError': element.split('<br')[0] });
+                // }
                 this.toaster.showError(element.split('<br')[0] ?? 'Session Expired!!', 'Error');
               }
+              // for (const key in err.error.data) {
+              //   const element = err.error.data[key];
+              //   if (this.form_keys) {
+              //     this.form_keys.get(key)?.setErrors({ 'dynError': element.split('<br')[0] });
+              //   }
+              //   this.toaster.showError(element.split('<br')[0] ?? 'Session Expired!!', 'Error');
+              // }
             } else if (err.error.statuscode == 500) {
               this.toaster.showError(err.error.message, 'Error');
             } else {

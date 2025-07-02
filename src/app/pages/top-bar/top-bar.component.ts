@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonService } from 'src/app/core/services/common.service';
+import { AuthCoreService } from 'src/app/services/auth-core.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -20,6 +21,7 @@ export class TopBarComponent implements OnInit {
   }
   constructor(
     private _CommonService: CommonService,
+    public _AuthCoreService: AuthCoreService
   ) {
     this._CommonService.pageTitle.subscribe((e: any) => {
       this._titleName = e;
