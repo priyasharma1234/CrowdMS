@@ -20,6 +20,7 @@
     &.active{
        background:$red;
            border-radius: 10px;
+           color:$white;
     }
   }
 
@@ -70,6 +71,15 @@
       .nav-link {
         color: $dark-blue;
         padding: 9px 0 9px 0;
+           span {
+      svg {
+        stroke:$dark-blue;
+      }
+    }
+            &.active{
+       background:$red;
+           border-radius: 10px;
+    }
       }
     }
   }
