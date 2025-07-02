@@ -14,7 +14,7 @@
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Active Escrow</h4>
-              <h2 class="font-large">15</h2>
+              <h2 class="font-large">{{dashboardCount?.active}}</h2>
             </div>
             <div class="position-relative">
               <div class="box"></div>
@@ -25,10 +25,11 @@
           </div>
         </div>
         <div class="col-12 col-lg-6">
+          
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Draft Escrow</h4>
-              <h2 class="font-large">5</h2>
+              <h2 class="font-large">{{dashboardCount?.draft}}</h2>
             </div>
             <div class="position-relative">
               <div class="box box-pink"></div>
