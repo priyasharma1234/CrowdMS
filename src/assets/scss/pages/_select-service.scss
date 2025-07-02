@@ -60,10 +60,7 @@
 }
 
 .upload-doc{
-  width:45%;
-  @include breakpoint('desktop-small',max){
-    width:100%
-  }
+
   .custom-file-upload {
   display:flex;
   padding: 10px 20px;
@@ -86,5 +83,10 @@ position: absolute;
     height: 100%;
     top:0
 }
-
+        
+.view-img{
+position:absolute;
+top:6px;
+right:6px;
+}
 }

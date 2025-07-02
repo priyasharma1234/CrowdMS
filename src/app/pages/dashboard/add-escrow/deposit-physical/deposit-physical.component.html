@@ -85,8 +85,8 @@
                     <app-show-errors [ctrl]="depositForm.get(field.controlName)"
                         [requiredMesg]="field.label + ' is Required'">
                     </app-show-errors>
-                </div>
-                  <div *ngIf="depositForm.get(field.controlName)?.value">
+
+                             <div *ngIf="depositForm.get(field.controlName)?.value" class="view-img">
                 <p class="mb-1 mt-1">
                     <a [href]="depositForm.get(field.controlName)?.value" target="_blank" class="text-decoration-none">
                         <img src="assets/img/view.png" class="pe-2" />
@@ -94,6 +94,8 @@
                     </a>
                 </p>
             </div>
+                </div>
+         
             </div>
           
         </ng-container>
