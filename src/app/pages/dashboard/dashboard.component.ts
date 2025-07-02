@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { CommonService } from 'src/app/core/services/common.service';
+import { SidebarService } from '../sidebar/sidebar-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,9 +13,11 @@ import { CommonService } from 'src/app/core/services/common.service';
 })
 export class DashboardComponent implements OnInit {
   private _SessionStorageService = inject(SessionStorageService);
+  private _SidebarService = inject(SidebarService)
   private _CommonService = inject(CommonService);
 
   ngOnInit() {
+     this._SidebarService.selectedItemActive = 'Dashboard';
     this._SessionStorageService.setItem('selectd_item', 'Dashboard');
     this._CommonService.pageTitle.next('Dashboard');
   }
