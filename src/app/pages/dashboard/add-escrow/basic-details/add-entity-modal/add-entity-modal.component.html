@@ -21,7 +21,7 @@
             <div class="col-md-6" *ngIf="form.get('entity_type')?.value === 'existing'">
                  <div class="form-group">
                 <label>Choose {{ entityType | titlecase }}*</label>
-                <ng-select [items]="corporateList" bindLabel="company_name" bindValue="corpid"
+                <ng-select [items]="corporateList" bindLabel="company_name" bindValue="id"
                     placeholder="Please select type" formControlName="corpid">
                 </ng-select>
                 <!-- <select class="form-control" formControlName="entity_id">
@@ -31,6 +31,24 @@
                 <app-show-errors [ctrl]="form.get('corpid')" [requiredMesg]="entityRequiredMessage"></app-show-errors>
             </div>
 </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Corporate Identifier*</label>
+              <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="corporate_identifier"
+                     class="form-control" placeholder="Enter Corporate Identifier" />
+              <app-show-errors [ctrl]="form.get('corporate_identifier')"
+                               [requiredMesg]="'Corporate Identifier is Required'"></app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>User Identifier*</label>
+              <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="user_identifier"
+                     class="form-control" placeholder="Enter User Identifier" />
+              <app-show-errors [ctrl]="form.get('user_identifier')"
+                               [requiredMesg]="'User Identifier is Required'"></app-show-errors>
+            </div>
+          </div>
             <div class="col-md-6">
                 <div class="form-group">
                 <label>Company Name*</label>

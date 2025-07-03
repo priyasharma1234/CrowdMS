@@ -1,4 +1,4 @@
 
 export const environment = {
-  baseUrl: 'http://172.16.10.166/ExCode_Backend/api/console/'
+  baseUrl: 'http://localhost:8000/api/console/'
 }
