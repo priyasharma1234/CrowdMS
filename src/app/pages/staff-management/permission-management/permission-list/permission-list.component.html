@@ -1,7 +1,6 @@
-<div [ngClass]="{ 'wrapper': !type }">
-  <!-- Main Wrapper -->
+<!-- <div [ngClass]="{ 'wrapper': !type }">
   <div [ngClass]="{ 'main-container': !type }">
-    <div class="content-inside bg-white p-4">
+    <div class="content-inside bg-white p-4"> -->
             <!-- || !permissionService.hasPermission('permission-create') -->
             <div [ngClass]="canSet || !permissionService.hasPermission('permissions-create') ? 'hidden' : ''"
                 class="d-flex gap-3">
@@ -112,6 +111,6 @@
                 </div>
             </ng-template>
         
-    </div>
+    <!-- </div>
 </div>
-</div>
+</div> -->

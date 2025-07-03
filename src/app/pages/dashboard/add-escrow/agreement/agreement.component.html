@@ -9,7 +9,8 @@
         </div>
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="agreement_type" value="biparty" id="biparty" />
+            <input class="form-check-input" type="radio" formControlName="agreement_type" value="biparty"
+                id="biparty" />
             <label class="form-check-label" for="biparty">Biparty Agreement</label>
         </div>
     </div>
@@ -17,7 +18,7 @@
         <label for="agreementDoc">Upload {{ agreementForm.get('agreement_type')?.value | titlecase }} Document</label>
         <p>An Escrow Agreement between the software developer or beneficiary and the escrow agent.</p>
         <div class="d-flex align-items-center gap-2 upload-doc p-3" role="button" (click)="openModal(content)">
-           <img src="assets/img/upload.png">
+            <img src="assets/img/upload.png">
             <span class="text-primary">Upload document<p class="mb-0">File size must be less than 5mb</p></span>
         </div>
     </div>
@@ -25,16 +26,18 @@
     <div class="mb-3">
         <label>Upload Additional Document</label>
         <p>Other Agreement related documents like SLA, NDA and other documents can be uploaded here.</p>
-
-        <!-- MULTIPLE FILE INPUT -->
-         <div>
-        <input type="file" multiple (change)="onMultiFileSelect($event)" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx"
-            class="form-control upload-doc p-3" />
+        <div>
+            <input type="file" multiple (change)="onMultiFileSelect($event)"
+                accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx" class="form-control upload-doc p-3" />
+        </div>
+        <div formArrayName="additional_docs">
+        <div  *ngFor="let docCtrl of additionalDocs.controls; let i = index" [formGroupName]="i" class="border p-3 mb-2 rounded">
+            <!-- <label>Document {{ i + 1 }}</label> -->
+            <div class="mb-2">
+                <label>Document Name {{ i + 1 }}</label>
+                <input type="text" class="form-control" formControlName="doc_name"
+                    placeholder="Enter document name" />
             </div>
-
-        <!-- Display uploaded docs -->
-        <div *ngFor="let docCtrl of additionalDocs.controls; let i = index" class="border p-3 mb-2 rounded">
-            <label>Document {{ i + 1 }}</label>
             <div *ngIf="docCtrl.get('url')?.value" class="text-success">
                 Uploaded ✔️ –
                 <a [href]="docCtrl.get('url')?.value" target="_blank">View</a>
@@ -43,6 +46,7 @@
             <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeAdditionalDoc(i)">
                 Remove
             </button>
+        </div>
         </div>
     </div>
 
@@ -90,18 +94,18 @@
             </div>
             <div class="mb-3">
                 <label>Upload Document</label>
-                <input #fileInput type="file" 
-                    class="form-control" (change)="handleModalFile($event, fileInput)"
+                <input #fileInput type="file" class="form-control" (change)="handleModalFile($event, fileInput)"
                     [class.is-invalid]="agreementDocumentForm.get('document_url')?.invalid && agreementDocumentForm.get('document_url')?.touched" />
-                      <app-show-errors [ctrl]="agreementDocumentForm.get('document_url')"
+                <app-show-errors [ctrl]="agreementDocumentForm.get('document_url')"
                     [requiredMesg]="'Document is Required'">
                 </app-show-errors>
 
                 <p class="mb-1" *ngIf="agreementDocumentForm.get('document_url')?.value">
-                    <a [href]="agreementDocumentForm.get('document_url')?.value" target="_blank" class="text-decoration-none">
+                    <a [href]="agreementDocumentForm.get('document_url')?.value" target="_blank"
+                        class="text-decoration-none">
                         👁️ View Uploaded Image
                     </a>
-                     <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearModalDocument()">
+                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearModalDocument()">
                         Remove
                     </button>
                 </p>

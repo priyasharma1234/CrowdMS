@@ -36,7 +36,7 @@ export class DepositComponent implements OnInit {
             primary_account: [{ value: 'AWS', disabled: true }, Validators.required],
             verification_type: [[], Validators.required],
             verification_for: ['', Validators.required],
-            certificates_for: [[], Validators.required],
+            certificates_for: [, Validators.required],
             documents: [[], Validators.required],
             certificates: [[], Validators.required]
         });

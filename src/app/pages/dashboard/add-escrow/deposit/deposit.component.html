@@ -77,9 +77,12 @@
 
         <div class="col-md-6">
             <label>Required these Certificates for</label>
-            <ng-select [items]="verificationOptions" bindLabel="value" bindValue="id" formControlName="certificates_for"
+              <select class="form-select" formControlName="certificates_for">
+                <option *ngFor="let option of verificationFor" [value]="option.value">{{ option.value }}</option>
+            </select>
+            <!-- <ng-select [items]="verificationOptions" bindLabel="value" bindValue="id" formControlName="certificates_for"
                 [multiple]="true" placeholder="Select certificate usage" [closeOnSelect]="false" [searchable]="false">
-            </ng-select>
+            </ng-select> -->
             <app-show-errors [ctrl]="depositForm.get('certificates_for')"
                 [requiredMesg]="'Required these Certificates for is Required'"></app-show-errors>
         </div>

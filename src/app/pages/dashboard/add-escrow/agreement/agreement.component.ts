@@ -86,12 +86,24 @@ export class AgreementComponent implements OnInit {
 
         const additionalDocs: string[] = this.agreementData?.additional_docs || [];
 
+        // if (additionalDocs.length > 0) {
+        //     additionalDocs.forEach((docUrl: string) => {
+        //         if (docUrl) {
+        //             const docGroup = this.fb.group({
+        //                 file: [null],
+        //                 url: [docUrl, Validators.required]
+        //             });
+        //             this.additionalDocs.push(docGroup);
+        //         }
+        //     });
+        // }
         if (additionalDocs.length > 0) {
-            additionalDocs.forEach((docUrl: string) => {
-                if (docUrl) {
+            additionalDocs.forEach((docObj: any, index: number) => {
+                if (docObj?.url) {
                     const docGroup = this.fb.group({
                         file: [null],
-                        url: [docUrl, Validators.required]
+                        url: [docObj.url],
+                        doc_name: [docObj.file_name]
                     });
                     this.additionalDocs.push(docGroup);
                 }
@@ -111,9 +123,11 @@ export class AgreementComponent implements OnInit {
     createDocumentGroup(file: File): FormGroup {
         return this.fb.group({
             file: [file],
-            url: ['']
+            url: [''],
+            doc_name: [file.name]
         });
     }
+
     onMultiFileSelect(event: any) {
         const inputEl = event.target;
         const files: File[] = Array.from(inputEl.files);
@@ -141,7 +155,8 @@ export class AgreementComponent implements OnInit {
 
             const docGroup = this.fb.group({
                 file: [file, Validators.required],
-                url: ['']
+                url: [''],
+                doc_name: [file.name]
             });
 
             this.additionalDocs.push(docGroup);
@@ -196,12 +211,26 @@ export class AgreementComponent implements OnInit {
             this._NgxToasterService.showError('Please complete all required fields.', 'Error');
             return;
         }
+        for (const [index, ctrl] of this.additionalDocs.controls.entries()) {
+            const docName = ctrl.get('doc_name')?.value;
+            const url = ctrl.get('url')?.value;
 
+            if (!url || !docName?.trim()) {
+                this._NgxToasterService.showError(`Please provide both file and name for Document ${index + 1}.`, 'Validation Error');
+                return;
+            }
+        }
         // Get uploaded additional docs
-        const uploadedDocs = this.additionalDocs.controls
-            .map(ctrl => ctrl.value)
-            .filter(doc => !!doc.url);
-        const additionalDocs = uploadedDocs.map(doc => doc.url);
+        // const uploadedDocs = this.additionalDocs.controls
+        //     .map(ctrl => ctrl.value)
+        //     .filter(doc => !!doc.url);
+        // const additionalDocs = uploadedDocs.map(doc => doc.url);
+        const additionalDocs = this.additionalDocs.controls
+            .filter(ctrl => !!ctrl.get('url')?.value)
+            .map(ctrl => ({
+                url: ctrl.get('url')?.value,
+                file_name: ctrl.get('doc_name')?.value
+            }));
 
         // if (uploadedDocs.length === 0) {
         //     this._NgxToasterService.showError('Please upload at least one additional document.', 'Error');
@@ -281,16 +310,17 @@ export class AgreementComponent implements OnInit {
         if (!file) return;
 
         const allowedTypes = [
-            'application/pdf',
-            'image/png',
-            'image/jpeg',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            'application/pdf'
+            // ,
+            // 'image/png',
+            // 'image/jpeg',
+            // 'application/msword',
+            // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            // 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
 
         if (!allowedTypes.includes(file.type)) {
-            this._NgxToasterService.showError('Only PNG or JPEG allowed', 'Invalid File');
+            this._NgxToasterService.showError('Only Pdf allowed', 'Invalid File');
             this.agreementDocumentForm.patchValue({ document_url: null });
             fileInput.value = '';
             return;
