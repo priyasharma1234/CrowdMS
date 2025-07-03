@@ -1,20 +1,29 @@
-<div class="wrapper">
-  <!-- Main Wrapper -->
-  <div class="main-container">
-
-    <div class="content-inside m-4">
-      <h3 class="text-primary py-3">Welcome Parthiv Patel</h3>
-      <div class="notification">
+  <div class="notification">
         <div><img src="assets/img/notification.png" alt="sprintexcode"></div>
         <p class="mb-0">A new beneficiary has been added/linked. Please begin the process by clicking on the draft card
           below. or <a href="#">Click Here To Start.</a></p>
       </div>
       <div class="row">
-        <div class="col-12 col-lg-6">
+             <div class="col-12 col-lg-4">
+
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
-              <h4 class="text-primary">Active Escrow</h4>
-              <h2 class="font-large">{{dashboardCount?.active}}</h2>
+              <h4 class="text-primary">Draft Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.DRAFT}}</h2>
+            </div>
+            <div class="position-relative">
+              <div class="box box-pink"></div>
+              <div class="box-img"><img src="assets/img/user-clock.png"></div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
+            <div>
+              <h4 class="text-primary">Awaiting Deposit Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.AWAITING_DEPOSIT}}</h2>
             </div>
             <div class="position-relative">
               <div class="box"></div>
@@ -24,16 +33,15 @@
 
           </div>
         </div>
-        <div class="col-12 col-lg-6">
-
+              <div class="col-12 col-lg-4">
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
-              <h4 class="text-primary">Draft Escrow</h4>
-              <h2 class="font-large">{{dashboardCount?.draft}}</h2>
+              <h4 class="text-primary">Awaiting Review Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.AWAITING_REVIEW}}</h2>
             </div>
             <div class="position-relative">
-              <div class="box box-pink"></div>
-              <div class="box-img"><img src="assets/img/user-clock.png"></div>
+              <div class="box"></div>
+              <div class="box-img"><img src="assets/img/user.png"></div>
 
             </div>
 
@@ -128,9 +136,3 @@
           </tbody>
 
         </table> -->
-
-      </div>
-    </div>
-
-  </div>
-</div>

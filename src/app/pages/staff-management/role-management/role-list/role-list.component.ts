@@ -7,6 +7,7 @@ import { staffService } from "src/app/services/staffService";
 import { SharedModule } from "src/app/shared/shared.module";
 import { NgxToasterService } from "src/app/core/services/toasterNgs.service";
 import { DynamicTableComponent, DynamicTableModule } from "@ciphersquare/dynamic-table";
+import { environment } from "src/environments/environment";
 
 @Component({
     standalone: true,
@@ -96,7 +97,7 @@ export class RoleListComponent implements OnInit {
         });
     }
 
-
+    protected readonly environment = environment;
 }
 
 

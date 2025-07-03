@@ -10,6 +10,7 @@ import { ApiRequestService } from 'src/app/services/api-request.service';
 import { staffService } from 'src/app/services/staffService';
 import { AddStaffComponent } from '../add-staff/add-staff.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {environment} from '../../../../environments/environment';
 
 @Component({
     selector: 'app-staff-list',
@@ -112,6 +113,7 @@ export class StaffListComponent {
             }
         });
     }
+ protected readonly environment = environment;
 }
 
 

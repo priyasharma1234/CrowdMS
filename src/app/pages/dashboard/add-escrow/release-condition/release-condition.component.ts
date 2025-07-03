@@ -1,7 +1,7 @@
-import { Component, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { apiRoutes } from 'src/app/config/api-request';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { ApiRequestService } from 'src/app/services/api-request.service';
@@ -25,6 +25,8 @@ export class ReleaseConditionComponent implements OnInit {
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
     selectedService: any;
     @Input() releaseData: any;
+    @ViewChild('finalConfirmation') finalConfirmationTemplate!: TemplateRef<any>;
+    isConfirmed = false;
     private route = inject(ActivatedRoute)
     defaultOptions = [
         {
@@ -225,9 +227,58 @@ export class ReleaseConditionComponent implements OnInit {
 
     async onSubmit() {
         this.releaseForm.markAllAsTouched();
+
+        if (!this.releaseForm.valid) {
+            this._NgxToasterService.showError('Please complete all required fields.', 'Validation Error');
+            return;
+        }
+        this.openConfirmationModal();
+        // const formData = new FormData();
+        // formData.append('id', String(this.escrowId));
+        // formData.append('escrow_type', this.selectedService);
+        // const formValues = this.releaseForm.value;
+        // Object.entries(formValues).forEach(([key, value]) => {
+        //     if (key === 'release_conditions' && Array.isArray(value)) {
+        //         formData.append(key, JSON.stringify(value));
+        //     } else {
+        //         formData.append(key, String(value ?? ''));
+        //     }
+        // });
+        // if (this.releaseForm.valid) {
+        //     await this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.releaseCondition)
+        //         .subscribe({
+        //             next: (res: any) => {
+        //                 if (res?.statuscode == 200) {
+        //                     this.router.navigate(['/dashboard']);
+        //                     this._NgxToasterService.showSuccess(res.message, "Success");
+        //                 } else {
+        //                     this._NgxToasterService.showError(res?.message, "Error");
+        //                 }
+        //             },
+        //             error: (error) => {
+        //                 const errorMsg = error?.error?.message || error?.message;
+        //                 this._NgxToasterService.showError(errorMsg, 'Error');
+        //             }
+        //         });
+        // }
+    }
+    openConfirmationModal() {
+        this.isConfirmed = false;
+        this.modalService.open(this.finalConfirmationTemplate, {
+            centered: true,
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
+    confirmAndSend(modal: NgbModalRef) {
+        modal.close();
+        this.submitReleaseCondition();
+    }
+    async submitReleaseCondition() {
         const formData = new FormData();
         formData.append('id', String(this.escrowId));
         formData.append('escrow_type', this.selectedService);
+
         const formValues = this.releaseForm.value;
         Object.entries(formValues).forEach(([key, value]) => {
             if (key === 'release_conditions' && Array.isArray(value)) {
@@ -236,22 +287,22 @@ export class ReleaseConditionComponent implements OnInit {
                 formData.append(key, String(value ?? ''));
             }
         });
-        if (this.releaseForm.valid) {
-            await this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.releaseCondition)
-                .subscribe({
-                    next: (res: any) => {
-                        if (res?.statuscode == 200) {
-                            this.router.navigate(['/dashboard']);
-                            this._NgxToasterService.showSuccess(res.message, "Success");
-                        } else {
-                            this._NgxToasterService.showError(res?.message, "Error");
-                        }
-                    },
-                    error: (error) => {
-                        const errorMsg = error?.error?.message || error?.message;
-                        this._NgxToasterService.showError(errorMsg, 'Error');
+
+        await this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.releaseCondition)
+            .subscribe({
+                next: (res: any) => {
+                    if (res?.statuscode == 200) {
+                        this.router.navigate(['/dashboard']);
+                        this._NgxToasterService.showSuccess(res.message, "Success");
+                    } else {
+                        this._NgxToasterService.showError(res?.message, "Error");
                     }
-                });
-        }
+                },
+                error: (error) => {
+                    const errorMsg = error?.error?.message || error?.message;
+                    this._NgxToasterService.showError(errorMsg, 'Error');
+                }
+            });
     }
+
 }

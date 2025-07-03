@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonService } from 'src/app/core/services/common.service';
 import { AuthCoreService } from 'src/app/services/auth-core.service';
@@ -10,22 +10,21 @@ import { AuthCoreService } from 'src/app/services/auth-core.service';
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent implements OnInit {
-  titleName: any;
+      titleName: any;
+    private _CommonService = inject(CommonService)
+    public set _titleName(v: string) {
+        this.titleName = v;
+    }
 
-  public set _titleName(v: string) {
-    this.titleName = v;
-  }
-
-  public get _titleName(): string {
-    return this.titleName;
-  }
+    public get _titleName(): string {
+        return this.titleName;
+    }
   constructor(
-    private _CommonService: CommonService,
     public _AuthCoreService: AuthCoreService
   ) {
-    this._CommonService.pageTitle.subscribe((e: any) => {
-      this._titleName = e;
-    })
+     this._CommonService.pageTitle.subscribe((e: any) => {
+            this._titleName = e;
+        })
   }
 
 
