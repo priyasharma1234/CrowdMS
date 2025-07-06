@@ -143,6 +143,7 @@ export class AddEntityModalComponent implements OnInit {
             formData.append('corporate_type', this.entityType === 'depositor' ? '1' : '2');
             formData.append('escrow_type', this.escrowType);
             formData.append('submit_type', this.editId ? 'update' : 'create');
+            formData.append('username', this.form.get('user_identifier')?.value || '');
 
             if (this.editId) {
                 formData.append('id', this.editId);

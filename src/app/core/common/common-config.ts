@@ -162,6 +162,13 @@ export const Side_Bar: any = [
     routeUrl: 'staff/staff-list',
     // module: Permissions.STAFF.module,
     subMenu: [...Staff_Management_Sub_Menu],
+  },
+  {
+    id: 3,
+    name: 'Release Requests',
+    is_active: 1,
+    icon: 'assets/img/svg/release-requests.svg',
+    routeUrl: 'release-requests',
   }
 
 ] as const;
