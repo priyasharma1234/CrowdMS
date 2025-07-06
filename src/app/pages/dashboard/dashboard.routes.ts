@@ -3,6 +3,7 @@ import { DashboardComponent } from './dashboard.component';
 import { SelectServiceComponent } from './select-service/select-service.component';
 import { AddEscrowComponent } from './add-escrow/add-escrow.component';
 import { exitGuard } from 'src/app/core/guards/exit.guard';
+import { EditEscrowComponent } from './edit-escrow/edit-escrow.component';
 
 export const DashboardRoutes: Routes = [
   {
@@ -23,6 +24,9 @@ export const DashboardRoutes: Routes = [
         path: 'edit-escrow/:id',
         component: AddEscrowComponent,
         canDeactivate: [exitGuard]
+      }, {
+        path: 'edit/:id',
+        component: EditEscrowComponent
       }
     ]
 
