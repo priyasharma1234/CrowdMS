@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 // import { EditEscrowService } from '../../../../../services/edit-escrow.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './view-basic-details.component.scss'
 })
 export class ViewBasicDetailsComponent {
-  companyDetails = {
+    companyDetails = {
     name: '',
     address: '',
     cin: '',
@@ -22,19 +23,20 @@ export class ViewBasicDetailsComponent {
     altMobile: ''
   };
   constructor(
-    // private _EditEscrowService: EditEscrowService
+    private _EditEscrowService: EditEscrowService
   ) {
-    // const escrowDetails = this._EditEscrowService.escrowDetails;
-    // const userType = escrowDetails?.user_type;
-    // if(userType == undefined) return;
-    // if (escrowDetails == undefined) return;
-    // this.companyDetails.name = escrowDetails[userType].corporate_details.company_name;
-    // this.companyDetails.address = escrowDetails[userType].corporate_details.company_address;
-    // this.companyDetails.cin = escrowDetails[userType].corporate_details.company_cin;
-    // this.companyDetails.pan = escrowDetails[userType].corporate_details.company_pan;
-    // this.repDetails.name = escrowDetails[userType].corporate_details.rep_name;
-    // this.repDetails.email = escrowDetails[userType].corporate_details.rep_email;
-    // this.repDetails.mobile = escrowDetails[userType].corporate_details.rep_mobile;
-    // this.repDetails.altMobile = escrowDetails[userType].corporate_details.rep_alt_mobile ?? '';
+    const escrowDetails = this._EditEscrowService.escrowDetails;
+    console.log("escrowDetails1111111111",escrowDetails)
+    const userType = escrowDetails?.user_type ? escrowDetails?.user_type : 'depositor';
+    if(userType == undefined) return;
+    if (escrowDetails == undefined) return;
+    this.companyDetails.name = escrowDetails[userType].corporate_details.company_name;
+    this.companyDetails.address = escrowDetails[userType].corporate_details.company_address;
+    this.companyDetails.cin = escrowDetails[userType].corporate_details.company_cin;
+    this.companyDetails.pan = escrowDetails[userType].corporate_details.company_pan;
+    this.repDetails.name = escrowDetails[userType].corporate_details.rep_name;
+    this.repDetails.email = escrowDetails[userType].corporate_details.rep_email;
+    this.repDetails.mobile = escrowDetails[userType].corporate_details.rep_mobile;
+    this.repDetails.altMobile = escrowDetails[userType].corporate_details.rep_alt_mobile ?? '';
   }
 }

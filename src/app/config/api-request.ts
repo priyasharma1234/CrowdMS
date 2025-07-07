@@ -17,8 +17,19 @@ export const apiRoutes = {
       url: 'common/upload-document',
     }
   },
+  release:{
+      takeAction: {
+      url: 'escrow/release/action',
+    }
+  },
   escrow: {
-   getEscrow: {
+    submitReleaseRequest: {
+      url: 'escrow/release/submit',
+    },
+    getEscrowDetails: {
+      url: 'escrow/detailsById',
+    },
+    getEscrow: {
       url: 'escrow'
     },
     dashboardCount: {
@@ -52,7 +63,7 @@ export const apiRoutes = {
       url: 'escrow/deposits/data'
     }
   },
-    roles: {
+  roles: {
     roleCreate: {
       url: 'roles/store',
     },
@@ -89,7 +100,7 @@ export const apiRoutes = {
     rolelist: {
       url: 'roles/admin-roles'
     },
-     getStaff: {
+    getStaff: {
       url: 'usermanagement/staff'
     },
     list: {

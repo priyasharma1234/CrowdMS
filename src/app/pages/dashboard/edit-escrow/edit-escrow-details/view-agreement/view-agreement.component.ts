@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 // import { EditEscrowService } from '../../../../../services/edit-escrow.service';
 // import { IAgreement } from '../../../dashboard.types';
 import { CommonModule } from '@angular/common';
+import { IAgreement } from '../../edit-escrow-types';
+import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 
 @Component({
   selector: 'app-view-agreement',
@@ -10,12 +12,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './view-agreement.component.scss'
 })
 export class ViewAgreementComponent {
-  agreements: any | undefined
+  agreements: IAgreement | undefined
   constructor(
-    // private _EditEscrowService: EditEscrowService
+    private _EditEscrowService: EditEscrowService
   ) {
-    // this.agreements = this._EditEscrowService.escrowDetails?.agreement;
+    this.agreements = this._EditEscrowService.escrowDetails?.agreement;
   }
 
 
 }
+

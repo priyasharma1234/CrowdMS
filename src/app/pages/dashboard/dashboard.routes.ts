@@ -25,7 +25,7 @@ export const DashboardRoutes: Routes = [
         component: AddEscrowComponent,
         canDeactivate: [exitGuard]
       }, {
-        path: 'edit/:id',
+        path: 'edit',
         component: EditEscrowComponent
       }
     ]

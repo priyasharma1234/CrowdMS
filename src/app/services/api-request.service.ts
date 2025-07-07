@@ -74,6 +74,23 @@ export class ApiRequestService {
       console.error(error);
     }
   };
+   async PostDataAsync<T, U>(payload: IApiRequestPayload<T>, path: any): Promise<IGenericApiResponse<U>> {
+    let headers = new HttpHeaders();
+    if( this._AuthCoreService.token()) {
+      headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
+    }
+
+    try {
+      const res = await this.http.post<IGenericApiResponse<U>>(environment.baseUrl + path['url'], payload?.payload ?? payload.form, {headers}).toPromise();
+      if (res) {
+        return res;
+      } else {
+        return Promise.reject(res);
+      }
+    } catch (error) {
+      return Promise.reject(this.errorHandl(error));
+    }
+  }
 
   uploadDocument(file: File, dir: string): Observable<string> {
     const formData = new FormData();

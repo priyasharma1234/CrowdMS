@@ -1,1 +1,26 @@
-<p>view-certificate works!</p>
+<div class="certificate-container">
+  <aside class="sidebar">
+    <ul>
+      <li
+        *ngFor="let tab of tabs"
+        [class.active]="activeTab === tab"
+        (click)="selectTab(tab)"
+      >
+        {{ tab }}
+      </li>
+    </ul>
+  </aside>
+
+  <main class="certificate-content">
+    <div class="certificate-status">This escrow is active</div>
+    <h2 class="certificate-title">Escrow Certificate</h2>
+    <p class="certificate-subtitle">
+      This Escrow Certificate certifies that the specified funds/assets are being securely held in escrow. The release shall occur only upon fulfillment of the agreed-upon conditions by all parties
+    </p>
+
+    <div class="certificate-preview">
+      <img src="assets/images/certificate-preview.png" alt="Escrow Certificate" />
+    </div>
+  </main>
+</div>
+

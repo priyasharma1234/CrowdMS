@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { apiRoutes } from 'src/app/config/api-request';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { EditEscrowDetailsComponent } from './edit-escrow-details/edit-escrow-details.component';
+import { EditEscrowService } from 'src/app/services/edit-escrow.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-edit-escrow',
@@ -13,37 +15,36 @@ import { EditEscrowDetailsComponent } from './edit-escrow-details/edit-escrow-de
     styleUrl: './edit-escrow.component.scss'
 })
 export class EditEscrowComponent implements OnInit {
-    escrowId: any;
-    escrowDetails: any;
-    escrowData: any;
-    private _NgxToasterService = inject(NgxToasterService)
-    private _ApiRequestService = inject(ApiRequestService)
-    constructor(private route: ActivatedRoute) {
+ private destroy$ = new Subject<void>();
 
+  constructor(
+    public _EditEscrowService: EditEscrowService,
+    private _Router: Router,
+  ) {
+  }
+
+
+
+  ngOnInit() {
+    console.log(this._EditEscrowService.escrowDetails);
+    if (this._EditEscrowService.escrowDetails == undefined) {
+      this._Router.navigate(['dashboard']);
+      return;
     }
-    ngOnInit(): void {
-        const id = this.route.snapshot.paramMap.get('id');
-        if (id) {
-            this.escrowId = id
-            this.getEscrowData(id);
-        }
-    }
-    async getEscrowData(id: any) {
-        await this._ApiRequestService.getData(apiRoutes.escrow.getEscrow, id)
-            .subscribe({
-                next: (res: any) => {
-                    if (res?.statuscode == 200 && res?.data) {
-                        this.escrowData = res?.data;
-                        console.log("escrowData",this.escrowData)
-                        this._NgxToasterService.showSuccess(res.message, "Success");
-                    } else {
-                        this._NgxToasterService.showError(res?.message, "Error");
-                    }
-                },
-                error: (error) => {
-                    const errorMsg = error?.error?.message || error?.message;
-                    this._NgxToasterService.showError(errorMsg, 'Error');
-                }
-            });
-    }
+    this._EditEscrowService.currentStep$.pipe(takeUntil(this.destroy$)).subscribe((res: number) => {
+      console.log(res);
+      const step = this._EditEscrowService.steps.find(x => x.step == res)
+      if (step?.route) {
+        this._Router.navigate([step.route]);
+      }
+    })
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  protected readonly EditEscrowService = EditEscrowService;
 }
+
