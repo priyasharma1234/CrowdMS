@@ -1,0 +1,119 @@
+<div class="card-main p-4">
+  <h5>Integration</h5>
+
+  <div class="my-3">
+    <label class="mb-2">Upload Type</label>
+    <select id="uploadType" class="form-select form-control" [(ngModel)]="uploadType" [disabled]="codeUpload">
+      <option value="auto">Integration</option>
+      <option value="manual">Manual Upload</option>
+    </select>
+  </div>
+  <div *ngIf="uploadType">
+    <ng-container *ngIf="uploadType === 'auto'">
+      <h5>Choose Integration</h5>
+      <div class="d-flex gap-3">
+        <div class="my-3 text-center" *ngFor="let integration of integrations()">
+          <div class="border p-3 rounded-3 shadow-sm" (click)="HandleSelect(integration)"
+               [style]="integration.selected ? 'background: green' : ''">
+            <img [src]="'assets/icons/' + integration.logo + '.png'" alt="{{ integration.name }}" class="img-fluid mb-2"
+                 style="height: 48px;"/>
+            <div><strong>{{ integration.name }}</strong></div>
+            <div class="d-flex flex-column">
+              <small class="text-muted">Asset Supported</small>
+              <button class="btn btn-primary mt-2" *ngIf="!integration.activated"
+                      (click)="HandleActivate(integration.name)">+ Activate
+              </button>
+              <button class="btn btn-primary mt-2" *ngIf="integration.activated">Activated</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <app-integration (integrationDetails)="HandleIntegration($event)" *ngIf="selectedIntegration"
+                       [escrow]="this._EditEscrowService.escrowDetails"
+                       [selectedIntegration]="selectedIntegration"></app-integration>
+
+    </ng-container>
+
+    <ng-container *ngIf="uploadType === 'manual'">
+
+      <h5 class="mb-2">Manual Upload</h5>
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="my-3" *ngIf="!this.codeUpload">Upload Source Code</h6>
+          <div class="upload-doc position-relative">
+            <h6 class="my-3">Upload Code Documentation</h6>
+            <label class="custom-file-upload mb-2">
+              <img src="assets/img/upload.png" class="me-2">
+              <div class="d-flex flex-column" *ngIf="!this.codeUpload">
+                Upload Document
+              </div>
+            </label>
+            <input type="file" class="form-control" (change)="HandleSourceCodeUpload($event)"
+                   *ngIf="!this.codeUpload"/>
+            <span *ngIf="this.codeUpload" class="text-red">Source Code Uploaded</span>
+          </div>
+
+
+          <!-- <input type="file" class="btn btn-outline-secondary w-100 px-2" (change)="HandleSourceCodeUpload($event)"
+            *ngIf="!this.codeUpload">
+          <span *ngIf="this.codeUpload">Source Code Uploaded</span> -->
+          <!-- <span *ngIf="!this.codeUpload">📁 Upload Document</span> -->
+        </div>
+      </div>
+    </ng-container>
+
+    <h5 class="my-3">Additional Documents</h5>
+    <div class="row">
+
+      <div class="col-12 col-lg-6">
+        <div *ngIf="uploadedDocuments?.length">
+          <ul class="list-group mb-2 ">
+            <li class="list-group-item d-flex justify-content-between flex-wrap" *ngFor="let doc of uploadedDocuments">
+              <span>{{ doc.name }} </span><a href="{{doc.url}}" target="_blank"><img src="assets/img/view.png"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" *ngIf="this.depositDetails">
+      <h5 class="my-3">Certificates</h5>
+      <ng-container *ngFor="let cert of this.depositDetails.deposit.certificates.split(',')">
+        <div class="col-md-6">
+          <ul class="list-group mb-2 ">
+            <li class="list-group-item d-flex justify-content-between flex-wrap"
+                *ngIf="uploadedCertificates[this.CertName(cert)]">
+                <span class="text-success">
+                  {{ cert }} Uploaded</span>
+              <a [href]="uploadedCertificates[this.CertName(cert)].url" target="_blank"><img
+                src="assets/img/view.png"></a>
+            </li>
+          </ul>
+
+        </div>
+
+
+      </ng-container>
+      <!--        <div class="col-md-6 mt-2">-->
+      <!--          <button class="btn btn-outline-secondary w-100">-->
+      <!--            📁 Upload Document-->
+      <!--          </button>-->
+      <!--        </div>-->
+      <!--        <div class="col-md-6 mt-2">Upload ISO Certificate</div>-->
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <label for="version" class="form-label"><strong>Version</strong></label>
+        <span *ngIf="viewMode">{{ version }}</span>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

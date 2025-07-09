@@ -1,30 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { apiRoutes } from 'src/app/config/api-request';
-import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
-import { ApiRequestService } from 'src/app/services/api-request.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { EditEscrowDetailsComponent } from './edit-escrow-details/edit-escrow-details.component';
 import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector: 'app-edit-escrow',
-    imports: [CommonModule,RouterModule,EditEscrowDetailsComponent],
-    templateUrl: './edit-escrow.component.html',
-    styleUrl: './edit-escrow.component.scss'
+  selector: 'app-edit-escrow',
+  imports: [CommonModule, RouterModule, EditEscrowDetailsComponent],
+  templateUrl: './edit-escrow.component.html',
+  styleUrl: './edit-escrow.component.scss'
 })
 export class EditEscrowComponent implements OnInit {
- private destroy$ = new Subject<void>();
+  private destroy$ = new Subject<void>();
 
-  constructor(
-    public _EditEscrowService: EditEscrowService,
-    private _Router: Router,
-  ) {
-  }
-
-
-
+  constructor(public _EditEscrowService: EditEscrowService, private _Router: Router) { }
   ngOnInit() {
     console.log(this._EditEscrowService.escrowDetails);
     if (this._EditEscrowService.escrowDetails == undefined) {

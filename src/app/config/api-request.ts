@@ -29,6 +29,9 @@ export const apiRoutes = {
     }
   },
   escrow: {
+     updateTeamMember: {
+      url: 'escrow/release/add'
+    },
     getEscrowList: {
       url: 'escrow/release/escrow-list'
     },

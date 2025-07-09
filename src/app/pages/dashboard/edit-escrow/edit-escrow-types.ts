@@ -9,7 +9,7 @@ export type IAgreement = {
   signing_date: string
   effective_date: string
   expiry_date: string
-  additional_docs: string
+  additional_docs: any
   created_at: string
   updated_at: string
 }
@@ -34,7 +34,7 @@ export type IPhysicalDeposit = {
 
 
 export type IEscrow = {
-  release: { ip_address: {address: string; remarks: string }[], reason: string};
+  release: { ip_address: {address: string; remarks: string }[], reason: string,supporting_doc:string};
   id: number,
   escrow_id: string,
   escrow_type: 'Software' | 'Physical',

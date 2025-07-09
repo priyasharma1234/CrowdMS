@@ -30,27 +30,31 @@
             </div>
         </div>
     </div>
-
-    <div class="card mb-3 p-0 border-0 rounded-0" *ngIf="agreements?.additional_docs">
-        <div class="card-header bg-transparent text-primary fw-bold">{{ 'Additional Documents' }}</div>
+    <div class="card mb-3 p-0 border-0 rounded-0" *ngIf="agreements?.additional_docs?.length">
+        <div class="card-header bg-transparent text-primary fw-bold">
+            Additional Documents
+        </div>
         <div class="card-body">
-            <div class="d-flex flex-wrap gap-4 justify-content-between flex-wrap align-items-center">
-                <div class="doc-preview me-3"><img src="../../../../../assets/img/doc.png"></div>
+            <div class="d-flex flex-wrap gap-4 justify-content-between align-items-center"
+                *ngFor="let doc of agreements?.additional_docs">
+                <div class="doc-preview me-3">
+                    <img src="../../../../../assets/img/doc.png" alt="Doc Preview" />
+                </div>
+
                 <h4 class="user-details">
-                    <p class="py-2 mb-0"><strong>test_121.pdf</strong></p>Added on {{ agreements?.signing_date }}
+                    <p class="py-2 mb-0">
+                        <strong>{{ doc?.file_name }}</strong>
+                    </p>
+                    Added on {{ agreements?.signing_date }}
                 </h4>
-                <h4 class="user-details">
-                    <p class="py-2 mb-0"><strong>Signing Date</strong></p>{{ agreements?.signing_date }}
-                </h4>
-                <h4 class="user-details">
-                    <p class="py-2 mb-0"><strong>Effective Date</strong></p>{{ agreements?.effective_date }}
-                </h4>
-                <h4 class="user-details">
-                    <p class="py-2 mb-0"><strong>Expiry Date</strong></p>{{ agreements?.expiry_date }}
-                </h4>
-                <div><i class="bi bi-eye" role="button" (click)="openInNewTab(agreements?.document_path)"></i></div>
+                  <div><i class="bi bi-eye" role="button"></i></div>
+                <div class="d-flex gap-3">
+                    <button class="border-0 bg-transparent" (click)="openInNewTab(doc?.url)"><img
+                            src="assets/img/view.png"></button>
+                </div>
             </div>
         </div>
     </div>
+
 
 </div>

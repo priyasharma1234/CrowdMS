@@ -1,5 +1,5 @@
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { lastValueFrom } from 'rxjs';
@@ -20,11 +20,11 @@ export class ViewEditReleaseComponent implements OnInit {
     releaseForm: FormGroup;
     selectedCondition: string | null = 'Bankruptcy';
     uploadedFile: File | null = null;
-
     conditions: any;
     protected fileUrl: string | undefined;
     remarks: any;
-    escrowList: Array<any> = []
+    escrowList: Array<any> = [];
+    @Input() escrowId: number;
 
     constructor(
         private _FormBuilder: FormBuilder,
@@ -43,8 +43,17 @@ export class ViewEditReleaseComponent implements OnInit {
     }
     async ngOnInit() {
         const response = await lastValueFrom(this._EscrowService.getEscorwList());
-        console.log("response", response)
         this.escrowList = response?.data || [];
+        if (this.escrowId) {
+            this.releaseForm.patchValue({
+                escrow_id: this.escrowId
+            })
+            const response = await lastValueFrom(this._EscrowService.getReleaseConditionsList({ payload: { id: this.escrowId.toString() } }));
+            this.conditions = response?.data || [];
+            this.releaseForm.get('escrow_id')?.disable()
+        } else {
+            this.releaseForm.get('escrow_id')?.enable()
+        }
     }
 
     async onEscrowChange(event: any) {
@@ -80,34 +89,36 @@ export class ViewEditReleaseComponent implements OnInit {
         this.releaseForm.markAllAsTouched();
         if (!this.fileUrl) {
             this._NgxToasterService.showError("Please upload a document", 'Error');
-            return
+            return;
         }
         if (this.releaseForm.valid) {
+            const formData = this.releaseForm.getRawValue();
+            formData.id = this.escrowId;
             const payload = {
-                ...this.releaseForm.value,
+                ...formData,
                 document: this.fileUrl
             };
-            this._ApiRequestService.postData({ payload: payload }, apiRoutes.release.addRelease).subscribe({
-                next: (res: any) => {
-                    if (res?.statuscode == 200) {
-                        this._ActiveModal.close();
-                        this._NgxToasterService.showSuccess(res?.message, 'Success');
-                    } else {
-                        this._NgxToasterService.showError(res?.message, 'Error');
+            this._ApiRequestService
+                .postData({ payload }, apiRoutes.release.addRelease)
+                .subscribe({
+                    next: (res: any) => {
+                        if (res?.statuscode === 200) {
+                            this._ActiveModal.close();
+                            this._NgxToasterService.showSuccess(res?.message, 'Success');
+                        } else {
+                            this._NgxToasterService.showError(res?.message, 'Error');
+                        }
+                    },
+                    error: (error: any) => {
+                        const errorMsg = error?.error?.message || error?.message;
+                        this._NgxToasterService.showError(errorMsg, 'Error');
                     }
-                },
-                error: (error: any) => {
-                    const errorMsg = error?.error?.message || error?.message;
-                    this._NgxToasterService.showError(errorMsg, 'Error');
-                }
-            });
+                });
 
-
-            console.log('Release Request:', payload);
+            console.log('Release Request payload:', payload);
         }
-
-        // Submit to backend or emit event
     }
+
 
     cancel(): void {
         this._ActiveModal.close();

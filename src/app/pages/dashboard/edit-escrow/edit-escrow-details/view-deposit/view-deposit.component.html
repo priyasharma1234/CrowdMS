@@ -1,1 +1,8 @@
-<p>view-deposit works!</p>
+<ng-container *ngIf="_EditEscrowService.escrowDetails$  | async as escrowDetails">
+    <ng-container *ngIf="escrowDetails.escrow_type == 'Software'">
+        <app-view-software [viewMode]="true"></app-view-software>
+    </ng-container>
+    <ng-container *ngIf="escrowDetails.escrow_type == 'Physical'">
+        <app-view-physical></app-view-physical>
+    </ng-container>
+</ng-container>

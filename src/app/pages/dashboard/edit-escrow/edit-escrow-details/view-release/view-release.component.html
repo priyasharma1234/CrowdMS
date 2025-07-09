@@ -1,20 +1,16 @@
-<button class="release-request-btn" (click)="CreateReleaseRequest()">Release Request</button>
-
+<div class="d-flex justify-content-between my-3">
+  <button class="btn btn-primary" (click)="CreateReleaseRequest()">Release Request</button>
+</div>
 <div class="release-container">
   <h2 class="release-title">Preview Release Condition</h2>
 
   <div class="condition-grid">
-    <div
-      *ngFor="let condition of conditions"
-      class="condition-card"
-      [class.selected]="condition.selected"
-      [ngClass]="{
+    <div *ngFor="let condition of conditions" class="condition-card" [class.selected]="condition.selected" [ngClass]="{
         'green-bg': condition.label === 'Bankruptcy',
         'cyan-bg': condition.label === 'Insolvency',
         'pink-bg': condition.label === 'Maintenance obligation not met',
         'blue-bg': condition.label === 'Custom'
-      }"
-    >
+      }">
       <div class="icon"><img [src]="condition.icon"></div>
       <div class="label">{{ condition.label }}</div>
       <div *ngIf="condition.selected" class="checkmark">✔️</div>
@@ -25,7 +21,7 @@
     <label>Other Document</label>
     <div class="doc-box">
       <div class="icon">📄</div>
-      <a class="filename" href="#">{{ attachedFileName }}</a>
+      <a class="filename" (click)="openInNewTab()">{{ attachedFileName }}</a>
     </div>
   </div>
 </div>
