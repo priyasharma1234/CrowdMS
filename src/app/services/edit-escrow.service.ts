@@ -14,7 +14,16 @@ import { IEscrow } from '../pages/dashboard/edit-escrow/edit-escrow-types';
   providedIn: 'root'
 })
 export class EditEscrowService {
-
+  private _selectedTab$ = new BehaviorSubject<'depositor' | 'beneficiary'>('depositor');
+  set selectedTab(tab: 'depositor' | 'beneficiary') {
+    this._selectedTab$.next(tab);
+  }
+  get selectedTab$() {
+    return this._selectedTab$.asObservable();
+  }
+  get selectedTabValue() {
+    return this._selectedTab$.getValue();
+  }
   private m_escrowDetails: BehaviorSubject<IEscrow> | undefined;
 
   constructor(
@@ -55,80 +64,80 @@ export class EditEscrowService {
     }
   }
 
-//   SetSteps(_type: 'depositor' | 'beneficiary', _escrowType: 'Software' | 'Physical', _stage: string) {
-//     if (_type === 'depositor' && _escrowType == 'Software' && _stage !== 'ACTIVE') {
-//       this.steps = this.depositorSteps;
-//     } else if (_type == 'depositor' && _escrowType == 'Physical' && _stage !== 'ACTIVE') {
-//       this.steps = this.depositorPhySteps
-//     }
-//     else if (_type === 'beneficiary' && _stage !== 'ACTIVE') {
-//       this.steps = this.beneficiarySteps;
-//     }
-//     else if (_stage == 'ACTIVE') {
-//       this.steps = this.viewSteps;
-//     }
-//     else {
-//       throw new Error('Invalid type provided to SetSteps');
-//     }
-//   }
+  //   SetSteps(_type: 'depositor' | 'beneficiary', _escrowType: 'Software' | 'Physical', _stage: string) {
+  //     if (_type === 'depositor' && _escrowType == 'Software' && _stage !== 'ACTIVE') {
+  //       this.steps = this.depositorSteps;
+  //     } else if (_type == 'depositor' && _escrowType == 'Physical' && _stage !== 'ACTIVE') {
+  //       this.steps = this.depositorPhySteps
+  //     }
+  //     else if (_type === 'beneficiary' && _stage !== 'ACTIVE') {
+  //       this.steps = this.beneficiarySteps;
+  //     }
+  //     else if (_stage == 'ACTIVE') {
+  //       this.steps = this.viewSteps;
+  //     }
+  //     else {
+  //       throw new Error('Invalid type provided to SetSteps');
+  //     }
+  //   }
 
-//   depositorSteps = [
-//     {
-//       name: 'Basic Details', step: 1, component: BasicDetailsComponent, route: ''
-//     },
-//     {
-//       name: 'Agreement', step: 2, component: AggrementComponent, route: 'dashboard/edit-escrow/agreement'
-//     },
+  //   depositorSteps = [
+  //     {
+  //       name: 'Basic Details', step: 1, component: BasicDetailsComponent, route: ''
+  //     },
+  //     {
+  //       name: 'Agreement', step: 2, component: AggrementComponent, route: 'dashboard/edit-escrow/agreement'
+  //     },
 
-//     {
-//       name: 'Approve', step: 3, component: AggrementComponent, route: 'dashboard/edit-escrow/approve-details'
-//     },
-//     {
-//       name: 'Add IP\'s', step: 4, component: AggrementComponent, route: 'dashboard/edit-escrow/add-ip'
-//     },
-//     {
-//       name: 'Deposit', step: 5, component: DepositComponent, route: 'dashboard/edit-escrow/deposit'
-//     }
-//   ];
+  //     {
+  //       name: 'Approve', step: 3, component: AggrementComponent, route: 'dashboard/edit-escrow/approve-details'
+  //     },
+  //     {
+  //       name: 'Add IP\'s', step: 4, component: AggrementComponent, route: 'dashboard/edit-escrow/add-ip'
+  //     },
+  //     {
+  //       name: 'Deposit', step: 5, component: DepositComponent, route: 'dashboard/edit-escrow/deposit'
+  //     }
+  //   ];
 
-//   depositorPhySteps = [
-//     {
-//       name: 'Basic Details', step: 1, component: BasicDetailsComponent, route: ''
-//     },
-//     {
-//       name: 'Agreement', step: 2, component: AggrementComponent, route: 'dashboard/edit-escrow/agreement'
-//     },
-//     {
-//       name: 'Deposit', step: 3, component: DepositComponent, route: 'dashboard/edit-escrow/deposit'
-//     },
+  //   depositorPhySteps = [
+  //     {
+  //       name: 'Basic Details', step: 1, component: BasicDetailsComponent, route: ''
+  //     },
+  //     {
+  //       name: 'Agreement', step: 2, component: AggrementComponent, route: 'dashboard/edit-escrow/agreement'
+  //     },
+  //     {
+  //       name: 'Deposit', step: 3, component: DepositComponent, route: 'dashboard/edit-escrow/deposit'
+  //     },
 
-//     {
-//       name: 'Approve', step: 4, component: AggrementComponent, route: 'dashboard/edit-escrow/approve-details'
-//     },
+  //     {
+  //       name: 'Approve', step: 4, component: AggrementComponent, route: 'dashboard/edit-escrow/approve-details'
+  //     },
 
-//   ];
+  //   ];
 
-//   beneficiarySteps = [
-//     {
-//       name: 'Basic Details', step: 1, component: BasicDetailsComponent, route: ''
-//     },
-//     {
-//       name: 'Agreement', step: 2, component: AggrementComponent, route: 'dashboard/edit-escrow/agreement'
-//     },
+  //   beneficiarySteps = [
+  //     {
+  //       name: 'Basic Details', step: 1, component: BasicDetailsComponent, route: ''
+  //     },
+  //     {
+  //       name: 'Agreement', step: 2, component: AggrementComponent, route: 'dashboard/edit-escrow/agreement'
+  //     },
 
-//     {
-//       name: 'Deposit', step: 3, component: DepositComponent, route: 'dashboard/edit-escrow/deposit'
-//     },
-//     {
-//       name: 'Approve', step: 4, component: AggrementComponent, route: 'dashboard/edit-escrow/approve-details'
-//     },
-//     {
-//       name: 'Add IP\'s', step: 5, component: AggrementComponent, route: 'dashboard/edit-escrow/add-ip'
-//     },
+  //     {
+  //       name: 'Deposit', step: 3, component: DepositComponent, route: 'dashboard/edit-escrow/deposit'
+  //     },
+  //     {
+  //       name: 'Approve', step: 4, component: AggrementComponent, route: 'dashboard/edit-escrow/approve-details'
+  //     },
+  //     {
+  //       name: 'Add IP\'s', step: 5, component: AggrementComponent, route: 'dashboard/edit-escrow/add-ip'
+  //     },
 
-//   ];
+  //   ];
 
-    viewSteps = [
+  viewSteps = [
     {
       name: 'Admin Onboarding', step: 1, component: '', route: ''
     },
@@ -145,7 +154,7 @@ export class EditEscrowService {
     {
       name: 'Release', step: 5, component: '', route: 'dashboard/edit-escrow/add-ip'
     },
-        {
+    {
       name: 'Exit Agreement', step: 6, component: '', route: 'dashboard/edit-escrow/add-ip'
     },
 

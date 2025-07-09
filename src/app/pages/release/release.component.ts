@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { ApiRequestService } from '../../services/api-request.service';
-import { DynamicTableModule } from '@ciphersquare/dynamic-table';
+import { DynamicTableComponent, DynamicTableModule } from '@ciphersquare/dynamic-table';
 import { ViewEditReleaseComponent } from './view-edit-release/view-edit-release.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReleaseActionComponent } from './release-action/release-action.component';
@@ -17,7 +17,7 @@ import { ReleaseActionComponent } from './release-action/release-action.componen
   standalone: true
 })
 export class ReleaseComponent {
-
+  @ViewChild(DynamicTableComponent) dynamicTable!: DynamicTableComponent;
   protected readonly environment = environment;
   protected httpHeaders: HttpHeaders;
 
@@ -35,23 +35,23 @@ export class ReleaseComponent {
   }
   CreateReleaseRequest(): void {
     const modalRef = this._ModalService.open(ViewEditReleaseComponent, {
-      size: 'md',
+      size: 'lg',
       backdrop: 'static',
       centered: true
     })
-    modalRef.componentInstance.cancelForm.subscribe((result: string) => {
-      modalRef.close();
-    })
+    modalRef.closed.subscribe(() => {
+      this.dynamicTable.refresh();
+    });
   }
-  actionReleaseRequest(id:string): void {
+  actionReleaseRequest(id: string): void {
     const modalRef = this._ModalService.open(ReleaseActionComponent, {
       size: 'md',
       backdrop: 'static',
       centered: true
     })
     modalRef.componentInstance.escrowId = id;
-    modalRef.componentInstance.cancelForm.subscribe((result: string) => {
-      modalRef.close();
-    })
+    modalRef.closed.subscribe(() => {
+      this.dynamicTable.refresh();
+    });
   }
 }

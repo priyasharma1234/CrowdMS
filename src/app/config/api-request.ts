@@ -17,12 +17,21 @@ export const apiRoutes = {
       url: 'common/upload-document',
     }
   },
-  release:{
-      takeAction: {
+  release: {
+    takeAction: {
       url: 'escrow/release/action',
+    },
+    getConditionList: {
+      url: 'escrow/release/get-condition'
+    },
+    addRelease:{
+      url: 'escrow/release/add'
     }
   },
   escrow: {
+    getEscrowList: {
+      url: 'escrow/release/escrow-list'
+    },
     submitReleaseRequest: {
       url: 'escrow/release/submit',
     },

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ICondition} from './view-release.types';
-import {NgClass, NgForOf} from '@angular/common';
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AddReleaseRequestComponent} from './add-release-request/add-release-request.component';
 import {EditEscrowService} from '../../../../../services/edit-escrow.service';
 
@@ -9,7 +9,8 @@ import {EditEscrowService} from '../../../../../services/edit-escrow.service';
   selector: 'app-view-release',
   imports: [
     NgClass,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './view-release.component.html',
   styleUrl: './view-release.component.scss',

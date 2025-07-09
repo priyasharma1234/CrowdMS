@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 // import { EditEscrowService } from '../../../../../services/edit-escrow.service';
 
@@ -8,8 +8,9 @@ import { EditEscrowService } from 'src/app/services/edit-escrow.service';
   templateUrl: './view-basic-details.component.html',
   styleUrl: './view-basic-details.component.scss'
 })
-export class ViewBasicDetailsComponent {
-    companyDetails = {
+export class ViewBasicDetailsComponent implements OnInit {
+  @Input() userType!: 'depositor' | 'beneficiary';
+  companyDetails = {
     name: '',
     address: '',
     cin: '',
@@ -25,18 +26,32 @@ export class ViewBasicDetailsComponent {
   constructor(
     private _EditEscrowService: EditEscrowService
   ) {
-    const escrowDetails = this._EditEscrowService.escrowDetails;
-    console.log("escrowDetails1111111111",escrowDetails)
-    const userType = escrowDetails?.user_type ? escrowDetails?.user_type : 'depositor';
-    if(userType == undefined) return;
-    if (escrowDetails == undefined) return;
-    this.companyDetails.name = escrowDetails[userType].corporate_details.company_name;
-    this.companyDetails.address = escrowDetails[userType].corporate_details.company_address;
-    this.companyDetails.cin = escrowDetails[userType].corporate_details.company_cin;
-    this.companyDetails.pan = escrowDetails[userType].corporate_details.company_pan;
-    this.repDetails.name = escrowDetails[userType].corporate_details.rep_name;
-    this.repDetails.email = escrowDetails[userType].corporate_details.rep_email;
-    this.repDetails.mobile = escrowDetails[userType].corporate_details.rep_mobile;
-    this.repDetails.altMobile = escrowDetails[userType].corporate_details.rep_alt_mobile ?? '';
+
   }
+  ngOnInit() {
+      this.loadDetails(); 
+  }
+   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userType'] && !changes['userType'].firstChange) {
+      this.loadDetails();
+    }
+  }
+
+  private loadDetails(): void {
+    const escrowDetails = this._EditEscrowService.escrowDetails;
+    console.log("escrowDetails1111111111", escrowDetails);
+
+    if (!this.userType || !escrowDetails || !escrowDetails[this.userType]) return;
+
+    const corp = escrowDetails[this.userType].corporate_details;
+    this.companyDetails.name = corp.company_name;
+    this.companyDetails.address = corp.company_address;
+    this.companyDetails.cin = corp.company_cin;
+    this.companyDetails.pan = corp.company_pan;
+    this.repDetails.name = corp.rep_name;
+    this.repDetails.email = corp.rep_email;
+    this.repDetails.mobile = corp.rep_mobile;
+    this.repDetails.altMobile = corp.rep_alt_mobile ?? '';
+  }
+
 }

@@ -43,5 +43,11 @@ export class EscrowService {
     getDepositData(): Observable<any> {
         return this._apiRequestService.getData(apiRoutes.escrow.depositData);
     }
+    getEscorwList(): Observable<any> {
+        return this._apiRequestService.postData({}, apiRoutes.escrow.getEscrowList);
+    }
+     getReleaseConditionsList(params:any): Observable<any> {
+        return this._apiRequestService.postData(params, apiRoutes.release.getConditionList);
+    }
 
 }

@@ -5,7 +5,7 @@ export type IAgreement = {
   id: number
   escrow_id: number
   type: string
-  document_path: string
+  document_path: string,
   signing_date: string
   effective_date: string
   expiry_date: string
