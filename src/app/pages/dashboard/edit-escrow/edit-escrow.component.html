@@ -53,7 +53,7 @@
                 </div>
 
                 <!-- Line (not after last step) -->
-                <div *ngIf="i < _EditEscrowService.steps.length - 1" class="line flex-fill"
+                <div *ngIf="i < _EditEscrowService.viewSteps.length - 1" class="line flex-fill"
                     [ngClass]="{ 'completed-line': step.step < currentStep, 'upcoming-line': step.step >= currentStep}">
                 </div>
 
