@@ -9,11 +9,14 @@
   padding: 1.5rem;
   border-radius: 12px;
   min-height: 600px;
+  flex-wrap: wrap;
+  
   .certificate-sidebar {
-  width: 250px;
-border-right: 1px solid $gray3;
+border-right:0;
   padding: 1rem;
-
+@include breakpoint('desktop-small',min){
+border-right: 1px solid $gray3;
+}
   ul {
     list-style: none;
     padding: 0;
@@ -22,16 +25,16 @@ border-right: 1px solid $gray3;
       padding: 0.75rem 1rem;
       cursor: pointer;
       border-radius: 8px;
-      transition: background 0.2s;
-
+display: flex;
+    align-items: flex-start;
       &:hover {
         background-color: #f0f4fa;
       }
 
       &.active {
-        background-color: #EBEEF1;
+        background-color:$gray;
         font-weight: 600;
-        color: #1d3557;
+        color:$dark-blue;
       }
     }
   }
@@ -42,11 +45,6 @@ border-right: 1px solid $gray3;
 
 .certificate-content {
   flex: 1;
-  background: #fff;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-
   .certificate-status {
     // background-color: #dcfce7;
     // color: #15803d;
@@ -60,7 +58,7 @@ border-right: 1px solid $gray3;
 
   .certificate-title {
     background-color: #dcfce7;
-    color: #15803d;
+    color: $green;
     font-size: 1.5rem;
     font-weight: 500;
     padding: 0.5rem 1rem;

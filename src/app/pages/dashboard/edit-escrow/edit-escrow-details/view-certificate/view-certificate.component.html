@@ -1,11 +1,11 @@
 <div class="certificate-container">
-  <aside class="sidebar">
+  <aside class="certificate-sidebar">
     <ul>
       <li
         *ngFor="let tab of tabs"
         [class.active]="activeTab === tab"
         (click)="selectTab(tab)"
-      >
+      >  <img src="assets/img/Frame.png" class="me-2">
         {{ tab }}
       </li>
     </ul>

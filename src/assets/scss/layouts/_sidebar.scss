@@ -13,8 +13,9 @@
     padding: 14px 0 14px 40px;
     margin: 0 10px;
     span {
-      svg {
-        stroke: $white;
+      img {
+        // stroke: $white;
+        width:22px;
       }
     }
     &.active{

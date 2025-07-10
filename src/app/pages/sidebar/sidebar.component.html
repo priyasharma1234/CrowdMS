@@ -31,7 +31,7 @@
           *ngIf="_permissionService?.hasModule(obj?.module)" class="dropdown-toggle"
           [ngClass]="{ active: obj?.name == selectedItem }" class="nav-link">
     
-            <span class="pe-3"> <img [src]="obj?.icon"></span>
+            <span class="pe-3"> <img [src]="obj?.icon"  class="icon-img"></span>
              
               {{ obj?.name }}
           
@@ -45,7 +45,7 @@
               <a class="nav-link ps-0" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
                 [routerLinkActive]="'active'" href="javascript:void(0);"
                 (isActiveChange)="$event ?_title = item.value:null">
-                <span class="px-3"><img [src]="item?.icon"></span>{{item.value}}
+                <span class="px-3"><img [src]="item?.icon" class="icon-img"></span>{{item.value}}
               </a>
             </li>
 
