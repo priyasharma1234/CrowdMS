@@ -21,6 +21,7 @@ export class EditEscrowComponent implements OnInit {
       this._Router.navigate(['dashboard']);
       return;
     }
+     this._EditEscrowService.currentStep = 4;
     this._EditEscrowService.currentStep$.pipe(takeUntil(this.destroy$)).subscribe((res: number) => {
       console.log(res);
       const step = this._EditEscrowService.steps.find(x => x.step == res)
