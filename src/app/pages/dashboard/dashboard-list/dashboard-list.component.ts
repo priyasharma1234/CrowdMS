@@ -6,7 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { DynamicTableModule } from '@ciphersquare/dynamic-table';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { environment } from '../../../../environments/environment';
-import { CommonService } from 'src/app/core/services/common.service';
+import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 @Component({
     selector: 'app-dashboard-list',
     imports: [RouterModule, SharedModule, DynamicTableModule],
@@ -17,6 +17,7 @@ export class DashboardListComponent implements OnInit {
     httpHeaders: any;
     dashboardCount: any;
     private _NgxToasterService = inject(NgxToasterService)
+    private _EditEscrowService = inject(EditEscrowService)
     constructor(private _ApiRequestService: ApiRequestService, private router: Router) {
         this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
         console.log("httpHeaders", this.httpHeaders)
@@ -31,7 +32,16 @@ export class DashboardListComponent implements OnInit {
     onTableAction(event: any) {
         console.log('Table action triggered:', event);
         if (event.type === 'edit') {
-            this.router.navigate(['/dashboard/edit-escrow', event?.row?.id]);
+            if (event?.row?.stage == 'DRAFT') {
+                this.router.navigate(['/dashboard/edit-escrow', event?.row?.id]);
+            } else if (event?.row?.stage == 'ACTIVE') {
+                this._EditEscrowService.GetEscrowDetails(event?.row?.id).then(res => {
+                    if (event?.row?.stage == 'ACTIVE') {
+                        this.router.navigate(['dashboard/edit'])
+                        return;
+                    }
+                });
+            }
         }
     }
     async getDashboardData() {

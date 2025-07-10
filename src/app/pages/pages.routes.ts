@@ -43,6 +43,10 @@ export const PagesRoutes: Routes = [
           import('./staff-management/staff-management.routes').then(m => m.staffManagementRoutes)
       },
       {
+        path: 'release-requests',
+        loadComponent: () => import('./release/release.component').then(m => m.ReleaseComponent)
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard'

@@ -1,0 +1,100 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <form>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label>Depositing Person Name</label>
+          <input class="form-control" [value]="physicalDetails?.depositor_name" disabled />
+        </div>
+        <div class="col-md-4">
+          <label>Depositing Mobile Number</label>
+          <input class="form-control" [value]="physicalDetails?.depositor_mobile" disabled />
+        </div>
+        <div class="col-md-4">
+          <label>Select Device</label>
+          <!-- <select class="form-select">
+            <option>HD</option>
+            <option>SSD</option>
+          </select> -->
+          <input class="form-control" [value]="physicalDetails?.device" disabled />
+        </div>
+
+        <div class="col-md-4">
+          <label>Date of Submit</label>
+          <input class="form-control" [value]="physicalDetails?.submit_date" disabled />
+        </div>
+        <div class="col-md-4">
+          <label>Select Primary Location</label>
+          <input class="form-control" [value]="physicalDetails?.primary_location" disabled />
+        </div>
+        <div class="col-md-4">
+          <label>Vault Number/Locker Number</label>
+          <input class="form-control" [value]="physicalDetails?.vault_number" disabled />
+        </div>
+
+        <!-- <div class="col-md-4">
+          <label>Select Verification</label>
+          <select class="form-select">
+            <option>V Basic</option>
+            <option>V Build</option>
+          </select>
+        </div> -->
+
+        <div class="col-md-4">
+          <div class="form-control bg-light d-flex justify-content-between mt-2">
+            <label>Upload KYC Document</label>
+            <a *ngIf="physicalDetails?.kyc" [href]="physicalDetails?.kyc" target="_blank" rel="noopener noreferrer">
+              <img src="assets/img/view.png">
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-control bg-light d-flex justify-content-between mt-2">
+            <label>Upload Device Pict</label>
+            <a *ngIf="physicalDetails?.device_picture" [href]="physicalDetails?.device_picture" target="_blank"
+              rel="noopener noreferrer">
+              <img src="assets/img/view.png">
+            </a>
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-control bg-light d-flex justify-content-between mt-2">
+            <label>Upload Packaging Pic</label>
+            <a *ngIf="physicalDetails?.packaging_picture" [href]="physicalDetails?.packaging_picture" target="_blank"
+              rel="noopener noreferrer">
+              <img src="assets/img/view.png">
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-control bg-light d-flex justify-content-between mt-2">
+            <label>Upload Other Pic</label>
+            <a *ngIf="physicalDetails?.other_picture" [href]="physicalDetails?.other_picture" target="_blank"
+              rel="noopener noreferrer">
+              <img src="assets/img/view.png">
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-control bg-light d-flex justify-content-between mt-2">
+            <label>Upload Other Document</label>
+            <a *ngIf="physicalDetails?.other_documentation" [href]="physicalDetails?.other_documentation"
+              target="_blank" rel="noopener noreferrer">
+              <img src="assets/img/view.png">
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label>Remarks</label>
+          <textarea class="form-control" name="remarks" [value]="physicalDetails?.remarks" rows="3" disabled></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

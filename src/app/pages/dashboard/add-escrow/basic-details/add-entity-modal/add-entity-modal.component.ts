@@ -47,6 +47,8 @@ export class AddEntityModalComponent implements OnInit {
             entity_type: ['', [Validators.required]],
             corpid: [''],
             company_name: ['', [Validators.required]],
+            corporate_identifier: ['', [Validators.required]],
+            user_identifier: ['', [Validators.required]],
             company_pan: ['', [Validators.required]],
             company_cin: ['', [Validators.required]],
             company_address: ['', [Validators.required]],
@@ -88,19 +90,21 @@ export class AddEntityModalComponent implements OnInit {
             entityIdControl?.updateValueAndValidity();
         });
         this.form.get('corpid')?.valueChanges.subscribe((entityId) => {
-            const selectedCorp = this.corporateList.find((corp: any) => corp.corpid === entityId);
+            const selectedCorp = this.corporateList.find((corp: any) => corp.id === entityId);
             if (selectedCorp) {
                 this.form.patchValue({
                     company_name: selectedCorp.company_name,
-                    company_pan: selectedCorp.company_pan,
-                    company_cin: selectedCorp.company_cin,
-                    company_address: selectedCorp.company_address,
-                    rep_name: selectedCorp.rep_name,
-                    rep_email: selectedCorp.rep_email,
-                    rep_mobile: selectedCorp.rep_mobile,
-                    rep_alt_mobile: selectedCorp.rep_alt_mobile,
-                    rep_profile_pic: selectedCorp.rep_profile_pic,
-                    remark: selectedCorp.remark,
+                    company_pan: selectedCorp.corporate_details.company_pan,
+                    company_cin: selectedCorp.corporate_details.company_cin,
+                    corporate_identifier: selectedCorp.corporate_identifier,
+                    user_identifier: selectedCorp.master_user.username,
+                    company_address: selectedCorp.corporate_details.company_address,
+                    rep_name: selectedCorp.corporate_details.rep_name,
+                    rep_email: selectedCorp.corporate_details.rep_email,
+                    rep_mobile: selectedCorp.corporate_details.rep_mobile,
+                    rep_alt_mobile: selectedCorp.corporate_details.rep_alt_mobile,
+                    rep_profile_pic: selectedCorp.corporate_details.rep_profile_pic,
+                    remark: selectedCorp.corporate_details.remark,
                 });
             }
         });
@@ -139,6 +143,7 @@ export class AddEntityModalComponent implements OnInit {
             formData.append('corporate_type', this.entityType === 'depositor' ? '1' : '2');
             formData.append('escrow_type', this.escrowType);
             formData.append('submit_type', this.editId ? 'update' : 'create');
+            formData.append('username', this.form.get('user_identifier')?.value || '');
 
             if (this.editId) {
                 formData.append('id', this.editId);

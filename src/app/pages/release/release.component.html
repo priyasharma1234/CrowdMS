@@ -1,0 +1,10 @@
+<div class="d-flex justify-content-between my-3">
+  <h5 class="mt-3 text-primary">Release Requests</h5>
+  <button class="btn btn-primary" (click)="CreateReleaseRequest()">Add Release Requests</button>
+</div>
+
+<div class="deposit-table gap-4 p-3 mt-3">
+  <dynamic-table [apiUrl]="environment.baseUrl + 'escrow/release/list'" [pageSize]="10"
+                 [httpHeaders]="httpHeaders"   (action)="onTableAction($event)">
+  </dynamic-table>
+</div>
