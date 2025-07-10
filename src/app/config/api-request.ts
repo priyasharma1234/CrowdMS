@@ -30,7 +30,7 @@ export const apiRoutes = {
   },
   escrow: {
      updateTeamMember: {
-      url: 'escrow/release/add'
+      url: 'user/team-members/update'
     },
     getEscrowList: {
       url: 'escrow/release/escrow-list'
