@@ -69,9 +69,9 @@
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" formControlName="rights" [value]="'readonly'"
-                            id="rights-readonly">
-                        <label class="form-check-label" for="rights-readonly">Read Only</label>
+                        <input type="radio" class="form-check-input" formControlName="rights" [value]="'view'"
+                            id="rights-view">
+                        <label class="form-check-label" for="rights-view">View</label>
                     </div>
                     <app-show-errors [ctrl]="addStaffForm.get('rights')" [requiredMesg]="'Rights is Required'">
                     </app-show-errors>

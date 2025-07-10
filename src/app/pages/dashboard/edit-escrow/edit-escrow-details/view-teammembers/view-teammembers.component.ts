@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DynamicTableModule } from '@ciphersquare/dynamic-table';
+import { DynamicTableComponent, DynamicTableModule } from '@ciphersquare/dynamic-table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { apiRoutes } from 'src/app/config/api-request';
 import { InputRestrictionDirective } from 'src/app/core/directives/InputRestriction/input-restriction.directive';
@@ -25,6 +25,7 @@ export class ViewTeammembersComponent {
     protected httpHeaders: HttpHeaders;
     editTeamForm!: FormGroup;
     @ViewChild('editTeamModal') editTeamModal: any;
+    @ViewChild(DynamicTableComponent) dynamicTable!: DynamicTableComponent;
 
     constructor(
         private _ApiRequestService: ApiRequestService,
@@ -40,7 +41,7 @@ export class ViewTeammembersComponent {
             return;
         }
         this.editTeamForm = this.fb.group({
-            id: ['', Validators.required],
+            userid: ['', Validators.required],
             user_type: ['', Validators.required],
             rights: ['', Validators.required],
             name: ['', Validators.required],
@@ -61,7 +62,7 @@ export class ViewTeammembersComponent {
         if ($event.type == 'corporate.team.edit') {
             const row = $event.row;
             this.editTeamForm.patchValue({
-                id: row.id,
+                userid: row.id,
                 user_type: row.user_type,
                 rights: row.rights,
                 name: row.name,
@@ -84,6 +85,7 @@ export class ViewTeammembersComponent {
             this._ApiRequestService.postData({ payload: payload }, apiRoutes.escrow.updateTeamMember).subscribe({
                 next: (res: any) => {
                     if (res?.statuscode == 200) {
+                        this.dynamicTable.refresh();
                         this.modalService.dismissAll();
                         this._NgxToasterService.showSuccess(res?.message, 'Success');
                     } else {
