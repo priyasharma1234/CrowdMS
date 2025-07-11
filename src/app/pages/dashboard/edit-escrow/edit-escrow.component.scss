@@ -1,7 +1,11 @@
 .step-tracker {
     position: relative;
   width: 100%;
-      padding: 23px 36px 45px 36px;
+      padding: 20px 0;
+
+      @media(min-width:992px){
+    padding: 20px 36px;
+}
   .circle {
   width: 25px;
   height: 25px;
@@ -48,8 +52,17 @@ justify-content: center;
 
 }
 .stepname{
-  left:0;
-  font-size: 15px;
+  width:min-content;
+     left:-14px;
+    font-size: 10px;
+      @media(min-width:1200px){
+  font-size: 10px;
+      }
+      @media(min-width:1900px){
+     left: -10px;
+  font-size: 14px;
+          width: max-content;
+      }
 }
 }
 

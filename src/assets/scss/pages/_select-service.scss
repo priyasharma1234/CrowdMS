@@ -11,23 +11,22 @@
   background: $white;
   border: 1px solid $gray4;
   border-radius: 10px;
-  @include breakpoint('desktop-small',max){
-    flex-direction:column;
+  @include breakpoint("desktop-small", max) {
+    flex-direction: column;
   }
   .nav-pills {
     .nav-link {
       color: $text-grey;
       width: max-content;
-        @include breakpoint('phablet',max){
-   width:100%;
-  }
+      @include breakpoint("phablet", max) {
+        width: 100%;
+      }
       &.active {
         background-color: $gray5;
         color: $dark-blue;
         border-radius: 40px;
       }
     }
-  
   }
 }
 
@@ -56,46 +55,48 @@
     // background: #ececec;
     // }
   }
-
 }
 
-.upload-doc{
-
+.upload-doc {
   .custom-file-upload {
-  display:flex;
-  padding: 10px 20px;
-  cursor: pointer;
-  background-color: $white;
-  border-radius: 5px;
-  border: 1px solid $gray4;
-  width: 100%;
+    display: flex;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: $white;
+    border-radius: 5px;
+    border: 1px solid $gray4;
+    width: 100%;
     align-items: center;
     gap: 9px;
-}
-.custom-file-upload:hover {
-  background-color: $gray4;
-}
-input[type="file"] {
-position: absolute;
+  }
+  .custom-file-upload:hover {
+    background-color: $gray4;
+  }
+  input[type="file"] {
+    position: absolute;
     opacity: 0;
     z-index: 9;
-    width:80%;
+    width: 80%;
     height: 100%;
-    top:0
-}
-        
-.view-img{
-position:absolute;
-top:6px;
-right:6px;
-p{
-  a{
-      font-size:12px;
-  @include breakpoint ('desktop-wide',min){
-      font-size:15px;
+    top: 0;
   }
-  
+
+  .view-img {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    p {
+      a {
+        font-size: 12px;
+        @include breakpoint("desktop-wide", min) {
+          font-size: 15px;
+        }
+      }
+    }
   }
 }
-}
+.add-role-btn {
+  position: absolute;
+  right: 25px;
+  top: -10px;
 }

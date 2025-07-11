@@ -1,4 +1,4 @@
-<ul class="nav nav-pills mb-3">
+<ul class="nav nav-pills escrow-tabs2 mb-3 border-bottom">
     <li class="nav-item">
         <button class="nav-link" [class.active]="activeEntity === 'depositor'" (click)="setEntity('depositor')">
             Depositor
@@ -10,14 +10,14 @@
         </button>
     </li>
 </ul>
-<ul class="nav nav-pills mb-3">
+<ul class="nav nav-pills mb-3 escrow-tabs2 border-bottom">
     <li class="nav-item" *ngFor="let tab of subTabs">
         <button class="nav-link" [class.active]="activeSubTab === tab.label" (click)="setSubTab(tab.label)">
             {{ tab.label }}
         </button>
     </li>
 </ul>
-<div class="tab-content p-3 border rounded">
+<div class="tab-content">
     <ng-container [ngSwitch]="activeSubTab">
 
         <app-view-basic-details *ngSwitchCase="'Basic Details'" [userType]="activeEntity" />

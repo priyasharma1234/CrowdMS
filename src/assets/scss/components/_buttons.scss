@@ -41,11 +41,11 @@
     &.btn-bordered {
     background: $white;
     padding: 10px 20px;
-    color: $red;
+    color: $dark-blue;
     border: 0;
-    border:1px solid $red;
+    border:1px solid $dark-blue;
     &:hover {
-      background: $red;
+      background:$dark-blue;
       color: $white;
     }
   }

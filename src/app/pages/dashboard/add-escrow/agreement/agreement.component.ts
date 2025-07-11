@@ -302,7 +302,7 @@ export class AgreementComponent implements OnInit {
 
 
 
-        this.modalService.open(content, { centered: true, size: 'xl' });
+        this.modalService.open(content, { centered: true, size: 'lg' });
     }
 
     handleModalFile(event: Event, fileInput: HTMLInputElement): void {

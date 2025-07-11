@@ -1,8 +1,8 @@
 <div class="modal-header">
-  <h5 class="modal-title">Add Release Requests</h5>
+<h2 class="modal-title w-100 text-center">Add Release Requests</h2>
   <button type="button" class="btn-close" aria-label="Close" (click)="_ActiveModal.dismiss()"></button>
 </div>
-<div class="modal-body" [formGroup]="releaseForm">
+<div class="modal-body p-4" [formGroup]="releaseForm">
   <div class="mb-3">
     <label class="form-label">Select Escrow</label>
     <select class="form-select" formControlName="escrow_id" (change)="onEscrowChange($event)">
@@ -33,16 +33,23 @@
   <div class="mb-3">
     <label class="form-label">Upload Document</label>
     <label class="file-upload d-block p-3 border rounded text-center cursor-pointer">
-      <input type="file" hidden (change)="onFileSelected($event)" />
-      <span class="upload-button fw-semibold text-primary">📤 Upload Document</span>
+<div class="d-flex justify-content-between">
+  <div>     <input type="file" hidden (change)="onFileSelected($event)" />
+      <span class="upload-button fw-semibold text-primary"><img src="assets/img/upload.png" class="pe-2"> Upload Document</span>
 
       <div *ngIf="uploadedFile" class="mt-2">
         <span class="file-name text-dark fw-normal">{{ uploadedFile.name }}</span>
-      </div>
+      </div></div>
 
-      <div *ngIf="fileUrl" class="mt-1">
-        <a [href]="fileUrl" target="_blank" class="btn btn-sm btn-outline-primary">👁️ View Uploaded Document</a>
+      <div>
+             <div *ngIf="fileUrl" class="mt-1">
+        <a [href]="fileUrl" target="_blank" class=""><img src="assets/img/view.png" class="pe-2"></a>
       </div>
+      </div>
+</div>
+ 
+
+ 
     </label>
   </div>
   <div class="mb-3">
@@ -51,7 +58,7 @@
     <app-show-errors [ctrl]="releaseForm.get('remarks')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
   </div>
 </div>
-<div class="modal-footer">
+<div class="modal-footer justify-content-center">
   <button class="btn btn-outline-secondary" (click)="_ActiveModal.dismiss()">Cancel</button>
   <button class="btn btn-primary" (click)="submit()">Submit</button>
 </div>

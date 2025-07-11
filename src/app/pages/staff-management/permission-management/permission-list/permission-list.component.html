@@ -12,8 +12,10 @@
                 <button class="btn btn-primary" (click)="deleteMode = !deleteMode" type="button" cdkOverlayOrigin>Delete
                     Permission</button>
             </div>
+
+           <div class="user-box mt-4">
             <div class="col-12">
-                    <div class="page-title py-2"> Set Permissions </div>
+                    <div class="page-title"> Set Permissions </div>
                     <div class="row">
                         <div class="permitallow-box d-flex p-2" *ngFor="let permission of permissions">
                             <h5 class="mb-3">{{permission.module}}</h5>
@@ -33,6 +35,7 @@
 
                     </div>
                 
+            </div>
             </div>
 
 
