@@ -31,4 +31,7 @@ export class TopBarComponent implements OnInit {
   ngOnInit(): void {
 
   }
+    logOut() {
+    this._AuthCoreService.logout(false);
+  }
 }
