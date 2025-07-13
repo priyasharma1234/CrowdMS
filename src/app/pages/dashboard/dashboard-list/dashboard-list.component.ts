@@ -10,6 +10,7 @@ import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 @Component({
     selector: 'app-dashboard-list',
     imports: [RouterModule, SharedModule, DynamicTableModule],
+    standalone: true,
     templateUrl: './dashboard-list.component.html',
     styleUrl: './dashboard-list.component.scss'
 })
@@ -32,7 +33,7 @@ export class DashboardListComponent implements OnInit {
     onTableAction(event: any) {
         console.log('Table action triggered:', event);
         if (event.type === 'edit') {
-            if (event?.row?.stage == 'DRAFT') {
+            if (['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS'].includes(event?.row?.stage)) {
                 this.router.navigate(['/dashboard/edit-escrow', event?.row?.id]);
             } else if (event?.row?.stage == 'ACTIVE') {
                 this._EditEscrowService.GetEscrowDetails(event?.row?.id).then(res => {

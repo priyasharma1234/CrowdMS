@@ -4,6 +4,7 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditEscrowService } from '../../../../../services/edit-escrow.service';
 import { ViewEditReleaseComponent } from 'src/app/pages/release/view-edit-release/view-edit-release.component';
+import {IReleaseRequest} from '../../edit-escrow-types';
 
 @Component({
     selector: 'app-view-release',
@@ -18,18 +19,25 @@ import { ViewEditReleaseComponent } from 'src/app/pages/release/view-edit-releas
 })
 export class ViewReleaseComponent {
     releaseDocument: string
+    releaseRequests: IReleaseRequest[] = [];
     constructor(
         private _ModalService: NgbModal,
         private _EditEscrowService: EditEscrowService
     ) {
-        this.releaseDocument = this._EditEscrowService.escrowDetails?.release?.supporting_doc || ''
-        this.conditions = JSON.parse(JSON.parse(this._EditEscrowService.escrowDetails?.release.reason ?? '[]')) as ICondition[];
-        console.log('Conditions:', this.conditions);
+      this._EditEscrowService.escrowDetails$?.subscribe((escrowDetails) => {
+        console.log('Escrow Details:', escrowDetails);
+        if (escrowDetails) {
+          this.releaseRequests = escrowDetails.release_request || [];
+          this.releaseDocument = escrowDetails.release?.supporting_doc || '';
+          this.conditions = JSON.parse(JSON.parse(escrowDetails.release?.reason ?? '[]')) as ICondition[];
+          console.log('Conditions:', this.conditions);
+        }
+      });
     }
 
     conditions: any[] | undefined;
+  canAddRelease: boolean = true;
 
-    attachedFileName = '123456.pdf';
 
     toggleSelection(_label: string): void {
         this.conditions = this.conditions?.map(condition => {
@@ -52,6 +60,7 @@ export class ViewReleaseComponent {
         })
         modalRef.componentInstance.escrowId = this._EditEscrowService.escrowDetails?.id;
         modalRef.componentInstance.cancelForm.subscribe((result: string) => {
+          console.log('Modal closed with result:', result);
             modalRef.close();
         })
     }

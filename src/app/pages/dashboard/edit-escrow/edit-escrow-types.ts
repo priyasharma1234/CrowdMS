@@ -33,6 +33,19 @@ export type IPhysicalDeposit = {
 }
 
 
+export type IReleaseRequest = {
+    id: number,
+    escrow_id: number,
+    reason: string
+    status: number,
+    document: string
+    remarks: string
+    admin_remarks: string | null,
+    admin_doc: string | null,
+    created_at: string
+    updated_at:  string
+}
+
 export type IEscrow = {
   release: { ip_address: {address: string; remarks: string }[], reason: string,supporting_doc:string};
   id: number,
@@ -66,6 +79,7 @@ export type IEscrow = {
       remarks: string
     }[],
   },
+  release_request: IReleaseRequest[],
   agreement: IAgreement,
   software_deposit: ISoftwareDeposit[],
   physical_deposit:IPhysicalDeposit

@@ -10,6 +10,16 @@ export const apiRoutes = {
       url: 'auth/logout',
       method: 'POST',
       description: 'Logout API for corporate users'
+    },
+    forgotUserId: {
+      url: 'auth/forgot-userid',
+      method: 'POST',
+      description: 'API to send forgot user ID email'
+    },
+    forgotPassword: {
+      url: 'auth/reset-password',
+      method: 'POST',
+      description: 'API to send forgot password email'
     }
   },
   uploadDocument: {
@@ -131,4 +141,10 @@ export const apiRoutes = {
       url: 'usermanagement/staff/destroy'
     },
   },
+  requests: {
+    takeAction: {
+      url: 'escrow/requests/action',
+    }
+
+  }
 } as const;

@@ -1,0 +1,64 @@
+<div class="modal-header">
+<h2 class="modal-title w-100 text-center">Add Release Requests</h2>
+  <button type="button" class="btn-close" aria-label="Close" (click)="_ActiveModal.dismiss()"></button>
+</div>
+<div class="modal-body p-4" [formGroup]="releaseForm">
+  <div class="mb-3">
+    <label class="form-label">Select Escrow</label>
+    <select class="form-select" formControlName="escrow_id" (change)="onEscrowChange($event)">
+      <option value="">-- Select Escrow --</option>
+      <option *ngFor="let escrow of escrowList" [value]="escrow.id">{{ escrow.escrow_id}}
+    </select>
+    <app-show-errors [ctrl]="releaseForm.get('escrow_id')" [requiredMesg]="'Escrow is Required'"></app-show-errors>
+  </div>
+  <div class="release-container" *ngIf="conditions.length > 0">
+    <h2 class="release-title">Select Release Condition</h2>
+    <div class="condition-grid">
+      <div *ngFor="let cond of conditions" class="condition-card"
+        [class.selected]="releaseForm.get('reason')?.value === cond" [ngClass]="{
+        'green-bg': cond.label === 'Bankruptcy',
+        'cyan-bg': cond.label === 'Insolvency',
+        'pink-bg': cond.label === 'Maintenance obligation not met',
+        'blue-bg': cond.label === 'Custom'
+      }" (click)="releaseForm.get('reason')?.setValue(cond)">
+        <div class="icon">
+          <img [src]="cond.icon" alt="icon" />
+        </div>
+        <div class="label">{{ cond.label }}</div>
+        <div *ngIf="releaseForm.get('reason')?.value === cond" class="checkmark">✔️</div>
+      </div>
+    </div>
+    <app-show-errors [ctrl]="releaseForm.get('reason')" [requiredMesg]="'Condition is Required'"></app-show-errors>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Upload Document</label>
+    <label class="file-upload d-block p-3 border rounded text-center cursor-pointer">
+<div class="d-flex justify-content-between">
+  <div>     <input type="file" hidden (change)="onFileSelected($event)" />
+      <span class="upload-button fw-semibold text-primary"><img src="assets/img/upload.png" class="pe-2"> Upload Document</span>
+
+      <div *ngIf="uploadedFile" class="mt-2">
+        <span class="file-name text-dark fw-normal">{{ uploadedFile.name }}</span>
+      </div></div>
+
+      <div>
+             <div *ngIf="fileUrl" class="mt-1">
+        <a [href]="fileUrl" target="_blank" class=""><img src="assets/img/view.png" class="pe-2"></a>
+      </div>
+      </div>
+</div>
+ 
+
+ 
+    </label>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Remarks*</label>
+    <textarea class="form-control" formControlName="remarks" rows="3" placeholder="Enter remarks"></textarea>
+    <app-show-errors [ctrl]="releaseForm.get('remarks')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
+  </div>
+</div>
+<div class="modal-footer justify-content-center">
+  <button class="btn btn-outline-secondary" (click)="_ActiveModal.dismiss()">Cancel</button>
+  <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>

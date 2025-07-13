@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-primary" (click)="CreateReleaseRequest()">Release Request</button>
+  <button class="btn btn-primary" [disabled]="releaseRequests.length > 0 || canAddRelease == false" (click)="CreateReleaseRequest()">Release Request</button>
 </div>
 <div class="release-container">
   <h2 class="release-title">Preview Release Condition</h2>
@@ -21,7 +21,7 @@
     <label>Other Document</label>
     <div class="doc-box">
       <div class="icon">📄</div>
-      <a class="filename" (click)="openInNewTab()">{{ attachedFileName }}</a>
+      <a class="filename" (click)="openInNewTab()">View</a>
     </div>
   </div>
 </div>

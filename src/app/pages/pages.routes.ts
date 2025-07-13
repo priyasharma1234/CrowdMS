@@ -47,6 +47,10 @@ export const PagesRoutes: Routes = [
         loadComponent: () => import('./release/release.component').then(m => m.ReleaseComponent)
       },
       {
+        path: 'requests',
+        loadComponent: () => import('./requests/requests.component').then(m => m.RequestsComponent)
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard'

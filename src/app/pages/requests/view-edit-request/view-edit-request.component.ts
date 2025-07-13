@@ -12,13 +12,14 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 import {EditEscrowService} from '../../../services/edit-escrow.service';
 
 @Component({
-    selector: 'app-view-edit-release',
+    selector: 'app-view-edit-request',
     imports: [NgIf, NgForOf, CommonModule, ReactiveFormsModule, FormsModule, ShowErrorsComponent],
     standalone: true,
-    templateUrl: './view-edit-release.component.html',
-    styleUrl: './view-edit-release.component.scss'
+    templateUrl: './view-edit-request.component.html',
+    styleUrl: './view-edit-request.component.scss'
 })
-export class ViewEditReleaseComponent implements OnInit {
+export class ViewEditRequestComponent implements OnInit {
+  heading = '';
     releaseForm: FormGroup;
     selectedCondition: string | null = 'Bankruptcy';
     uploadedFile: File | null = null;

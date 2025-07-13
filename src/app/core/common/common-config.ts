@@ -169,6 +169,13 @@ export const Side_Bar: any = [
     is_active: 1,
     icon: 'assets/img/svg/release-requests.svg',
     routeUrl: 'release-requests',
+  },
+  {
+    id: 4,
+    name: 'Requests',
+    is_active: 1,
+    icon: 'assets/img/svg/requests.svg',
+    routeUrl: 'requests',
   }
 
 ] as const;

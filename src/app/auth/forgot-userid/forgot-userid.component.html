@@ -8,10 +8,10 @@
   <form class="login-form">
     <div class="form-group position-relative">
       <div class="input-group-prepend"><img src="assets/img/email.png" class="pe-1"> </div>
-      <input type="text" id="name" class="form-control" required>
+      <input type="text" id="name" class="form-control" required name="email" [(ngModel)]="email">
       <label class="form-control-placeholder" for="name">Email</label>
     </div>
 
-    <button type="submit" class="btn btn-primary w-100"> Submit </button>
+    <button type="submit" class="btn btn-primary w-100" (click)="SubmitForm()"> Submit </button>
   </form>
 </div>

@@ -29,7 +29,7 @@ export class EditEscrowDetailsComponent {
     { label: 'Team Members', component: 'team' },
     { label: 'Deposit', component: 'deposit' },
     { label: 'Release', component: 'release' },
-    { label: 'Certificate', component: 'certificate' }
+    // { label: 'Certificate', component: 'certificate' }
   ];
 
   setEntity(tab: 'depositor' | 'beneficiary') {
