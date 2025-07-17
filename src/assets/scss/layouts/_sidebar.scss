@@ -13,7 +13,7 @@
     padding: 14px 0 14px 40px;
     span {
       svg {
-        stroke: $white;
+        fill: $white;
       }
     }
     &.active {
@@ -22,7 +22,7 @@
       border-left:5px solid $red;
       span {
         svg {
-          stroke: $red;
+          fill: $red;
         }
       }
     }

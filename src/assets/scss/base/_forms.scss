@@ -113,6 +113,14 @@ border:1px solid #E6EFF5;
 }
 // --login input css-
 .login-form {
+     &.ng-untouched{
+        .form-control-placeholder {
+            top: -15px;
+                background-color: #fff;
+    padding: 0 5px;
+        }
+
+      }
   .form-control-placeholder {
   position: absolute;
   top: 0;
@@ -145,4 +153,19 @@ text-decoration:none;
 
 }
  
+}
+.form-select{
+      padding: 12px 15px;
+    line-height: 1.5;
+}
+
+.ng-select{
+  &.ng-select-multiple{
+   .ng-select-container{
+    .ng-value-container{
+             padding: 12px 15px;
+    line-height: 1.5;
+    }
+   } 
+  }
 }
