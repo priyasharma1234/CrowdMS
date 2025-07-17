@@ -73,10 +73,7 @@ export class ReleaseConditionComponent implements OnInit {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Physical'
             }
-
         });
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {

@@ -27,11 +27,11 @@
                     {{ doc.value }}
                 </button>
             </div>
-            <app-show-errors [ctrl]="depositForm.get('documents')"
-                [requiredMesg]="'At least one Document is required'"></app-show-errors>
+            <!-- <app-show-errors [ctrl]="depositForm.get('documents')"
+                [requiredMesg]="'At least one Document is required'"></app-show-errors> -->
         </div>
         <!-- </div> -->
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <label>Verification</label>
             <ng-select [items]="verificationOptions" bindLabel="value" bindValue="id"
                 formControlName="verification_type" [multiple]="true" placeholder="Select Verification"
@@ -39,6 +39,15 @@
             </ng-select>
             <app-show-errors [ctrl]="depositForm.get('verification_type')"
                 [requiredMesg]="'Verification is Required'"></app-show-errors>
+        </div> -->
+         <div class="col-md-12">
+            <label>Verification</label>
+        <ng-select [items]="verificationOptions" bindLabel="value" bindValue="id" formControlName="verification_type"
+            [multiple]="true" placeholder="Select Verification" [closeOnSelect]="false" [searchable]="false">
+            <ng-template ng-option-tmp let-item="item" let-index="index">
+                <span [class.text-muted]="item.disabled">{{ item.value }}</span>
+            </ng-template>
+        </ng-select>
         </div>
 
         <div class="col-md-12">
@@ -71,18 +80,13 @@
                     {{ cert.value }}
                 </button>
             </div>
-            <app-show-errors [ctrl]="depositForm.get('certificates')"
-                [requiredMesg]="'At least one Certificate is required'"></app-show-errors>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" *ngIf="selectedCertificates.size > 0">
             <label>Required these Certificates for</label>
-              <select class="form-select" formControlName="certificates_for">
+            <select class="form-select" formControlName="certificates_for">
                 <option *ngFor="let option of verificationFor" [value]="option.value">{{ option.value }}</option>
             </select>
-            <!-- <ng-select [items]="verificationOptions" bindLabel="value" bindValue="id" formControlName="certificates_for"
-                [multiple]="true" placeholder="Select certificate usage" [closeOnSelect]="false" [searchable]="false">
-            </ng-select> -->
             <app-show-errors [ctrl]="depositForm.get('certificates_for')"
                 [requiredMesg]="'Required these Certificates for is Required'"></app-show-errors>
         </div>

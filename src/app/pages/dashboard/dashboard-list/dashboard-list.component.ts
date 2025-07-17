@@ -7,6 +7,7 @@ import { DynamicTableModule } from '@ciphersquare/dynamic-table';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { environment } from '../../../../environments/environment';
 import { EditEscrowService } from 'src/app/services/edit-escrow.service';
+import { CommonService } from 'src/app/core/services/common.service';
 @Component({
     selector: 'app-dashboard-list',
     imports: [RouterModule, SharedModule, DynamicTableModule],
@@ -19,9 +20,10 @@ export class DashboardListComponent implements OnInit {
     dashboardCount: any;
     private _NgxToasterService = inject(NgxToasterService)
     private _EditEscrowService = inject(EditEscrowService)
+    private _CommonService = inject(CommonService)
     constructor(private _ApiRequestService: ApiRequestService, private router: Router) {
         this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
-        console.log("httpHeaders", this.httpHeaders)
+        this._CommonService.pageTitle.next('Dashboard');
     }
 
     ngOnInit() {

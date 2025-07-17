@@ -20,5 +20,6 @@ export const regExpPattern: { [key: string]: string | RegExp } = {
   accountNumber: /^[A-Za-z0-9]{9,18}$/,
   pincode: /^\d{6}$/,
   alphanumericdot: /^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/,
-  alphaWithSpecialChar: /^[a-zA-Z\s\W]+$/
+  alphaWithSpecialChar: /^[a-zA-Z\s\W]+$/,
+  cin: /^[LU][0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$/
 };

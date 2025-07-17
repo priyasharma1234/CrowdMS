@@ -3,7 +3,7 @@
         <p class="mb-0">New update received. Please review and take action.<a>Click Here To Start.</a></p>
       </div>
       <div class="row">
-             <div class="col-12 col-lg-4">
+             <div class="col-12 col-lg-3">
 
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
@@ -18,7 +18,7 @@
 
           </div>
         </div>
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-3">
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Awaiting Deposit Escrow</h4>
@@ -32,10 +32,24 @@
 
           </div>
         </div>
-              <div class="col-12 col-lg-4">
+              <div class="col-12 col-lg-3">
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Awaiting Review Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.AWAITING_REVIEW}}</h2>
+            </div>
+            <div class="position-relative">
+              <div class="box"></div>
+              <div class="box-img"><img src="assets/img/user.png"></div>
+
+            </div>
+
+          </div>
+        </div>
+                   <div class="col-12 col-lg-3">
+          <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
+            <div>
+              <h4 class="text-primary">Active Escrow</h4>
               <h2 class="font-large">{{dashboardCount?.AWAITING_REVIEW}}</h2>
             </div>
             <div class="position-relative">

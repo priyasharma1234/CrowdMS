@@ -36,9 +36,9 @@ export class DepositComponent implements OnInit {
             primary_account: [{ value: 'AWS', disabled: true }, Validators.required],
             verification_type: [[], Validators.required],
             verification_for: ['', Validators.required],
-            certificates_for: [, Validators.required],
-            documents: [[], Validators.required],
-            certificates: [[], Validators.required]
+            certificates_for: [''],
+            documents: [[]],
+            certificates: [[]]
         });
     }
 
@@ -46,7 +46,10 @@ export class DepositComponent implements OnInit {
         const response = await lastValueFrom(this._EscrowService.getDepositData());
         console.log("response", response);
         this.uploadOptions = response?.data?.uploadOptions || [];
-        this.verificationOptions = response?.data?.verificationOptions || [];
+        this.verificationOptions = (response?.data?.verificationOptions || []).map((opt: any) => ({
+            ...opt,
+            disabled: false
+        }));
         this.certificateOptions = response?.data?.certificateOptions || [];
         this.verificationFor = response?.data?.verificationFor || [];
         this._EscrowService.getEscrowId().subscribe((id: any) => {
@@ -56,10 +59,23 @@ export class DepositComponent implements OnInit {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Physical'
+            }
+        });
+        this.depositForm.get('verification_type')?.valueChanges.subscribe((selected: string[]) => {
+            const ctrl = this.depositForm.get('verification_type');
+
+            const isNoneSelected = selected?.includes('None');
+
+            if (isNoneSelected && selected.length > 1) {
+                ctrl?.setValue(['None'], { emitEvent: false });
             }
 
+            this.verificationOptions = this.verificationOptions.map(opt => {
+                return {
+                    ...opt,
+                    disabled: isNoneSelected ? opt.id !== 'None' : false
+                };
+            });
         });
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
@@ -94,15 +110,38 @@ export class DepositComponent implements OnInit {
         this.depositForm.get('documents')?.markAsTouched();
     }
 
+    // toggleCertificate(cert: string) {
+    //     if (this.selectedCertificates.has(cert)) {
+    //         this.selectedCertificates.delete(cert);
+    //     } else {
+    //         this.selectedCertificates.add(cert);
+    //     }
+    //     this.depositForm.get('certificates')?.setValue(Array.from(this.selectedCertificates));
+    //     this.depositForm.get('certificates')?.markAsTouched();
+    // }
     toggleCertificate(cert: string) {
         if (this.selectedCertificates.has(cert)) {
             this.selectedCertificates.delete(cert);
         } else {
             this.selectedCertificates.add(cert);
         }
-        this.depositForm.get('certificates')?.setValue(Array.from(this.selectedCertificates));
+
+        const selected = Array.from(this.selectedCertificates);
+        this.depositForm.get('certificates')?.setValue(selected);
         this.depositForm.get('certificates')?.markAsTouched();
+
+        const certsForCtrl = this.depositForm.get('certificates_for');
+
+        if (selected.length > 0) {
+            certsForCtrl?.setValidators(Validators.required);
+        } else {
+            certsForCtrl?.clearValidators();
+            certsForCtrl?.setValue(null); 
+        }
+
+        certsForCtrl?.updateValueAndValidity();
     }
+
 
     async submit() {
         this.depositForm.markAllAsTouched();

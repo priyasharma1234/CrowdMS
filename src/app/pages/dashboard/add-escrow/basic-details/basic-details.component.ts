@@ -45,11 +45,10 @@ export class BasicDetailsComponent implements OnInit {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Software'
-            }
+            } 
 
         });
+
         this._EscrowService.getDepositorId().subscribe((id: any) => {
             console.log("depositorId", id)
             this.depositorId = id;

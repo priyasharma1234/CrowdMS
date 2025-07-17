@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import {ApiRequestService} from '../../services/api-request.service';
 import {NgxToasterService} from '../../core/services/toasterNgs.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {apiRoutes} from '../../config/api-request';
 import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-forgot-userid',
   imports: [
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './forgot-userid.component.html',
   styleUrl: './forgot-userid.component.scss',

@@ -55,8 +55,6 @@ export class DepositPhysicalComponent implements OnInit {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Physical'
             }
 
         });
