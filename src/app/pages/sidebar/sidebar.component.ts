@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 import { SidebarService } from './sidebar-service.service';
 import { PermissionServiceService } from 'src/app/core/services/permission-service.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SafeHtmlPipe } from 'src/app/core/pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,7 +19,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgForOf,
     RouterLink,
     NgClass,
-    SharedModule
+    SharedModule,
+    SafeHtmlPipe
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',

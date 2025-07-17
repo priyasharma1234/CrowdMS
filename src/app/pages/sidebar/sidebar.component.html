@@ -31,7 +31,9 @@
           *ngIf="_permissionService?.hasModule(obj?.module)" class="dropdown-toggle"
           [ngClass]="{ active: obj?.name == selectedItem }" class="nav-link">
     
-            <span class="pe-3"> <img [src]="obj?.icon"  class="icon-img"></span>
+            <span class="pe-3">
+               <span [innerHTML]="obj?.icon | safeHtml" title="{{obj?.name}}" class="svg-outer"></span>
+            </span>
              
               {{ obj?.name }}
           
