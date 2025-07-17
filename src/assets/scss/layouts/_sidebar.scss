@@ -11,17 +11,20 @@
   .nav-link {
     color: $white;
     padding: 14px 0 14px 40px;
-    margin: 0 10px;
     span {
-      img {
-        // stroke: $white;
-        width:22px;
+      svg {
+        fill: $white;
       }
     }
-    &.active{
-       background:$red;
-           border-radius: 10px;
-           color:$white;
+    &.active {
+      background: #052139;
+      color: $red;
+      border-left:5px solid $red;
+      span {
+        svg {
+          fill: $red;
+        }
+      }
     }
   }
 
