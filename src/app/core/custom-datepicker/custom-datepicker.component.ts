@@ -9,7 +9,7 @@ import { CommonService } from '../services/common.service';
   selector: 'app-custom-datepicker',
   imports: [CommonModule,
     FormsModule,
-    ReactiveFormsModule,BsDatepickerModule],
+    ReactiveFormsModule, BsDatepickerModule],
   templateUrl: './custom-datepicker.component.html',
   styleUrls: ['./custom-datepicker.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -115,6 +115,7 @@ export class CustomDatepickerComponent implements OnInit, OnChanges, AfterViewIn
 
     let dt: any;
     if (!v) {
+      this.onChange()
       return
     }
     console.log(v);
@@ -148,6 +149,7 @@ export class CustomDatepickerComponent implements OnInit, OnChanges, AfterViewIn
     let dt: any;
 
     if (!v) {
+      this.onChange();
       return
     }
     if (this.dateFormate && this.input != 'Invalid Date') {
@@ -208,6 +210,11 @@ export class CustomDatepickerComponent implements OnInit, OnChanges, AfterViewIn
 
   writeValue(input: any) {
     this.input = input;
+
+    console.log("write value called", this.input);
+    if (input === null || input === '') {
+      this.onChange(null);  // Important for manual clearing
+    }
 
     setTimeout(() => {
       this.setFloatingLable();

@@ -45,6 +45,7 @@ export class StaffListComponent {
         });
          modalRef.componentInstance.editId = id;
         modalRef.result.finally(() => {
+            this.dynamicTable.refresh()
 
         });
     }
