@@ -24,7 +24,7 @@
             </div>
         
             
-            <p *ngIf="formData"><img src="assets/img/edit2.png" class="pe-1"> Edit Upload Document</p>
+            <p *ngIf="formData"><img src="assets/img/edit2.png" class="pe-1"></p>
         </div>
         <div class="card mt-2 p-4 d-flex justify-content-between flex-row flex-wrap"  *ngIf="formData">
             <p>Signing Date: {{formData?.signing_date}}</p>
@@ -80,7 +80,7 @@
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
                     [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
 
-                <span class="highlight"></span>
+                
                 <app-show-errors [ctrl]="agreementDocumentForm.get('signing_date')"
                     [requiredMesg]="'Signing date is Required'">
                 </app-show-errors>
@@ -115,19 +115,19 @@
                     [requiredMesg]="'Document is Required'">
                 </app-show-errors>
 
-                <p class="mb-1" *ngIf="agreementDocumentForm.get('document_url')?.value">
+                <p class="mt-3" *ngIf="agreementDocumentForm.get('document_url')?.value">
                     <a [href]="agreementDocumentForm.get('document_url')?.value" target="_blank"
-                        class="text-decoration-none">
-                        👁️ View Uploaded Image
+                        class="text-decoration-none view-border me-3">
+                        <img src="assets/img/view.png" class="pe-2"> Uploaded Image
                     </a>
-                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearModalDocument()">
-                        Remove
+                    <button type="button" class="btn border-0 p-0" (click)="clearModalDocument()">
+                       <img src="assets/img/delete.png">
                     </button>
                 </p>
             </div>
         </form>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer d-flex justify-content-center">
         <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
         <button class="btn btn-primary" [disabled]="!agreementDocumentForm.valid"
             (click)="submitModal(modal)">Submit</button>
