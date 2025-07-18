@@ -17,7 +17,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 })
 export class DashboardListComponent implements OnInit {
     httpHeaders: any;
-    dashboardCount: any;
+    dashboardData: any;
     private _NgxToasterService = inject(NgxToasterService)
     private _EditEscrowService = inject(EditEscrowService)
     private _CommonService = inject(CommonService)
@@ -52,8 +52,8 @@ export class DashboardListComponent implements OnInit {
             .subscribe({
                 next: (res: any) => {
                     if (res?.statuscode == 200) {
-                        this.dashboardCount = res?.data;
-                        console.log("dashboardCount", this.dashboardCount)
+                        this.dashboardData = res?.data;
+                        console.log("dashboardCount", this.dashboardData)
                         this._NgxToasterService.showSuccess(res.message, "Success");
                     } else {
                         this._NgxToasterService.showError(res?.message, "Error");

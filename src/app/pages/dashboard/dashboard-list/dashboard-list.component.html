@@ -1,24 +1,24 @@
   <div class="notification">
         <div><img src="assets/img/notification.png" alt="sprintexcode"></div>
-        <p class="mb-0">New update received. Please review and take action.<a>Click Here To Start.</a></p>
+        <p class="mb-0">{{dashboardData?.dashboard_message}}<a>Click Here To Start.</a></p>
       </div>
       <div class="row">
-             <div class="col-12 col-lg-3">
+             <div class="col-12 col-lg-3" *ngFor="let count of dashboardData?.dashboard_count">
 
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
-              <h4 class="text-primary">Draft Escrow</h4>
-              <h2 class="font-large">{{dashboardCount?.DRAFT}}</h2>
+              <h4 class="text-primary">{{count?.name}}</h4>
+              <h2 class="font-large">{{count?.count}}</h2>
             </div>
             <div class="position-relative">
               <div class="box box-pink"></div>
-              <div class="box-img"><img src="assets/img/user-clock.png"></div>
+              <div class="box-img"><img [src]="count?.icon"></div>
 
             </div>
 
           </div>
         </div>
-        <div class="col-12 col-lg-3">
+        <!-- <div class="col-12 col-lg-3">
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Awaiting Deposit Escrow</h4>
@@ -31,8 +31,8 @@
             </div>
 
           </div>
-        </div>
-              <div class="col-12 col-lg-3">
+        </div> -->
+              <!-- <div class="col-12 col-lg-3">
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Awaiting Review Escrow</h4>
@@ -45,8 +45,8 @@
             </div>
 
           </div>
-        </div>
-                   <div class="col-12 col-lg-3">
+        </div> -->
+                   <!-- <div class="col-12 col-lg-3">
           <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
             <div>
               <h4 class="text-primary">Active Escrow</h4>
@@ -59,7 +59,7 @@
             </div>
 
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- <div class="filter-box d-flex gap-4 p-3 mt-3">

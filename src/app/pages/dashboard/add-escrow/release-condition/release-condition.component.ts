@@ -59,7 +59,7 @@ export class ReleaseConditionComponent implements OnInit {
     ngOnInit(): void {
         this.releaseForm = this.fb.group({
             release_conditions: [[], Validators.required],
-            document: [null, Validators.required],
+            document: [null],
         });
 
         this.customForm = this.fb.group({
@@ -148,7 +148,7 @@ export class ReleaseConditionComponent implements OnInit {
                 isCustom: true
             };
             this.defaultOptions.push(newCustom);
-            console.log("")
+            console.log("  this.defaultOptions",  this.defaultOptions)
             this.allOptions = [...this.defaultOptions]
             modalRef.close();
         }
@@ -159,8 +159,8 @@ export class ReleaseConditionComponent implements OnInit {
         const index = this.allOptions.findIndex(opt => opt.key === optionKey && opt.isCustom);
         if (index !== -1) {
             this.allOptions.splice(index, 1);
+            this.defaultOptions.splice(index, 1);
         }
-
         const selected = this.releaseForm.get('release_conditions')?.value || [];
         this.releaseForm.patchValue({
             release_conditions: selected.filter((k: string) => k !== optionKey),

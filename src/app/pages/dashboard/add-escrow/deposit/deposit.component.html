@@ -18,7 +18,7 @@
                 </button>
             </div> -->
         <div class="col-12">
-            <label class="mb-2">Select All the Mandatory Documents for the Depositor to Upload*</label>
+            <label class="mb-2">Select All the Mandatory Documents for the Depositor to Upload</label>
             <div class="d-flex flex-wrap gap-2">
                 <button type="button" *ngFor="let doc of uploadOptions" (click)="toggleDocument(doc.value)" [ngClass]="{
                 'btn-primary': selectedDocuments.has(doc.value),
