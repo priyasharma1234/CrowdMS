@@ -26,11 +26,11 @@
             
             <p *ngIf="formData"><img src="assets/img/edit2.png" class="pe-1"></p>
         </div>
-        <div class="card mt-2 p-4 d-flex justify-content-between flex-row flex-wrap"  *ngIf="formData">
+        <div class="card mt-2 gap-3 p-4 d-flex justify-content-between flex-row flex-wrap"  *ngIf="formData">
             <p>Signing Date: {{formData?.signing_date}}</p>
             <p>Effective Date: {{formData?.effective_date}}</p>
             <p>Expiry Date: {{formData?.expiry_date}}</p>
-            <p>Document Url:      <a [href]="formData?.document_url" target="_blank"
+            <p><a [href]="formData?.document_url" target="_blank"
                         class="text-decoration-none view-border">
                         <img src="assets/img/view.png" class="pe-1"> View Document Url
                     </a></p>
