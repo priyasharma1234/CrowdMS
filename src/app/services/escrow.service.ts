@@ -7,17 +7,29 @@ import { apiRoutes } from '../config/api-request';
     providedIn: 'root',
 })
 export class EscrowService {
-    private selectedService$ = new BehaviorSubject<string | null>(null);
+    private selectedService$ = new BehaviorSubject<string | null>(localStorage.getItem('selected_service'));
     private selectedEscrowID$ = new BehaviorSubject<string | null>(null);
     private selectedDepositorID$ = new BehaviorSubject<string | null>(null);
     private selectedbeneID$ = new BehaviorSubject<string | null>(null);
 
     private _apiRequestService = inject(ApiRequestService);
-    setService(serviceKey: string) {
+    setService(serviceKey: string): void {
+        localStorage.setItem('selected_service', serviceKey);
         this.selectedService$.next(serviceKey);
     }
-    getService() {
+
+    getService(): Observable<string | null> {
+        const localValue = localStorage.getItem('selected_service');
+        if (!this.selectedService$.value && localValue) {
+            this.selectedService$.next(localValue);
+        }
+
         return this.selectedService$.asObservable();
+    }
+
+    clearService(): void {
+        localStorage.removeItem('selected_service');
+        this.selectedService$.next(null);
     }
     setDepositorId(id: string) {
         this.selectedDepositorID$.next(id);
@@ -46,7 +58,7 @@ export class EscrowService {
     getEscorwList(): Observable<any> {
         return this._apiRequestService.postData({}, apiRoutes.escrow.getEscrowList);
     }
-     getReleaseConditionsList(params:any): Observable<any> {
+    getReleaseConditionsList(params: any): Observable<any> {
         return this._apiRequestService.postData(params, apiRoutes.release.getConditionList);
     }
 

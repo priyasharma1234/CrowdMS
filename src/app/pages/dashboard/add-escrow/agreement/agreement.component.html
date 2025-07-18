@@ -16,10 +16,22 @@
     </div>
     <div class="mb-3" *ngIf="agreementForm.get('agreement_type')?.value">
         <label for="agreementDoc">Upload {{ agreementForm.get('agreement_type')?.value | titlecase }} Document</label>
-        <p>An Escrow Agreement between the software developer or beneficiary and the escrow agent.</p>
+        <p>{{agreementForm.get('agreement_type')?.value == 'triparty' ? 'An Escrow Agreement defining rights and release terms between depositor, beneficiary and agent.' : 'An Escrow Agreement between the software developer or beneficiary and the escrow agent.'}} </p>
         <div class="d-flex align-items-center gap-2 upload-doc p-3" role="button" (click)="openModal(content)">
             <img src="assets/img/upload.png">
             <span class="text-primary">Upload document<p class="mb-0">File size must be less than 5mb</p></span>
+            
+            <p *ngIf="formData"> Edit Upload Document</p>
+        </div>
+        <div class="card"  *ngIf="formData">
+            <p>Signing Date: {{formData?.signing_date}}</p>
+            <p>Effective Date: {{formData?.effective_date}}</p>
+            <p>Expiry Date: {{formData?.expiry_date}}</p>
+            <p>Document Url:      <a [href]="formData?.document_url" target="_blank"
+                        class="text-decoration-none">
+                        👁️ View Document Url
+                    </a></p>
+
         </div>
     </div>
 

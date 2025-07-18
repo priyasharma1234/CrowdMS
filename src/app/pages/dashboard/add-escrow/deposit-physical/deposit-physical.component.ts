@@ -25,6 +25,8 @@ export class DepositPhysicalComponent implements OnInit {
         { controlName: 'kyc', label: 'KYC of Depositing Person' },
         { controlName: 'device_picture', label: 'Upload Device Picture' },
         { controlName: 'packaging_picture', label: 'Upload Packaging Pic' },
+        { controlName: 'vapt_certificate', label: 'Upload VAPT Certificate' },
+        { controlName: 'iso_certificate', label: 'Upload ISO Certificate' },
         { controlName: 'other_picture', label: 'Upload Other Picture' },
         { controlName: 'other_documentation', label: 'Upload Other Documentation' }
     ];
@@ -55,8 +57,6 @@ export class DepositPhysicalComponent implements OnInit {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Physical'
             }
 
         });
@@ -71,8 +71,10 @@ export class DepositPhysicalComponent implements OnInit {
             remarks: [''],
             device_picture: ['', Validators.required],
             packaging_picture: ['', Validators.required],
-            other_picture: ['', Validators.required],
-            other_documentation: ['', Validators.required]
+            vapt_certificate: [''],
+            iso_certificate: [''],
+            other_picture: [''],
+            other_documentation: ['']
         });
         const response = await lastValueFrom(this._EscrowService.getDepositData());
         this.devices = response?.data?.devices || [];
@@ -96,6 +98,8 @@ export class DepositPhysicalComponent implements OnInit {
             remarks: this.depositData?.remarks,
             device_picture: this.depositData?.device_picture,
             packaging_picture: this.depositData?.packaging_picture,
+            vapt_certificate: this.depositData?.vapt_certificate,
+            iso_certificate: this.depositData?.iso_certificate,
             other_picture: this.depositData?.other_picture,
             other_documentation: this.depositData?.other_documentation,
         })

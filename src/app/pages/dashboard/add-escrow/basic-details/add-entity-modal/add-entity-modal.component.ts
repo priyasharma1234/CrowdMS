@@ -49,15 +49,15 @@ export class AddEntityModalComponent implements OnInit {
             company_name: ['', [Validators.required]],
             corporate_identifier: ['', [Validators.required]],
             user_identifier: ['', [Validators.required]],
-            company_pan: ['', [Validators.required]],
-            company_cin: ['', [Validators.required]],
+            company_pan: ['', [Validators.required,Validators.pattern(regExpPattern['PAN'])]],
+            company_cin: ['', [Validators.required,Validators.pattern(regExpPattern['cin'])]],
             company_address: ['', [Validators.required]],
             rep_name: ['', [Validators.required]],
             rep_email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
-            rep_mobile: ['', [Validators.required]],
-            rep_alt_mobile: [''],
-            rep_profile_pic: [null, Validators.required],
-            remark: ['', [Validators.required]],
+            rep_mobile: ['', [Validators.required, Validators.pattern(regExpPattern['mobile'])]],
+            rep_alt_mobile: ['',[Validators.pattern(regExpPattern['mobile'])]],
+            rep_profile_pic: [null, Validators.required]
+            // remark: ['', [Validators.required]],
         });
 
     }
@@ -81,7 +81,7 @@ export class AddEntityModalComponent implements OnInit {
                     rep_mobile: '',
                     rep_alt_mobile: '',
                     rep_profile_pic: '',
-                    remark: ''
+                    // remark: ''
                 });
                 entityIdControl?.clearValidators();
                 entityIdControl?.setValue('');
@@ -104,7 +104,7 @@ export class AddEntityModalComponent implements OnInit {
                     rep_mobile: selectedCorp.corporate_details.rep_mobile,
                     rep_alt_mobile: selectedCorp.corporate_details.rep_alt_mobile,
                     rep_profile_pic: selectedCorp.corporate_details.rep_profile_pic,
-                    remark: selectedCorp.corporate_details.remark,
+                    // remark: selectedCorp.corporate_details.remark,
                 });
             }
         });

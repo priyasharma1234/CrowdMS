@@ -7,6 +7,7 @@ import { DynamicTableModule } from '@ciphersquare/dynamic-table';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { environment } from '../../../../environments/environment';
 import { EditEscrowService } from 'src/app/services/edit-escrow.service';
+import { CommonService } from 'src/app/core/services/common.service';
 @Component({
     selector: 'app-dashboard-list',
     imports: [RouterModule, SharedModule, DynamicTableModule],
@@ -16,12 +17,13 @@ import { EditEscrowService } from 'src/app/services/edit-escrow.service';
 })
 export class DashboardListComponent implements OnInit {
     httpHeaders: any;
-    dashboardCount: any;
+    dashboardData: any;
     private _NgxToasterService = inject(NgxToasterService)
     private _EditEscrowService = inject(EditEscrowService)
+    private _CommonService = inject(CommonService)
     constructor(private _ApiRequestService: ApiRequestService, private router: Router) {
         this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
-        console.log("httpHeaders", this.httpHeaders)
+        this._CommonService.pageTitle.next('Dashboard');
     }
 
     ngOnInit() {
@@ -50,8 +52,8 @@ export class DashboardListComponent implements OnInit {
             .subscribe({
                 next: (res: any) => {
                     if (res?.statuscode == 200) {
-                        this.dashboardCount = res?.data;
-                        console.log("dashboardCount", this.dashboardCount)
+                        this.dashboardData = res?.data;
+                        console.log("dashboardCount", this.dashboardData)
                         this._NgxToasterService.showSuccess(res.message, "Success");
                     } else {
                         this._NgxToasterService.showError(res?.message, "Error");

@@ -56,8 +56,6 @@ export class AgreementComponent implements OnInit {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             if (serviceKey) {
                 this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Physical'
             }
 
         });
@@ -190,87 +188,86 @@ export class AgreementComponent implements OnInit {
 
 
     onSubmit() {
-        if (this.agreementData) {
-            this.agreementDocumentForm.patchValue({
-                signing_date: this.formData?.signing_date,
-                effective_date: this.formData?.effective_date,
-                expiry_date: this.formData?.expiry_date,
-                document_url: this.formData?.document_url
-            });
-        } else {
-            this.agreementDocumentForm.patchValue({
-                signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
-                effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
-                expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
-                document_url: this.formData?.document_url
-            });
-        }
-        if (!this.agreementForm.valid || !this.agreementDocumentForm.valid) {
-            this.agreementForm.markAllAsTouched();
-            this.agreementDocumentForm.markAllAsTouched();
-            this._NgxToasterService.showError('Please complete all required fields.', 'Error');
-            return;
-        }
-        for (const [index, ctrl] of this.additionalDocs.controls.entries()) {
-            const docName = ctrl.get('doc_name')?.value;
-            const url = ctrl.get('url')?.value;
+        this.agreementForm.markAllAsTouched();
+        this.agreementDocumentForm.markAllAsTouched();
+               if (this.agreementData) {
+                this.agreementDocumentForm.patchValue({
+                    signing_date: this.formData?.signing_date,
+                    effective_date: this.formData?.effective_date,
+                    expiry_date: this.formData?.expiry_date,
+                    document_url: this.formData?.document_url
+                });
+            } else {
+                this.agreementDocumentForm.patchValue({
+                    signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
+                    effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
+                    expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
+                    document_url: this.formData?.document_url
+                });
+            }
+        if (this.agreementForm.valid && this.agreementDocumentForm.valid) {
+            // if (!this.agreementForm.valid && !this.agreementDocumentForm.valid) {
+            //     this.agreementForm.markAllAsTouched();
+            //     this.agreementDocumentForm.markAllAsTouched();
+            //     this._NgxToasterService.showError('Please complete all required fields.', 'Error');
+            //     return;
+            // }
 
-            if (!url || !docName?.trim()) {
-                this._NgxToasterService.showError(`Please provide both file and name for Document ${index + 1}.`, 'Validation Error');
+
+            for (const [index, ctrl] of this.additionalDocs.controls.entries()) {
+                const docName = ctrl.get('doc_name')?.value;
+                const url = ctrl.get('url')?.value;
+
+                if (!url || !docName?.trim()) {
+                    this._NgxToasterService.showError(`Please provide both file and name for Document ${index + 1}.`, 'Validation Error');
+                    return;
+                }
+            }
+
+            const additionalDocs = this.additionalDocs.controls
+                .filter(ctrl => !!ctrl.get('url')?.value)
+                .map(ctrl => ({
+                    url: ctrl.get('url')?.value,
+                    file_name: ctrl.get('doc_name')?.value
+                }));
+
+            const mainAgreementUrl = this.agreementDocumentForm.get('document_url')?.value;
+            if (!mainAgreementUrl) {
+                this._NgxToasterService.showError('Please upload the main agreement document.', 'Error');
                 return;
             }
-        }
-        // Get uploaded additional docs
-        // const uploadedDocs = this.additionalDocs.controls
-        //     .map(ctrl => ctrl.value)
-        //     .filter(doc => !!doc.url);
-        // const additionalDocs = uploadedDocs.map(doc => doc.url);
-        const additionalDocs = this.additionalDocs.controls
-            .filter(ctrl => !!ctrl.get('url')?.value)
-            .map(ctrl => ({
-                url: ctrl.get('url')?.value,
-                file_name: ctrl.get('doc_name')?.value
-            }));
+            const formData = new FormData();
+            formData.append('id', this.escrowId);
+            formData.append('agreement_type', this.agreementForm.get('agreement_type')?.value);
+            formData.append('additional_docs', JSON.stringify(additionalDocs));
+            formData.append('agreement_details', JSON.stringify(this.agreementDocumentForm.value));
+            formData.append('escrow_type', this.selectedService);
 
-        // if (uploadedDocs.length === 0) {
-        //     this._NgxToasterService.showError('Please upload at least one additional document.', 'Error');
-        //     return;
-        // }
-        const mainAgreementUrl = this.agreementDocumentForm.get('document_url')?.value;
-        if (!mainAgreementUrl) {
-            this._NgxToasterService.showError('Please upload the main agreement document.', 'Error');
-            return;
-        }
-        const formData = new FormData();
-        formData.append('id', this.escrowId);
-        formData.append('agreement_type', this.agreementForm.get('agreement_type')?.value);
-        formData.append('additional_docs', JSON.stringify(additionalDocs));
-        formData.append('agreement_details', JSON.stringify(this.agreementDocumentForm.value));
-        formData.append('escrow_type', this.selectedService);
-
-        console.log('Final Payload:', formData);
-        this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.aggreement)
-            .subscribe({
-                next: (res: any) => {
-                    if (res?.statuscode == 200) {
-                        this.completed.emit();
-                        this._NgxToasterService.showSuccess(res.message, "Success");
-                    } else {
-                        console.log("res", res)
-                        this._NgxToasterService.showError(res?.message, "Error");
+            console.log('Final Payload:', formData);
+            this._ApiRequestService.postData({ payload: formData }, apiRoutes.escrow.aggreement)
+                .subscribe({
+                    next: (res: any) => {
+                        if (res?.statuscode == 200) {
+                            this.completed.emit();
+                            this._NgxToasterService.showSuccess(res.message, "Success");
+                        } else {
+                            console.log("res", res)
+                            this._NgxToasterService.showError(res?.message, "Error");
+                        }
+                    },
+                    error: (error) => {
+                        console.log("error", error)
+                        const errorMsg = error?.error?.message || error?.message;
+                        this._NgxToasterService.showError(errorMsg, 'Error');
                     }
-                },
-                error: (error) => {
-                    console.log("error", error)
-                    const errorMsg = error?.error?.message || error?.message;
-                    this._NgxToasterService.showError(errorMsg, 'Error');
-                }
-            });
+                });
+        }
+
 
     }
     openModal(content: any) {
         const form = this.agreementDocumentForm;
-        if (!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value && !this.agreementData) {
+        if (!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value && !this.agreementData && !this.formData) {
             const today = new Date();
             const expiry = new Date();
             expiry.setFullYear(today.getFullYear() + 1);
@@ -290,6 +287,7 @@ export class AgreementComponent implements OnInit {
                     document_url: this.formData?.document_url
                 });
             } else {
+                console.log("this.formData?.document_url", this.formData?.document_url)
                 this.agreementDocumentForm.patchValue({
                     signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
                     effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),

@@ -66,7 +66,7 @@
                     [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_pan"
                     class="form-control" placeholder="Enter Company PAN" appUppercase />
                 <app-show-errors [ctrl]="form.get('company_pan')"
-                    [requiredMesg]="'Company Pan is Required'"></app-show-errors>
+                    [requiredMesg]="'Company Pan is Required'"  [patternMesg]="'Enter valid pan'"></app-show-errors>
                     </div>
             </div>
 
@@ -76,7 +76,7 @@
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_cin"
                     class="form-control" placeholder="Enter Company CIN" />
                 <app-show-errors [ctrl]="form.get('company_cin')"
-                    [requiredMesg]="'Company CIN is Required'"></app-show-errors>
+                    [requiredMesg]="'Company CIN is Required'"  [patternMesg]="'Enter valid company cin'"></app-show-errors>
                     </div>
             </div>
 
@@ -117,7 +117,7 @@
                     [appInputRestriction]="'integer'" maxlength="10" formControlName="rep_mobile" class="form-control"
                     placeholder="Enter Mobile Number" />
                 <app-show-errors [ctrl]="form.get('rep_mobile')"
-                    [requiredMesg]="'Representative Mobile Number is Required'"></app-show-errors>
+                    [requiredMesg]="'Representative Mobile Number is Required'"  [patternMesg]="'Enter valid representative mobile number'"></app-show-errors>
                     </div>
             </div>
 
@@ -127,6 +127,8 @@
                 <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
                     [appInputRestriction]="'integer'" maxlength="10" formControlName="rep_alt_mobile"
                     class="form-control" placeholder="Enter Alternate Mobile Number" />
+                       <app-show-errors [ctrl]="form.get('rep_alt_mobile')"
+                    [requiredMesg]="'Representative Alternate Mobile Number is Required'"  [patternMesg]="'Enter valid representative alternate mobile number'"></app-show-errors>
                     </div>
             </div>
             <!-- <div class="col-md-6">
@@ -164,14 +166,14 @@
             </div>
 </div>
 
-            <div class="col-md-12">
+            <!-- <div class="col-md-12">
                 <div class="form-group">
                 <label>Remarks*</label>
                 <textarea type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="remark"
                     class="form-control" placeholder="Enter Remarks"></textarea>
                 <app-show-errors [ctrl]="form.get('remark')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
                 </div>
-            </div>
+            </div> -->
         </div>
     </form>
 

@@ -30,7 +30,7 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
     private m_unsavedChanges: boolean = false;
     private _EscrowService = inject(EscrowService);
     private route = inject(ActivatedRoute);
-    selectedService: any = 'Physical';
+    selectedService: any = '';
     escrowData: any;
     escrowId: any;
     private _ApiRequestService = inject(ApiRequestService);
@@ -44,17 +44,7 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
             this._EscrowService.setEscrowId(id)
         }
         console.log('Received ID:', id);
-        this._EscrowService.getService().subscribe((serviceKey: any) => {
-            if (serviceKey) {
-                this.selectedService = serviceKey
-            } else {
-                this.selectedService = 'Physical'
-            }
-            let pageTitle = `${this.selectedService} Escrow`;
-            this._CommonService.pageTitle.next(pageTitle);
 
-
-        });
     }
     tabs = [
         { key: 'basic', label: 'Basic Details', icon: 'assets/img/basic.png' },
@@ -71,6 +61,19 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
     };
 
     ngOnInit(): void {
+        this._EscrowService.getService().subscribe((serviceKey: any) => {
+               console.log('SERVICE KEY from observable', serviceKey); 
+            if (serviceKey) {
+                this.selectedService = serviceKey
+            }
+            let pageTitle = `${this.selectedService} Escrow`;
+            this._CommonService.pageTitle.next(pageTitle);
+
+            console.log('Before reload:', localStorage.getItem('selected_service'));
+            console.log('After reload:', localStorage.getItem('selected_service'));
+
+
+        });
         const id = this.route.snapshot.paramMap.get('id');
         console.log('Received ID:', id);
 
@@ -151,14 +154,13 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
         }
         this._EscrowService.setDepositorId('');
         this._EscrowService.setBeneId('');
-        this._EscrowService.setService('');
         this._EscrowService.setEscrowId('')
     }
 
     ngOnDestroy() {
         this._EscrowService.setDepositorId('');
         this._EscrowService.setBeneId('');
-        this._EscrowService.setService('');
-        this._EscrowService.setEscrowId('')
+        this._EscrowService.setEscrowId('');
+        this._EscrowService.clearService();
     }
 }
