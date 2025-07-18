@@ -109,14 +109,14 @@ border:1px solid #E6EFF5;
     position: absolute;
     top: -1px;
     left: 4px;
-    font-size: 13px;
-    color: white;
+    font-size: 17px;
+    color: #0caf54;
   }
   &:checked {
-    background-color: #000000;
-    border-color: #000000;
-    width: 20px;
-    height: 20px;
+    background-color: #E1FFEE;
+    border-color: #E1FFEE;
+    width: 25px;
+    height: 25px;
 }
 }
 
