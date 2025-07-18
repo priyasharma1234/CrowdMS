@@ -190,21 +190,21 @@ export class AgreementComponent implements OnInit {
     onSubmit() {
         this.agreementForm.markAllAsTouched();
         this.agreementDocumentForm.markAllAsTouched();
-               if (this.agreementData) {
-                this.agreementDocumentForm.patchValue({
-                    signing_date: this.formData?.signing_date,
-                    effective_date: this.formData?.effective_date,
-                    expiry_date: this.formData?.expiry_date,
-                    document_url: this.formData?.document_url
-                });
-            } else {
-                this.agreementDocumentForm.patchValue({
-                    signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
-                    effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
-                    expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
-                    document_url: this.formData?.document_url
-                });
-            }
+        if (this.agreementData) {
+            this.agreementDocumentForm.patchValue({
+                signing_date: this.formData?.signing_date,
+                effective_date: this.formData?.effective_date,
+                expiry_date: this.formData?.expiry_date,
+                document_url: this.formData?.document_url
+            });
+        } else {
+            this.agreementDocumentForm.patchValue({
+                signing_date: this._DatePipe.transform(this.formData?.signing_date, 'dd-MM-yyyy'),
+                effective_date: this._DatePipe.transform(this.formData?.effective_date, 'dd-MM-yyyy'),
+                expiry_date: this._DatePipe.transform(this.formData?.expiry_date, 'dd-MM-yyyy'),
+                document_url: this.formData?.document_url
+            });
+        }
         if (this.agreementForm.valid && this.agreementDocumentForm.valid) {
             // if (!this.agreementForm.valid && !this.agreementDocumentForm.valid) {
             //     this.agreementForm.markAllAsTouched();
@@ -358,13 +358,17 @@ export class AgreementComponent implements OnInit {
     }
     submitModal(modal: any) {
         console.log("this.agreementDocumentForm", this.agreementDocumentForm.value)
-        const data = {
-            agreement_type: this.agreementForm.get('agreement_type')?.value,
-            ...this.agreementDocumentForm.value,
-        };
-        this.formData = data;
-        this.agreementDocumentForm.reset();
-        modal.close();
+        this.agreementDocumentForm.markAllAsTouched();
+        if (this.agreementDocumentForm.valid) {
+            const data = {
+                agreement_type: this.agreementForm.get('agreement_type')?.value,
+                ...this.agreementDocumentForm.value,
+            };
+            this.formData = data;
+            this.agreementDocumentForm.reset();
+            modal.close();
+        }
+
     }
 
 }
