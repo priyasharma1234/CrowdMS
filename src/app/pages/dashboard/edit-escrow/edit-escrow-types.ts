@@ -1,4 +1,4 @@
-import { IGenericApiResponse,IHeader } from "src/app/types/global"
+import { IGenericApiResponse, IHeader } from "src/app/types/global"
 
 
 export type IAgreement = {
@@ -14,7 +14,7 @@ export type IAgreement = {
   updated_at: string
 }
 export type IPhysicalDeposit = {
- id: number
+  id: number
   escrow_id: number
   depositor_name: string
   depositor_mobile: string
@@ -29,25 +29,27 @@ export type IPhysicalDeposit = {
   other_picture: string
   other_documentation: string
   created_at: string
-  updated_at: string
+  updated_at: string,
+  iso_certificate: string,
+  vapt_certificate: string
 }
 
 
 export type IReleaseRequest = {
-    id: number,
-    escrow_id: number,
-    reason: string
-    status: number,
-    document: string
-    remarks: string
-    admin_remarks: string | null,
-    admin_doc: string | null,
-    created_at: string
-    updated_at:  string
+  id: number,
+  escrow_id: number,
+  reason: string
+  status: number,
+  document: string
+  remarks: string
+  admin_remarks: string | null,
+  admin_doc: string | null,
+  created_at: string
+  updated_at: string
 }
 
 export type IEscrow = {
-  release: { ip_address: {address: string; remarks: string }[], reason: string,supporting_doc:string};
+  release: { ip_address: { address: string; remarks: string }[], reason: string, supporting_doc: string };
   id: number,
   escrow_id: string,
   escrow_type: 'Software' | 'Physical',
@@ -82,7 +84,7 @@ export type IEscrow = {
   release_request: IReleaseRequest[],
   agreement: IAgreement,
   software_deposit: ISoftwareDeposit[],
-  physical_deposit:IPhysicalDeposit
+  physical_deposit: IPhysicalDeposit
 }
 export type ICorporateDetails = {
   id: number

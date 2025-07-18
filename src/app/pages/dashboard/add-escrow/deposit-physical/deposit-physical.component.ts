@@ -24,7 +24,7 @@ export class DepositPhysicalComponent implements OnInit {
     fileFields = [
         { controlName: 'kyc', label: 'KYC of Depositing Person' },
         { controlName: 'device_picture', label: 'Upload Device Picture' },
-        { controlName: 'packaging_picture', label: 'Upload Packaging Pic' },
+        { controlName: 'packaging_picture', label: 'Upload Packaging Picture' },
         { controlName: 'vapt_certificate', label: 'Upload VAPT Certificate' },
         { controlName: 'iso_certificate', label: 'Upload ISO Certificate' },
         { controlName: 'other_picture', label: 'Upload Other Picture' },
