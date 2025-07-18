@@ -42,6 +42,9 @@ export const apiRoutes = {
      updateTeamMember: {
       url: 'user/team-members/update'
     },
+      sendEmailTeamMember: {
+      url: 'escrow/team-member/send-mail'
+    },
     getEscrowList: {
       url: 'escrow/release/escrow-list'
     },
