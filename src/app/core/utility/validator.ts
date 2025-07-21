@@ -1,11 +1,11 @@
 import {
   AbstractControl,
   FormGroup,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
-import { CommonService } from '@core/services/common.service';
-import { regExpPattern } from '@core/validators/regExpPatternList';
+import { regExpPattern } from '../validators/regExpPatternList';
 
 export function maxAge(max: number): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -180,70 +180,23 @@ export function regExpNativePatternValidator(
   };
 }
 
-// Uses of regExpNativePatternValidator
+// export class Validatorss {
+//   constructor(private _CommonService: CommonService) {}
+//   static validDate(): ValidatorFn {
+//     return (control: AbstractControl): { invalidDate: any } | null => {
+//       const val = control.value;
+//       // console.log(this._CommonService.getTransformDate(val));
+//       // console.log(this._CommonService.getTransformDate(new Date()));
 
-//1   use as function
-// regExpNativePatternValidator(
-//   (obj: any) => {
-//     let val = obj.value;
-//     let res: boolean;
-//     val = typeof val !== 'number' ? +val : val;
-//     if (val <= 100 && val > 90) {
-//       // res = true;
-//       obj.callBack(false, {
-//         maxAmount10K: () => `cannot enter amount between 90 to 100`,
-//       });
-//     }else{
-//       obj.callBack(true);
-//     }
-//   },
-//   {
-//     maxAmount10K: () => `Enter amount 1Rs to 10 Lakh.`,
-//   }
-// ),
-
-// 2    RegExp of amount should between rs 1 to 10 lack
-// regExpNativePatternValidator(
-//   /\b([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|1000000)\b/,
-//   {
-//     maxAmount10K: () => `Enter amount ₹1 to ₹10 Lakh`,
-//   }
-// ),
-export class Validatorss {
-  constructor(private _CommonService: CommonService) {}
-  static validDate(): ValidatorFn {
-    return (control: AbstractControl): { invalidDate: any } | null => {
-      const val = control.value;
-      // console.log(this._CommonService.getTransformDate(val));
-      // console.log(this._CommonService.getTransformDate(new Date()));
-
-      return { invalidDate: () => `Dasddsdte is invalid.....!` };
-      if (val && val == '001') {
-      } else {
-        return null;
-      }
-    };
-  }
-}
-// export function validDate(): ValidatorFn {
-
-//   return (control: AbstractControl): { invalidDate: any } | null => {
-
-//     const val = control.value;
-
-//     if (val && val == '001') {
-//       return { invalidDate: () => `Date is invalid.....!` };
-//     } else {
-//       return null;
-//     }
-//   };
-// }
-// export function AmountMax(max: Number): ValidatorFn {
-//     return (control: AbstractControl): { [key: string]: any } | null => {
-
+//       return { invalidDate: () => `Dasddsdte is invalid.....!` };
+//       if (val && val == '001') {
+//       } else {
+//         return null;
+//       }
 //     };
-
+//   }
 // }
+
 
 export function passwordStrengthValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -274,3 +227,20 @@ export function passwordStrengthValidator(): ValidatorFn {
     return { passwordStrength: 'too-short' };
   };
 }
+
+export function ConfirmedValidator(controlName: string, matchingControlName: string): any {
+  return (formGroup: UntypedFormGroup) => {
+    let control = formGroup.controls[controlName];
+    // console.log(control)
+    const matchingControl = formGroup.controls[matchingControlName];
+    // console.log(matchingControl)
+    if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
+      return;
+    };
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
+};

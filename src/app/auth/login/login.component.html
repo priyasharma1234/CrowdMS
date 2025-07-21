@@ -12,14 +12,17 @@
       <input type="text" id="name" class="form-control" required formControlName="userId">
       <label class="form-control-placeholder" for="name">User Id</label>
     </div>
-    <div class="text-end mb-3  bottom-label"> <a routerLink="/auth/forgot-user-id" class="text-gray">Forgot User ID?</a></div>
+    <div class="text-end mb-3  bottom-label"> <a routerLink="/auth/forgot-user-id" class="text-gray">Forgot User ID?</a>
+    </div>
     <div class="form-group position-relative">
       <div class="input-group-prepend"><img src="assets/img/password.png" class="pe-1"> </div>
-      <input type="password" id="password" class="form-control" required formControlName="password" >
+      <input type="password" id="password" class="form-control" required formControlName="password">
       <label class="form-control-placeholder" for="password">Password</label>
     </div>
     <div class="text-end bottom-label mb-3">
-      <a routerLink="/auth/forgot-password" class="text-gray">Forgot Password?</a></div>
+      <a routerLink="/auth/forgot-password" class="text-gray">Forgot Password?</a>
+      <a routerLink="/auth/reset-password" class="text-gray">Reset Password?</a>
+    </div>
     <button type="submit" class="btn btn-primary w-100" (click)="Login()"> Login </button>
   </form>
 </div>

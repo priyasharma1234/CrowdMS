@@ -48,8 +48,6 @@ export class DashboardListComponent implements OnInit {
         }
     }
     isActionDisabled(actionKey: string, row: any): boolean {
-        console.log("row",row)
-        console.log("!['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS', 'ACTIVE', 'RELEASE', 'EXIT'].includes(row?.stage)",!['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS', 'ACTIVE', 'RELEASE', 'EXIT'].includes(row?.stage))
         if (actionKey === 'edit' && !['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS', 'ACTIVE', 'RELEASE', 'EXIT'].includes(row?.stage)) {
             return true;
         }

@@ -1,0 +1,52 @@
+<button *ngIf="showCloseIcon" type="button" class="closeMdl" (click)="closeTemplateModal.emit()">
+    <span aria-hidden="true">&times;</span>
+</button>
+
+<div *ngIf="showMesgOtpSendToMobile && !(title && message)">
+    <span for="" [innerHTML]="showMesgOtpSendToMobile"></span>
+</div>
+<div *ngIf="!showMesgOtpSendToMobile && (title || message)" class="">
+    <p class="p-title text-left" *ngIf="title" [innerHTML]="title"></p>
+    <p class="text-left mesg" *ngIf="message" [innerHTML]="message"></p>
+</div>
+<div class="d-flex justify-content-center mt-4" #inputDiv>
+    <ng-container *ngIf="!otpBoxNormal;else singleInput">
+        <ng-template ngFor let-control [ngForOf]="code.controls" let-i="index" let-isLast="last" let-isFirst="first">
+            <ng-template [ngIf]="!isLast || isLast && isSubmitBtn">
+                <input type="text" class="digit mx-10" autocomplete="new-password" [ngClass]="{'isFirst': isFirst}"
+                    appFocusToNextInput [focusAfterLastInput]="'#verifyOtpBtn'" maxlength="1"
+                    (keypress)="numberOnly($event)" [formControl]="getket(i)">
+            </ng-template>
+            <ng-template [ngIf]="isLast && !isSubmitBtn">
+                <input type="text" class="digit mx-10" autocomplete="new-password" [ngClass]="{'isFirst': isFirst}"
+                    appFocusToNextInput [focusAfterLastInput]="'#verifyOtpBtn'" maxlength="1"
+                    (keypress)="numberOnly($event,true)" [formControl]="getket(i)">
+            </ng-template>
+        </ng-template>
+    </ng-container>
+    <ng-template #singleInput>
+        <input type="text" class="singleInput form-control isFirst text-center" [appInputRestriction]="'integer'"
+            [placeholder]="placeholder" autocomplete="new-password" [formControl]="normalOtpInp" [maxlength]="otpBox"
+            (keyup.enter)="otpBoxNormal == false?!code.valid:!normalOtpInp.valid? false:checkit()" />
+    </ng-template>
+</div>
+
+<div class="d-flex justify-content-end mt-2" *ngIf="isResendOTP">
+    <span class="text-right" [style.minWidth]="'max-content'" [style.width.px]="">
+        <span class="expire" *ngIf="count">Resend again in {{count}} second</span>
+        <a href="javascript:void(0)" class="expire" *ngIf="!count" (click)="resendOtpFn(true)"> Resend OTP</a>
+    </span>
+</div>
+
+<div class="d-flex justify-content-center mt-2 ps-2" *ngIf="onlyMessage">
+    <span class="text-right" [style.minWidth]="'max-content'" [style.width.px]="40 * otpBox + 15">
+        <span class="expire" *ngIf="count">OTP will expire in {{count}} second</span>
+    </span>
+</div>
+
+<div class="submitbtn" *ngIf="isSubmitBtn">
+    <button type="button" id="verifyOtpBtn" [disabled]="otpBoxNormal == false?!code.valid:!normalOtpInp.valid"
+        (click)="checkit()" class="verify-otp-btn" [class]="submitBtnClass">
+        {{submitBtnName}}
+    </button>
+</div>

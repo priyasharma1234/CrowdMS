@@ -20,6 +20,14 @@ export const apiRoutes = {
       url: 'auth/reset-password',
       method: 'POST',
       description: 'API to send forgot password email'
+    }, resetPassword: {
+      url: 'auth/reset-password-complete',
+      method: 'POST',
+      description: 'API to reset password'
+    }, resetPasswordVerifyOtp: {
+      url: 'auth/reset-password-verify',
+      method: 'POST',
+      description: 'API to send otp for reset password'
     }
   },
   uploadDocument: {
