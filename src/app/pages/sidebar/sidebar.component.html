@@ -45,7 +45,7 @@
               <a class="nav-link ps-0" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
                 [routerLinkActive]="'active'" href="javascript:void(0);"
                 (isActiveChange)="$event ?_title = item.value:null">
-                <span class="px-3"><img [src]="item?.icon" class="icon-img"></span>{{item.value}}
+                <span class="px-3">  <span [innerHTML]="obj?.icon | safeHtml" title="{{obj?.name}}" class="svg-outer"></span></span>{{item.value}}
               </a>
             </li>
 

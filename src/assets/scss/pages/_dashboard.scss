@@ -52,17 +52,31 @@
   .box {
     background: #daeeff;
     border-radius: 20px;
+      width: 62px;
+    height: 73px;
+  @include breakpoint("desktop-xxl", min) {
     width: 82px;
     height: 93px;
-
+  }
     &.box-pink {
       background: #ffd9dc;
     }
   }
   .box-img {
     position: absolute;
-    top: 20px;
-    left: -22px;
+    top: 25px;
+    left: -14px;
+      @include breakpoint("desktop-xxl", min) {
+ top: 31px;
+    left: -10px;
+  }
+img{
+  max-width:65%;
+        @include breakpoint("desktop-xxl", min) {
+ max-width:100%;
+}
+}
+  
   }
 }
 .filter-box {

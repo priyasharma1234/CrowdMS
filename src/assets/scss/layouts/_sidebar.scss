@@ -6,7 +6,8 @@
   max-width: 297px;
   background-color: $dark-blue;
   .ps-height {
-    height: calc(80vh - 45px);
+    height: calc(80vh - 35px);
+        flex-wrap: nowrap;
   }
   .nav-link {
     color: $white;
@@ -77,12 +78,19 @@
         padding: 9px 0 9px 0;
            span {
       svg {
-        stroke:$dark-blue;
+        fill:$dark-blue;
       }
     }
             &.active{
        background:$red;
+       color:$white;
            border-radius: 10px;
+                    span {
+      svg {
+        fill:$white;
+      }
+    }
+      
     }
       }
     }
