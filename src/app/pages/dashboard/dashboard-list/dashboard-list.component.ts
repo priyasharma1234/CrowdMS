@@ -37,15 +37,24 @@ export class DashboardListComponent implements OnInit {
         if (event.type === 'edit') {
             if (['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS'].includes(event?.row?.stage)) {
                 this.router.navigate(['/dashboard/edit-escrow', event?.row?.id]);
-            } else if (event?.row?.stage == 'ACTIVE') {
+            } else if (['ACTIVE', 'RELEASE', 'EXIT'].includes(event?.row?.stage)) {
                 this._EditEscrowService.GetEscrowDetails(event?.row?.id).then(res => {
-                    if (event?.row?.stage == 'ACTIVE') {
+                    if (['ACTIVE', 'RELEASE', 'EXIT'].includes(event?.row?.stage)) {
                         this.router.navigate(['dashboard/edit'])
                         return;
                     }
                 });
             }
         }
+    }
+    isActionDisabled(actionKey: string, row: any): boolean {
+        console.log("row",row)
+        console.log("!['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS', 'ACTIVE', 'RELEASE', 'EXIT'].includes(row?.stage)",!['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS', 'ACTIVE', 'RELEASE', 'EXIT'].includes(row?.stage))
+        if (actionKey === 'edit' && !['DRAFT', 'BENEFICIARY_ONBOARDING_CORRECTIONS', 'DEPOSITOR_ONBOARDING_CORRECTIONS', 'ACTIVE', 'RELEASE', 'EXIT'].includes(row?.stage)) {
+            return true;
+        }
+
+        return false;
     }
     async getDashboardData() {
         await this._ApiRequestService.postData({}, apiRoutes.escrow.dashboardCount)

@@ -142,11 +142,11 @@ export class EditEscrowService {
       name: 'Admin Onboarding', step: 1, component: '', route: ''
     },
     {
-      name: 'Depositor Review & Deposit', step: 2, component: '', route: 'dashboard/edit-escrow/agreement'
+      name: 'Depositor Deposit', step: 2, component: '', route: 'dashboard/edit-escrow/agreement'
     },
 
     {
-      name: 'Beneficiary Review & Verify Deposit', step: 3, component: '', route: 'dashboard/edit-escrow/deposit'
+      name: 'Beneficiary Review', step: 3, component: '', route: 'dashboard/edit-escrow/deposit'
     },
     {
       name: 'Escrow Activation', step: 4, component: '', route: ''

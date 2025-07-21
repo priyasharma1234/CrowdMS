@@ -3,7 +3,7 @@
         <div class="card-header bg-transparent text-primary fw-bold">{{ agreements.type | titlecase }}</div>
         <div class="card-body">
             <div class="d-flex flex-wrap gap-4 justify-content-between flex-wrap align-items-center">
-                <div class="doc-preview me-3">No Preview Available</div>
+                <div class="doc-preview me-3"><img [src]="agreements.type === 'triparty' ? 'assets/img/tri_partite.png' : 'assets/img/bi_partite.png'"></div>
                 <h4 class="user-details">
                     <p class="py-2 mb-0"><strong>test_121.pdf</strong></p>Added on {{ agreements.signing_date }}
                 </h4>
@@ -38,7 +38,7 @@
             <div class="d-flex flex-wrap gap-4 justify-content-between align-items-center"
                 *ngFor="let doc of agreements?.additional_docs">
                 <div class="doc-preview me-3">
-                    <img src="../../../../../assets/img/doc.png" alt="Doc Preview" />
+                    <img src="assets/img/other-document.png">
                 </div>
 
                 <h4 class="user-details">

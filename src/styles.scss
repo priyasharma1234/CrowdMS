@@ -107,3 +107,13 @@ textarea[readonly] {
   animation: inputHighlighter 0.3s ease;
 }
 
+// dynamic table css disabled
+.img-disabled {
+  filter: grayscale(100%) brightness(0.6);
+  opacity: 0.6;
+}
+
+.disabled-btn {
+  cursor: not-allowed;
+}
+

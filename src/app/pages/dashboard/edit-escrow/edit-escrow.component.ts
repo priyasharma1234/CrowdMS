@@ -21,7 +21,13 @@ export class EditEscrowComponent implements OnInit {
       this._Router.navigate(['dashboard']);
       return;
     }
-     this._EditEscrowService.currentStep = 4;
+    if (this._EditEscrowService.escrowDetails?.stage == 'ACTIVE') {
+      this._EditEscrowService.currentStep = 4;
+    } else if (this._EditEscrowService.escrowDetails?.stage == 'RELEASE') {
+      this._EditEscrowService.currentStep = 5;
+    } else if (this._EditEscrowService.escrowDetails?.stage == 'EXIT') {
+      this._EditEscrowService.currentStep = 6;
+    }
     this._EditEscrowService.currentStep$.pipe(takeUntil(this.destroy$)).subscribe((res: number) => {
       console.log(res);
       const step = this._EditEscrowService.steps.find(x => x.step == res)

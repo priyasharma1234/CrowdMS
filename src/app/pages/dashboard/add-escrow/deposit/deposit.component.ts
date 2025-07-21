@@ -30,12 +30,13 @@ export class DepositComponent implements OnInit {
     @Output() completed = new EventEmitter<void>();
     selectedService: any;
     @Input() depositData: any;
+    isnoneSelected: boolean = false;
     private route = inject(ActivatedRoute);
     constructor(private fb: FormBuilder) {
         this.depositForm = this.fb.group({
             primary_account: [{ value: 'AWS', disabled: true }, Validators.required],
             verification_type: [[], Validators.required],
-            verification_for: ['', Validators.required],
+            verification_for: [''],
             certificates_for: [''],
             documents: [[]],
             certificates: [[]]
@@ -63,6 +64,7 @@ export class DepositComponent implements OnInit {
         });
         this.depositForm.get('verification_type')?.valueChanges.subscribe((selected: string[]) => {
             const ctrl = this.depositForm.get('verification_type');
+            const verificationForCtrl = this.depositForm.get('verification_for');
 
             const isNoneSelected = selected?.includes('None');
 
@@ -76,6 +78,16 @@ export class DepositComponent implements OnInit {
                     disabled: isNoneSelected ? opt.id !== 'None' : false
                 };
             });
+            if (isNoneSelected) {
+                this.isnoneSelected = false;
+                verificationForCtrl?.clearValidators();
+                verificationForCtrl?.updateValueAndValidity();
+            } else {
+                 this.isnoneSelected = true;
+                verificationForCtrl?.setValidators(Validators.required);
+                verificationForCtrl?.updateValueAndValidity();
+            }
+
         });
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
@@ -136,7 +148,7 @@ export class DepositComponent implements OnInit {
             certsForCtrl?.setValidators(Validators.required);
         } else {
             certsForCtrl?.clearValidators();
-            certsForCtrl?.setValue(null); 
+            certsForCtrl?.setValue(null);
         }
 
         certsForCtrl?.updateValueAndValidity();
