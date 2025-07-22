@@ -62,7 +62,8 @@
             <div class="col-md-6">
                   <div class="form-group">
                 <label>Company PAN*</label>
-                <input [appInputRestriction]="'alphanumeric'" maxlength="10" type="text"
+                <!-- [appInputRestriction]="'alphanumeric'" -->
+                <input maxlength="10" type="text"
                     [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_pan"
                     class="form-control" placeholder="Enter Company PAN" appUppercase />
                 <app-show-errors [ctrl]="form.get('company_pan')"

@@ -2,7 +2,7 @@ export const regExpPattern: { [key: string]: string | RegExp } = {
 
   GSTIN: /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
   GSTIN2: /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[0-9]{1}[Zz]{1}[0-9]{1}$/,
-  PAN: /^[A-Za-z]{3}[Pp]{1}[A-Za-z]{1}[0-9]{4}[A-Za-z]{1}$/,
+  PAN: /^[A-Za-z]{3}[CcPp]{1}[A-Za-z]{1}[0-9]{4}[A-Za-z]{1}$/,
   //Udyogno: /^[A-Za-z]{2}d{2}[A-Za-z]{1}d{7}&/,
   Udyogno: /^[A-Z]{2}[0-9]{2}[A-Z]{1}[0-9]{7}$/,
   UdyamRegNo:/^[A-Z]{5}[-][0-9]{2}[-][0-9]{2}[-][0-9]{7}$/,
