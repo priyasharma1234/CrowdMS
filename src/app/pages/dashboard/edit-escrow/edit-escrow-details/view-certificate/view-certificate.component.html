@@ -1,26 +1,26 @@
 <div class="certificate-container">
-  <aside class="certificate-sidebar">
-    <ul>
-      <li
-        *ngFor="let tab of tabs"
-        [class.active]="activeTab === tab"
-        (click)="selectTab(tab)"
-      >  <img src="assets/img/Frame.png" class="me-2">
-        {{ tab }}
-      </li>
-    </ul>
-  </aside>
+ <main class="certificate-content p-3">
+        <div class="certificate-status">This escrow is active</div>
+        <h2 class="certificate-title">Escrow Certificate</h2>
+        <p class="certificate-subtitle">
+            This Escrow Certificate certifies that the specified funds/assets are being securely held in escrow. The
+            release
+            shall occur only upon fulfillment of the agreed-upon conditions by all parties
+        </p>
 
-  <main class="certificate-content">
-    <div class="certificate-status">This escrow is active</div>
-    <h2 class="certificate-title">Escrow Certificate</h2>
-    <p class="certificate-subtitle">
-      This Escrow Certificate certifies that the specified funds/assets are being securely held in escrow. The release shall occur only upon fulfillment of the agreed-upon conditions by all parties
-    </p>
+        <div class="certificate-preview">
+            <ng-container *ngIf="certificateUrl && showViewer; else noCert">
+                <pdf-viewer *ngIf="isPdfFile" [src]="certificateUrl" [render-text]="true" [show-all]="true"
+                    [original-size]="false" style="width: 100%; height: 800px;">
+                </pdf-viewer>
 
-    <div class="certificate-preview">
-      <img src="assets/images/certificate-preview.png" alt="Escrow Certificate" />
-    </div>
-  </main>
+                <img *ngIf="!isPdfFile" [src]="certificateUrl" alt="Certificate" style="max-width: 100%;" />
+            </ng-container>
+
+            <ng-template #noCert>
+                <p>No certificate available.</p>
+            </ng-template>
+
+        </div>
+    </main>
 </div>
-

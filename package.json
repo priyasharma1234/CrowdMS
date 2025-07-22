@@ -31,6 +31,7 @@
     "ngx-toastr": "^19.0.0",
     "ngx-cookie-service": "^19.1.2",
     "@popperjs/core": "^2.11.5",
+     "ng2-pdf-viewer": "^10.3.3",
     "async-wait-until": "^2.0.27",
     "bootstrap": "^5.3.6",
     "laravel-echo": "^2.1.4",

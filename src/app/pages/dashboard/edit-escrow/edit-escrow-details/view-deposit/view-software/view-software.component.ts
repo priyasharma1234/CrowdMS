@@ -45,10 +45,12 @@ export class ViewSoftwareComponent {
     selectedBranch: string = '';
 
     selectedIntegration: string = '';
+    softwareDeposit: any
 
     ngOnInit() {
         if (this.viewMode) {
             const escrowDetails = this._EditEscrowService.escrowDetails;
+            this.softwareDeposit = this._EditEscrowService.escrowDetails?.software_deposit
             if (escrowDetails?.software_deposit) {
                 this.uploadType = escrowDetails.software_deposit[0].upload_type;
                 this.codeUpload = !!escrowDetails.software_deposit[0].source_code;
@@ -230,5 +232,8 @@ export class ViewSoftwareComponent {
     HandleIntegration($event: any) {
         this.integrationDetails = $event;
     }
+      getVerificationKeys(verification: any): string[] {
+  return Object.keys(verification || {});
+}
 }
 

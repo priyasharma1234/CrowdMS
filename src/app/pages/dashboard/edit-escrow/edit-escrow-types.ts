@@ -64,6 +64,7 @@ export type IEscrow = {
   user_type: 'depositor' | 'beneficiary',
   created_at: string,
   updated_at: string,
+  certificate_url: string,
   depositor: {
     id: number,
     company_name: string,
