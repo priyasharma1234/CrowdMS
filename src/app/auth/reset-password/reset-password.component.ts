@@ -179,6 +179,7 @@ export class ResetPasswordComponent {
                 if (res) {
                     if (res.statuscode == 200) {
                         this._NgxToasterService.showSuccess(res.message, 'Success');
+                         this.modalRef.close();
                         this._Router.navigate(['/auth/login']);
                     } else {
                         this._NgxToasterService.showError(res.message, 'Error');

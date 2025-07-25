@@ -213,8 +213,9 @@ export class CustomDatepickerComponent implements OnInit, OnChanges, AfterViewIn
 
     console.log("write value called", this.input);
     if (input === null || input === '') {
-      this.onChange(null);  // Important for manual clearing
+      this.onChange();  // Important for manual clearing
     }
+    //  this.onChange(null); 
 
     setTimeout(() => {
       this.setFloatingLable();

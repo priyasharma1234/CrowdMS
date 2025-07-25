@@ -94,7 +94,22 @@ export const apiRoutes = {
     },
     depositData: {
       url: 'escrow/deposits/data'
-    }
+    },
+     integrationFlow: {
+      url: 'escrow/git/workflow',
+    },
+    integrationStatus: {
+      url: 'escrow/git/status',
+    },
+    integration_workspace: {
+      url: 'escrow/git/workspaces',
+    },
+    integration_repo: {
+      url: 'escrow/git/repos',
+    },
+    integration_branch: {
+      url: 'escrow/git/branches',
+    },
   },
   roles: {
     roleCreate: {

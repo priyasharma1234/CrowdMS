@@ -136,26 +136,30 @@ export class EditEscrowService {
   //     },
 
   //   ];
-
   viewSteps = [
+    // {
+    //   name: 'Depositor Correction', step: 1, component: '', route: ''
+    // },
+    // {
+    //   name: 'Beneficiary Correction', step: 2, component: '', route: 'dashboard/edit-escrow/agreement'
+    // },
     {
-      name: 'Admin Onboarding', step: 1, component: '', route: ''
+      name: 'Onboarding', step: 1, component: '', route: ''
     },
     {
-      name: 'Depositor Deposit', step: 2, component: '', route: 'dashboard/edit-escrow/agreement'
-    },
-
-    {
-      name: 'Beneficiary Review', step: 3, component: '', route: 'dashboard/edit-escrow/deposit'
+      name: ' Validation - Depositor', step: 2, component: '', route: ''
     },
     {
-      name: 'Escrow Activation', step: 4, component: '', route: ''
+      name: 'Validation - Beneficiary', step: 3, component: '', route: ''
     },
     {
-      name: 'Release', step: 5, component: '', route: 'dashboard/edit-escrow/add-ip'
+      name: 'Activated', step: 4, component: '', route: ''
     },
     {
-      name: 'Exit Agreement', step: 6, component: '', route: 'dashboard/edit-escrow/add-ip'
+      name: 'Release', step: 5, component: '', route: ''
+    },
+    {
+      name: 'Closure', step: 6, component: '', route: ''
     },
 
   ];
