@@ -11,7 +11,7 @@
               <h2 class="font-large">{{count?.count}}</h2>
             </div>
             <div class="position-relative">
-              <div class="box box-pink"></div>
+               <div class="box" [ngClass]="{'box-pink': count?.name != 'Active Escrow'}"></div>
               <div class="box-img"><img [src]="count?.icon"></div>
 
             </div>
