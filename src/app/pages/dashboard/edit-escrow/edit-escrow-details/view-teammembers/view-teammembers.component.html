@@ -41,6 +41,7 @@
 
                 <div class="col-12 col-lg-6">
                     <div class="form-group">
+                         <label class="form-label">Mobile</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text me-0" id="basic-addon1">+91</span>
                             <input class="form-control" [appInputRestriction]="'integer'" maxlength="10" type="text"
@@ -73,7 +74,7 @@
     </div>
 
 
-    <div class="modal-footer">
+    <div class="modal-footer d-flex justify-content-center">
         <button class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
         <button class="btn btn-primary" (click)="submit()">Submit</button>
     </div>
