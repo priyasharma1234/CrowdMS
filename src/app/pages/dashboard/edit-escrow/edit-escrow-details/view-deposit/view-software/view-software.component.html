@@ -136,8 +136,9 @@
       <div class="d-flex gap-3">
         <div class="my-3 text-center" *ngFor="let integration of integrations()">
           <!-- (click)="HandleSelect(integration)" -->
-          <div class="border p-3 rounded-3 shadow-sm" 
-            [style]="integration.selected ? 'background: #89fb89' : ''">
+          <div  [ngClass]="{'border-green': integration.selected}" class="p-3 rounded-3 shadow-sm" 
+          >
+            <!-- [style]="integration.selected ? 'background: #89fb89' : ''" -->
             <img [src]="'assets/icons/' + integration.logo + '.png'" alt="{{ integration.name }}" class="img-fluid mb-2"
               style="height: 48px;" />
             <div><strong>{{ integration.name }}</strong></div>

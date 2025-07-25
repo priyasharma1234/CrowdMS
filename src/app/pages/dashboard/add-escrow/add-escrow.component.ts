@@ -6,7 +6,7 @@ import { AgreementComponent } from './agreement/agreement.component';
 import { DepositComponent } from './deposit/deposit.component';
 import { ReleaseConditionComponent } from './release-condition/release-condition.component';
 import { DepositPhysicalComponent } from './deposit-physical/deposit-physical.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { apiRoutes } from 'src/app/config/api-request';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
@@ -23,6 +23,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 })
 
 export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+      static hasLoadedOnce = false;
     @ViewChild('agreementComp') agreementComp!: AgreementComponent;
     @ViewChild('depositComp') depositComp!: DepositComponent;
     @ViewChild('depositPhyComp') depositPhyComp!: DepositPhysicalComponent;
@@ -36,7 +37,7 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
     private _ApiRequestService = inject(ApiRequestService);
     private _NgxToasterService = inject(NgxToasterService);
     private _CommonService = inject(CommonService)
-    constructor() {
+    constructor(private router: Router) {
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
             this.escrowId = id
@@ -61,8 +62,18 @@ export class AddEscrowComponent implements OnInit, OnDestroy, CanComponentDeacti
     };
 
     ngOnInit(): void {
+//             AddEscrowComponent.hasLoadedOnce = false;
+//   const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+
+//     const isReload = navEntry?.type === 'reload';
+
+//     if (isReload && AddEscrowComponent.hasLoadedOnce) {
+//       this.router.navigate(['/dashboard']);
+//     }
+
+//     AddEscrowComponent.hasLoadedOnce = true;
         this._EscrowService.getService().subscribe((serviceKey: any) => {
-               console.log('SERVICE KEY from observable', serviceKey); 
+            console.log('SERVICE KEY from observable', serviceKey);
             if (serviceKey) {
                 this.selectedService = serviceKey
             }

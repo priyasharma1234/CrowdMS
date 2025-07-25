@@ -1,4 +1,4 @@
-import { NgForOf, NgIf } from '@angular/common';
+import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { Component, Input, signal, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
     imports: [FormsModule,
         NgForOf,
         NgIf,
-        IntegrationComponent],
+        IntegrationComponent,CommonModule],
     templateUrl: './view-software.component.html',
     styleUrl: './view-software.component.scss'
 })

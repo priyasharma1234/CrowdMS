@@ -146,11 +146,16 @@ export class CustomDatepickerComponent implements OnInit, OnChanges, AfterViewIn
   }
 
   singleRateTransform(v: any) {
+    console.log("vvv", v)
     let dt: any;
 
-    if (!v) {
-      this.onChange();
-      return
+    // if (!v) {
+    //   this.onChange();
+    //   return
+    // }
+    if (!v || v === 'Invalid Date' || isNaN(new Date(v).getTime())) {
+      this.onChange(null);
+      return;
     }
     if (this.dateFormate && this.input != 'Invalid Date') {
       dt = this._CommonService.getTransformDate(v, this.dateFormate);
@@ -211,9 +216,10 @@ export class CustomDatepickerComponent implements OnInit, OnChanges, AfterViewIn
   writeValue(input: any) {
     this.input = input;
 
-    console.log("write value called", this.input);
-    if (input === null || input === '') {
-      this.onChange();  // Important for manual clearing
+    if (!input || input === '' || input === 'Invalid Date') {
+      this.onChange(null);
+      setTimeout(() => this.setFloatingLable(), 1);
+      return;
     }
     //  this.onChange(null); 
 
