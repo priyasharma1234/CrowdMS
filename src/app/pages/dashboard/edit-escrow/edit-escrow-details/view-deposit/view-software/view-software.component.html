@@ -283,7 +283,7 @@
     
     <div class="row">
       <div class="col-12 col-lg-6">
-        <label for="version" class="form-label"><strong>Version</strong></label>
+        <label for="version" class="form-label"><strong>Version: </strong></label>
         <input *ngIf="!viewMode" type="text" id="version" class="form-control" [(ngModel)]="version"
           placeholder="Enter version">
         <span *ngIf="viewMode">{{ version }}</span>
