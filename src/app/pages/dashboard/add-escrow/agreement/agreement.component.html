@@ -32,7 +32,7 @@
             <p>Expiry Date: {{formData?.expiry_date}}</p>
             <p><a [href]="formData?.document_url" target="_blank"
                         class="text-decoration-none view-border">
-                        <img src="assets/img/view.png" class="pe-1"> View Document Url
+                        <img src="assets/img/view.png" class="pe-1"> View Document
                     </a></p>
 
         </div>
@@ -75,7 +75,7 @@
     <div class="modal-body">
         <form [formGroup]="agreementDocumentForm">
             <div class="mb-3">
-                <label>Signing Date</label>
+                <label>Signing Date*</label>
                 <app-custom-datepicker formControlName="signing_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
                     [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
@@ -86,7 +86,7 @@
                 </app-show-errors>
             </div>
             <div class="mb-3">
-                <label>Effective Date</label>
+                <label>Effective Date*</label>
                 <app-custom-datepicker formControlName="effective_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
                     [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
@@ -97,7 +97,7 @@
                 </app-show-errors>
             </div>
             <div class="mb-3">
-                <label>Expiry Date</label>
+                <label>Expiry Date*</label>
                 <app-custom-datepicker formControlName="expiry_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
                     [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
@@ -108,7 +108,7 @@
                 </app-show-errors>
             </div>
             <div class="mb-3">
-                <label>Upload Document</label>
+                <label>Upload Document*</label>
                 <input #fileInput type="file" class="form-control" (change)="handleModalFile($event, fileInput)"
                     [class.is-invalid]="agreementDocumentForm.get('document_url')?.invalid && agreementDocumentForm.get('document_url')?.touched" />
                 <app-show-errors [ctrl]="agreementDocumentForm.get('document_url')"

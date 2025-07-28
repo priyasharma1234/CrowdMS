@@ -64,17 +64,28 @@ export class DepositPhysicalComponent implements OnInit {
             depositor_name: ['', Validators.required],
             depositor_mobile: ['', Validators.required],
             device: ['', Validators.required],
+            other: [''],
             submit_date: ['', Validators.required],
             primary_location: ['', Validators.required],
             vault_number: ['', Validators.required],
             kyc: ['', Validators.required],
-            remarks: [''],
+            // remarks: [''],
             device_picture: ['', Validators.required],
             packaging_picture: ['', Validators.required],
             vapt_certificate: [''],
             iso_certificate: [''],
             other_picture: [''],
             other_documentation: ['']
+        });
+        this.depositForm.get('device')?.valueChanges.subscribe(selected => {
+            const otherDeviceCtrl = this.depositForm.get('other');
+            if (selected === 'others') {
+                otherDeviceCtrl?.setValidators(Validators.required);
+            } else {
+                otherDeviceCtrl?.clearValidators();
+                otherDeviceCtrl?.setValue('');
+            }
+            otherDeviceCtrl?.updateValueAndValidity();
         });
         const response = await lastValueFrom(this._EscrowService.getDepositData());
         this.devices = response?.data?.devices || [];
@@ -91,11 +102,12 @@ export class DepositPhysicalComponent implements OnInit {
             depositor_name: this.depositData?.depositor_name,
             depositor_mobile: this.depositData?.depositor_mobile,
             device: this.depositData?.device,
+            other: this.depositData?.other,
             submit_date: this.depositData?.submit_date,
             primary_location: this.depositData?.primary_location,
             vault_number: this.depositData?.vault_number,
             kyc: this.depositData?.kyc,
-            remarks: this.depositData?.remarks,
+            // remarks: this.depositData?.remarks,
             device_picture: this.depositData?.device_picture,
             packaging_picture: this.depositData?.packaging_picture,
             vapt_certificate: this.depositData?.vapt_certificate,
