@@ -6,12 +6,14 @@ import { ApiRequestService } from '../../services/api-request.service';
 import { apiRoutes } from '../../config/api-request';
 import { AuthCoreService } from '../../services/auth-core.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
+import { UppercaseDirective } from 'src/app/core/directives/uppercase/uppercase.directive';
 
 @Component({
   selector: 'app-login',
   imports: [
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UppercaseDirective
   ],
   templateUrl: './login.component.html',
   standalone: true,

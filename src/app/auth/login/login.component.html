@@ -10,7 +10,7 @@
   <form class="login-form" [formGroup]="loginForm">
     <div class="form-group position-relative">
       <div class="input-group-prepend"><img src="assets/img/email.png" class="pe-1"> </div>
-      <input type="text" id="name" class="form-control" required formControlName="userId">
+      <input appUppercase type="text" id="name" class="form-control" required formControlName="userId">
       <label class="form-control-placeholder" for="name">User Id</label>
     </div>
     <div class="text-end mb-3  bottom-label"> <a routerLink="/auth/forgot-user-id" class="text-gray">Forgot User ID?</a>
