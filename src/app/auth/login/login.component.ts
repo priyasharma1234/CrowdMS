@@ -44,6 +44,7 @@ export class LoginComponent {
       this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
         if (res.statuscode == 200) {
           this._AuthCoreService.SetUser(res.data.user, res.data.token);
+           this._NgxToasterService.showSuccess(res?.message, 'Success');
           this._Router.navigate(['/dashboard']);
         } else {
           this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');

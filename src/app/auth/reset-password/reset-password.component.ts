@@ -1,6 +1,6 @@
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IResetPasswordElementList } from './reset-password.type';
+import { IResetPasswordElementList, IResetPasswordElementListApiResponse } from './reset-password.type';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiRequestService } from '../../services/api-request.service';
@@ -44,7 +44,7 @@ export class ResetPasswordComponent {
         private modalService: NgbModal
     ) {
         const type = this._ActivatedRoute.snapshot.data['type'];
-         this.type = type
+        this.type = type
 
     }
 
@@ -52,12 +52,26 @@ export class ResetPasswordComponent {
         this.formInIt();
         this.GetTokenFromUrl();
     }
-
     GetTokenFromUrl() {
         let data = this._ActivatedRoute.snapshot.queryParams['token'];
         this.urlToken = data;
+        if (data) {
+            let formData = new FormData();
+            formData.append('token', data);
+            this._ApiRequestService.postData({ payload: formData }, apiRoutes.auth.resetPasswordVerifyToken).subscribe({
+                next: (res: any) => {
+                    if (res.statuscode == 200) {
+                    } else {
+                        this._Router.navigate(['/auth/login']);
+                        this._NgxToasterService.showError(res.message, "Error");
+                    }
+                }, error: (err: any) => {
+                }
+            })
+        } else {
+            this._Router.navigate(['/auth/login']);
+        }
     }
-
     formInIt() {
         this.changePasswordForm = this._FormBuilder.group(
             {
@@ -179,7 +193,7 @@ export class ResetPasswordComponent {
                 if (res) {
                     if (res.statuscode == 200) {
                         this._NgxToasterService.showSuccess(res.message, 'Success');
-                         this.modalRef.close();
+                        this.modalRef.close();
                         this._Router.navigate(['/auth/login']);
                     } else {
                         this._NgxToasterService.showError(res.message, 'Error');

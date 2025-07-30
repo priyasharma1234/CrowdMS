@@ -93,6 +93,10 @@ img{
       border-radius: 10px;
       color: #808080;
       font-weight: $normal;
+      width:100%;
+      @include breakpoint ('desktop',min){
+        width:258px; 
+      }
     }
   }
 }

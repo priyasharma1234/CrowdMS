@@ -28,7 +28,11 @@ export const apiRoutes = {
       url: 'auth/reset-password-verify',
       method: 'POST',
       description: 'API to send otp for reset password'
-    }
+    }, resetPasswordVerifyToken: {
+      url: 'auth/reset-password-verify-token',
+      method: 'POST',
+      description: 'API to reset password verify token'
+    },
   },
   uploadDocument: {
     fileUrl: {
