@@ -7,7 +7,7 @@
     <div class="mb-3" *ngIf="escrow.request_type == 'beneficiary' && escrow.escrow_type == 'Software' && this.selectedRequestStatus && !viewMode">
         <label class="form-label">Select Stage</label>
         <div class="d-flex gap-4 flex-wrap">
-            <select class="form-select w-50" name="stage" [(ngModel)]="selectedRequestValue">
+            <select class="form-select w-50" name="stage" [(ngModel)]="selectedRequestValue" [ngModelOptions]="{standalone: true}">
                 <option *ngFor="let stage of requestTypes" [value]="stage.value">{{ stage.label }}</option>
             </select>
         </div>

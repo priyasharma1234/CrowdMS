@@ -35,7 +35,7 @@
             <div class="form-group">
               <label>Corporate Identifier*</label>
               <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="corporate_identifier"
-                     class="form-control" placeholder="Enter Corporate Identifier" />
+                     class="form-control" placeholder="Enter Corporate Identifier"  appUppercase/>
               <app-show-errors [ctrl]="form.get('corporate_identifier')"
                                [requiredMesg]="'Corporate Identifier is Required'"></app-show-errors>
             </div>
@@ -44,7 +44,7 @@
             <div class="form-group">
               <label>User Identifier*</label>
               <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="user_identifier"
-                     class="form-control" placeholder="Enter User Identifier" />
+                     class="form-control" placeholder="Enter User Identifier"  appUppercase/>
               <app-show-errors [ctrl]="form.get('user_identifier')"
                                [requiredMesg]="'User Identifier is Required'"></app-show-errors>
             </div>
