@@ -226,11 +226,39 @@
     </div> -->
 
 
+    <div class="row" *ngIf="this.depositDetails?.deposit?.documents">
+      <h5 class="my-3">Additional Documents</h5>
+      <ng-container *ngFor="let doc of this.depositDetails.deposit.documents.split(',')">
+        <div class="col-12 col-lg-6">
+          <!-- <div class="upload-doc position-relative" *ngIf="!viewMode">
+            <h6 class="my-3">{{doc}}</h6>
+            <label class="custom-file-upload mb-2">
+              <img src="assets/img/upload.png" class="me-2">
+              <div class="d-flex flex-column">
+                Upload Document
+              </div>
+            </label>
+            <input type="file" id="fileInput" class="form-control" multiple (change)="HandleDocUpload($event, doc)" />
+          </div> -->
+
+          <ul class="list-group mb-2 ">
+            <li class="list-group-item d-flex justify-content-between flex-wrap"
+              *ngIf="uploadedDocuments[this.CertName(doc)]">
+              <span class="text-success">
+                {{ doc.replace('Upload', '') }}</span>
+              <a  *ngIf="userType === 'depositor'" [href]="uploadedDocuments[this.CertName(doc)].url" target="_blank"><img
+                  src="assets/img/view.png"></a>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+
+    </div>
     <div class="row" *ngIf="this.depositDetails?.deposit?.certificates">
       <h5 class="my-3">Certificates</h5>
       <ng-container *ngFor="let cert of this.depositDetails.deposit.certificates.split(',')">
         <div class="col-md-6">
-          <ng-container *ngIf="!viewMode">
+          <!-- <ng-container *ngIf="!viewMode">
 
             <div class="upload-doc position-relative">
               <h6 class="my-3">Upload {{ cert }}</h6>
@@ -243,21 +271,19 @@
               <input type="file" id="fileInput" class="form-control" (change)="HandleCertUpload($event, cert)" />
             </div>
 
-          </ng-container>
+          </ng-container> -->
 
           <ul class="list-group mb-2 ">
             <li class="list-group-item d-flex justify-content-between flex-wrap"
               *ngIf="uploadedCertificates[this.CertName(cert)]">
               <span class="text-success">
-                {{ cert }} Uploaded</span>
+                {{ cert }} {{viewMode ? '': 'Uploaded'}}</span>
               <a [href]="uploadedCertificates[this.CertName(cert)].url" target="_blank"><img
                   src="assets/img/view.png"></a>
             </li>
           </ul>
 
         </div>
-
-
       </ng-container>
       <!--        <div class="col-md-6 mt-2">-->
       <!--          <button class="btn btn-outline-secondary w-100">-->
@@ -268,7 +294,6 @@
     </div>
     <div class="row" *ngIf="viewMode && softwareDeposit?.[0]?.verification">
       <h5 class="my-3">Verification</h5>
-
       <div class="col-md-6" *ngFor="let key of getVerificationKeys(softwareDeposit[0].verification)">
         <div class="card p-3 mb-2 shadow-sm border">
           <div class="d-flex justify-content-between align-items-center">

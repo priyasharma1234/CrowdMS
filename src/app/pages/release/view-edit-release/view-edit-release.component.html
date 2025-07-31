@@ -36,21 +36,20 @@
 <div class="d-flex justify-content-between">
   <div>     <input type="file" hidden (change)="onFileSelected($event)" />
       <span class="upload-button fw-semibold text-primary"><img src="assets/img/upload.png" class="pe-2"> Upload Document</span>
-
+      
+    
       <div *ngIf="uploadedFile" class="mt-2">
         <span class="file-name text-dark fw-normal">{{ uploadedFile.name }}</span>
       </div></div>
-
+            
       <div>
              <div *ngIf="fileUrl" class="mt-1">
         <a [href]="fileUrl" target="_blank" class=""><img src="assets/img/view.png" class="pe-2"></a>
       </div>
       </div>
-</div>
- 
-
- 
+</div>  
     </label>
+      <p *ngIf="!this.fileUrl" style="color:red">Please upload a document</p>
   </div>
   <div class="mb-3">
     <label class="form-label">Remarks*</label>
