@@ -42,6 +42,7 @@ export class ViewSoftwareComponent {
     repoName: string = '';
     branchName: string = '';
     softwareDeposit: any;
+   userType: 'beneficiary' | 'depositor' = 'depositor';
 
     constructor(
         private _AuthCoreService: AuthCoreService,
@@ -60,6 +61,8 @@ export class ViewSoftwareComponent {
     ngOnInit() {
         if (this.viewMode) {
             const escrowDetails = this._EditEscrowService.escrowDetails;
+            this.depositDetails = this._EditEscrowService.escrowDetails;
+             this.userType = (escrowDetails?.user_type ?? 'depositor') as 'beneficiary' | 'depositor';
             this.softwareDeposit = this._EditEscrowService.escrowDetails?.software_deposit
             if (escrowDetails?.software_deposit) {
                 this.uploadType = escrowDetails.software_deposit[0].upload_type;
@@ -235,7 +238,7 @@ export class ViewSoftwareComponent {
         }
     }
 
-    protected CertName(cert: string) {
+    protected CertName(cert: any) {
         // Remove all non-alphanumeric characters and convert to lowercase
         return cert.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
     }
