@@ -37,6 +37,8 @@ export const apiRoutes = {
   uploadDocument: {
     fileUrl: {
       url: 'common/upload-document',
+    }, getToken: {
+      url: 'common/upload-document',
     }
   },
   release: {
@@ -46,15 +48,15 @@ export const apiRoutes = {
     getConditionList: {
       url: 'escrow/release/get-condition'
     },
-    addRelease:{
+    addRelease: {
       url: 'escrow/release/add'
     }
   },
   escrow: {
-     updateTeamMember: {
+    updateTeamMember: {
       url: 'user/team-members/update'
     },
-      sendEmailTeamMember: {
+    sendEmailTeamMember: {
       url: 'escrow/team-member/send-mail'
     },
     getEscrowList: {
@@ -99,7 +101,7 @@ export const apiRoutes = {
     depositData: {
       url: 'escrow/deposits/data'
     },
-     integrationFlow: {
+    integrationFlow: {
       url: 'escrow/git/workflow',
     },
     integrationStatus: {

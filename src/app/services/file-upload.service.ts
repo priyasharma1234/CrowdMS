@@ -32,4 +32,17 @@ export class FileUploadService {
       })
     );
   }
+  HandleFileOpen(_escrowId:number,_documentPath: string, _fileType: string) {
+    this._ApiRequestService.postData({payload: {escrow_id: _escrowId, document_path: _documentPath}}, apiRoutes.uploadDocument.getToken).subscribe({
+      next: (response: any) => {
+        if (response && response.data.token) {
+          const fileUrl =  `${_documentPath}&token=${response.data.token}&type=${_fileType}`;
+          window.open(fileUrl, '_blank');
+        }
+      },
+      error: (error: any) => {
+        console.error('Error fetching document token:', error);
+      }
+    });
+  }
 }

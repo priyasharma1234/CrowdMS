@@ -63,8 +63,8 @@ export class ReleaseActionComponent {
             this._NgxToasterService.showError("Please upload a document", 'Error');
             return
         }
-           if (!this.selectedRequestValue === null) {
-            this._NgxToasterService.showError("Please elect release request", 'Error');
+           if (this.selectedRequestValue === null) {
+            this._NgxToasterService.showError("Please select release request", 'Error');
             return
         }
         if (this.releaseForm.valid) {
