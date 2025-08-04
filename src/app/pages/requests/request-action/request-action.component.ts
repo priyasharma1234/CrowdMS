@@ -48,7 +48,7 @@ export class RequestActionComponent {
     this.releaseForm.markAllAsTouched();
 
     if (this.selectedRequestStatus === null) {
-      this._NgxToasterService.showError("Please elect release request", 'Error');
+      this._NgxToasterService.showError("Please select release request", 'Error');
       return
     }
     if (this.releaseForm.valid) {
