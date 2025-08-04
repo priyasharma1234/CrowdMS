@@ -10,6 +10,7 @@ import { InputRestrictionDirective } from 'src/app/core/directives/InputRestrict
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { EscrowService } from 'src/app/services/escrow.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -48,6 +49,7 @@ export class DepositPhysicalComponent implements OnInit {
     private _ApiRequestService = inject(ApiRequestService);
     private _EscrowService = inject(EscrowService);
     private route = inject(ActivatedRoute);
+    public _FileUploadService = inject(FileUploadService)
     async ngOnInit() {
         const date = new Date();
         this.endMinScheduleDate = date;

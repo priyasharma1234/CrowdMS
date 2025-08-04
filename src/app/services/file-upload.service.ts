@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {catchError, map, Observable, throwError} from 'rxjs';
-import {apiRoutes} from '../config/api-request';
-import {ApiRequestService} from './api-request.service';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { apiRoutes } from '../config/api-request';
+import { ApiRequestService } from './api-request.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +32,14 @@ export class FileUploadService {
       })
     );
   }
-  HandleFileOpen(_escrowId:number,_documentPath: string, _fileType: string) {
-    this._ApiRequestService.postData({payload: {escrow_id: _escrowId, document_path: _documentPath}}, apiRoutes.uploadDocument.getToken).subscribe({
+  HandleFileOpen(_escrowId: number | '', _documentPath: any, _fileType: string) {
+    console.log("_escrowId", _escrowId);
+    console.log("_documentPath", _documentPath);
+    console.log("_fileType", _fileType);
+    this._ApiRequestService.postData({ payload: { escrow_id: _escrowId, document_path: _documentPath } }, apiRoutes.uploadDocument.getToken).subscribe({
       next: (response: any) => {
         if (response && response.data.token) {
-          const fileUrl =  `${_documentPath}&token=${response.data.token}&type=${_fileType}`;
+          const fileUrl = `${_documentPath}&token=${response.data.token}&type=${_fileType}`;
           window.open(fileUrl, '_blank');
         }
       },

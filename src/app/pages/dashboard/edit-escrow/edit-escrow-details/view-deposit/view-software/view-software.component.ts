@@ -19,7 +19,7 @@ import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
     imports: [FormsModule,
         NgForOf,
         NgIf,
-        IntegrationComponent,CommonModule],
+        IntegrationComponent, CommonModule],
     templateUrl: './view-software.component.html',
     styleUrl: './view-software.component.scss'
 })
@@ -42,17 +42,17 @@ export class ViewSoftwareComponent {
     repoName: string = '';
     branchName: string = '';
     softwareDeposit: any;
-   userType: 'beneficiary' | 'depositor' = 'depositor';
-
+    userType: 'beneficiary' | 'depositor' = 'depositor';
+    escrowId: any
     constructor(
         private _AuthCoreService: AuthCoreService,
         protected _EditEscrowService: EditEscrowService,
         private _CryptoService: CryptoService,
         private _ApiRequestService: ApiRequestService,
-        private _FileUploadService: FileUploadService,
+        public _FileUploadService: FileUploadService,
         private _Router: Router,
         private modalService: NgbModal,
-        private _NgxToasterService: NgxToasterService
+        private _NgxToasterService: NgxToasterService,
     ) {
     }
 
@@ -62,7 +62,8 @@ export class ViewSoftwareComponent {
         if (this.viewMode) {
             const escrowDetails = this._EditEscrowService.escrowDetails;
             this.depositDetails = this._EditEscrowService.escrowDetails;
-             this.userType = (escrowDetails?.user_type ?? 'depositor') as 'beneficiary' | 'depositor';
+            this.escrowId = this._EditEscrowService.escrowDetails?.id
+            this.userType = (escrowDetails?.user_type ?? 'depositor') as 'beneficiary' | 'depositor';
             this.softwareDeposit = this._EditEscrowService.escrowDetails?.software_deposit
             if (escrowDetails?.software_deposit) {
                 this.uploadType = escrowDetails.software_deposit[0].upload_type;

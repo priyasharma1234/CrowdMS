@@ -96,7 +96,8 @@
 
                     <div *ngIf="depositForm.get(field.controlName)?.value" class="view-img">
                         <p class="mb-1 mt-1">
-                            <a [href]="depositForm.get(field.controlName)?.value" target="_blank"
+                             <!-- [href]="depositForm.get(field.controlName)?.value" target="_blank"  -->
+                            <a (click)="_FileUploadService.HandleFileOpen(escrowId,depositForm.get(field.controlName)?.value,'deposit')" 
                                 class="text-decoration-none">
                                 <img src="assets/img/view.png" class="pe-2" />
                                 <!-- View Uploaded Image -->

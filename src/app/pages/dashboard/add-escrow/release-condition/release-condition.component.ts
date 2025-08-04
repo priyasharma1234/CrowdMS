@@ -6,6 +6,7 @@ import { apiRoutes } from 'src/app/config/api-request';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 import { EscrowService } from 'src/app/services/escrow.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
@@ -17,6 +18,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class ReleaseConditionComponent implements OnInit {
     releaseForm!: FormGroup;
     customForm!: FormGroup;
+    public _FileUploadService = inject(FileUploadService);
     private _NgxToasterService = inject(NgxToasterService);
     private _ApiRequestService = inject(ApiRequestService);
     private fb = inject(FormBuilder);

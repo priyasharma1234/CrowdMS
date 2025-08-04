@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditEscrowService } from '../../../../../services/edit-escrow.service';
 import { ViewEditReleaseComponent } from 'src/app/pages/release/view-edit-release/view-edit-release.component';
 import {IReleaseRequest} from '../../edit-escrow-types';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
     selector: 'app-view-release',
@@ -20,13 +21,16 @@ import {IReleaseRequest} from '../../edit-escrow-types';
 export class ViewReleaseComponent {
     releaseDocument: string
     releaseRequests: IReleaseRequest[] = [];
+    escrowId: any;
     constructor(
         private _ModalService: NgbModal,
-        private _EditEscrowService: EditEscrowService
+        private _EditEscrowService: EditEscrowService,
+        public _FileUploadService: FileUploadService
     ) {
       this._EditEscrowService.escrowDetails$?.subscribe((escrowDetails) => {
         console.log('Escrow Details:', escrowDetails);
         if (escrowDetails) {
+         this.escrowId = this._EditEscrowService.escrowDetails?.id
           this.releaseRequests = escrowDetails.release_request || [];
           this.releaseDocument = escrowDetails.release?.supporting_doc || '';
           this.conditions = JSON.parse(JSON.parse(escrowDetails.release?.reason ?? '[]')) as ICondition[];

@@ -246,7 +246,8 @@
               *ngIf="uploadedDocuments[this.CertName(doc)]">
               <span class="text-success">
                 {{ doc.replace('Upload', '') }}</span>
-              <a  *ngIf="userType === 'depositor'" [href]="uploadedDocuments[this.CertName(doc)].url" target="_blank"><img
+                <!-- [href]="uploadedDocuments[this.CertName(doc)].url" target="_blank" -->
+              <a  *ngIf="userType === 'depositor'" (click)="_FileUploadService.HandleFileOpen(escrowId,uploadedDocuments[this.CertName(doc)].url,'deposit-additional-documents')"><img
                   src="assets/img/view.png"></a>
             </li>
           </ul>
@@ -278,7 +279,8 @@
               *ngIf="uploadedCertificates[this.CertName(cert)]">
               <span class="text-success">
                 {{ cert }} {{viewMode ? '': 'Uploaded'}}</span>
-              <a [href]="uploadedCertificates[this.CertName(cert)].url" target="_blank"><img
+                <!-- [href]="uploadedCertificates[this.CertName(cert)].url" target="_blank"  -->
+              <a (click)="_FileUploadService.HandleFileOpen(escrowId,uploadedCertificates[this.CertName(cert)].url,'deposit-certificates')"><img
                   src="assets/img/view.png"></a>
             </li>
           </ul>
@@ -298,7 +300,8 @@
         <div class="card p-3 mb-2 shadow-sm border">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="mb-0 text-capitalize">{{ key.replace('_', ' ') }}</h6>
-            <a [href]="softwareDeposit[0].verification[key]" target="_blank" rel="noopener noreferrer">
+             <!-- [href]="softwareDeposit[0].verification[key]" target="_blank" -->
+            <a (click)="_FileUploadService.HandleFileOpen(escrowId,softwareDeposit[0].verification[key],'deposit-verification')" rel="noopener noreferrer">
               <img src="assets/img/view.png" alt="view" />
             </a>
           </div>

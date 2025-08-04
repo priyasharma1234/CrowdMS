@@ -32,7 +32,7 @@ export class ViewEditReleaseComponent implements OnInit {
         private _FormBuilder: FormBuilder,
         private _ApiRequestService: ApiRequestService,
         private _NgxToasterService: NgxToasterService,
-        private _FileUploadService: FileUploadService,
+        public _FileUploadService: FileUploadService,
         public _ActiveModal: NgbActiveModal,
         private _EscrowService: EscrowService,
         private _EditEscrowService: EditEscrowService

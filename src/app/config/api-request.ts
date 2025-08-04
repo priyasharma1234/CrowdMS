@@ -38,7 +38,7 @@ export const apiRoutes = {
     fileUrl: {
       url: 'common/upload-document',
     }, getToken: {
-      url: 'common/upload-document',
+      url: 'common/get-file-token',
     }
   },
   release: {

@@ -19,7 +19,8 @@
             <div class="view-img">
 
                 <p class="mb-1" *ngIf="releaseForm.get('document')?.value">
-                    <a [href]="releaseForm.get('document')?.value" target="_blank" class="text-decoration-none">
+                    <!-- [href]="releaseForm.get('document')?.value" target="_blank"  -->
+                    <a (click)="_FileUploadService.HandleFileOpen(escrowId,releaseForm.get('document')?.value,'release')" class="text-decoration-none">
                         <img src="assets/img/view.png" class="me-2">
                     </a>
                     <button type="button" class="btn border-0" (click)="removeUploadedDocument()">

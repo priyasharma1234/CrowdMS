@@ -17,11 +17,12 @@
     </div>
   </div>
 
-  <div class="other-doc-section">
+  <div class="other-doc-section" *ngIf="releaseDocument">
     <label>Other Document</label>
     <div class="doc-box">
       <div class="icon">📄</div>
-      <a class="filename" (click)="openInNewTab()">View</a>
+      <!-- (click)="openInNewTab()" -->
+      <a class="filename" (click)="_FileUploadService.HandleFileOpen(escrowId,releaseDocument,'release')">View</a>
     </div>
   </div>
 </div>

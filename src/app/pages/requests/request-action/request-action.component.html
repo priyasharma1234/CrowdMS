@@ -4,11 +4,23 @@
 </div>
 
 <div class="modal-body p-4" [formGroup]="releaseForm">
+    <div class="mb-3">
+        <label class="form-label">Select Release Request</label>
+        <div class="d-flex gap-4 flex-wrap">
+            <div *ngFor="let type of requestTypes" class="form-check form-check-inline"
+                [class.selected-radio]="selectedRequestType === type.value">
+                <input class="form-check-input" type="radio" name="selectedRequestType"
+                    [checked]="selectedRequestType === type.value" (change)="selectRequestType(type)" />
+                <label class="form-check-label">{{ type.label }}</label>
+            </div>
+        </div>
+    </div>
+
     <div class="mb-3" *ngIf="escrow.request_type == 'beneficiary' && escrow.escrow_type == 'Software' && this.selectedRequestStatus && !viewMode">
         <label class="form-label">Select Stage</label>
         <div class="d-flex gap-4 flex-wrap">
             <select class="form-select w-50" name="stage" [(ngModel)]="selectedRequestValue" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let stage of requestTypes" [value]="stage.value">{{ stage.label }}</option>
+                <option *ngFor="let stage of requestStagesTypes" [value]="stage.value">{{ stage.label }}</option>
             </select>
         </div>
     </div>

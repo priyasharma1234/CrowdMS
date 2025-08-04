@@ -30,7 +30,8 @@
             <p>Signing Date: {{formData?.signing_date}}</p>
             <p>Effective Date: {{formData?.effective_date}}</p>
             <p>Expiry Date: {{formData?.expiry_date}}</p>
-            <p><a [href]="formData?.document_url" target="_blank"
+            <!-- [href]="formData?.document_url" -->
+            <p><a (click)="_FileUploadService.HandleFileOpen(escrowId,formData.document_url,'agreement')"
                         class="text-decoration-none view-border">
                         <img src="assets/img/view.png" class="pe-1"> View Document
                     </a></p>
@@ -54,8 +55,9 @@
                     placeholder="Enter document name" />
             </div>
             <div *ngIf="docCtrl.get('url')?.value" class="text-success">
+                 <!-- [href]="docCtrl.get('url')?.value"  target="_blank"-->
                 Uploaded ✔️ –
-                <a [href]="docCtrl.get('url')?.value" target="_blank">View</a>
+                <a (click)="_FileUploadService.HandleFileOpen(escrowId,docCtrl.get('url')?.value,'agreement')">View</a>
             </div>
             <!-- *ngIf="additionalDocs.length > 1" -->
             <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeAdditionalDoc(i)">

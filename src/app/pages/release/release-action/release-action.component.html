@@ -28,7 +28,8 @@
             </div>
 
             <div *ngIf="fileUrl" class="mt-1">
-                <a [href]="fileUrl" target="_blank" class="btn btn-sm btn-outline-primary">
+                <!-- [href]="fileUrl" target="_blank" -->
+                <a  (click)="_FileUploadService.HandleFileOpen(escrowId,fileUrl,'release-action')" class="btn btn-sm btn-outline-primary">
                     <img src="assets/img/upload.png"> View Uploaded Document
                 </a>
             </div>

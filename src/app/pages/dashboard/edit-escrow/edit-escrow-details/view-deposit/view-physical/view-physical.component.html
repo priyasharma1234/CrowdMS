@@ -43,7 +43,8 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload KYC Document</label>
-            <a *ngIf="physicalDetails?.kyc" [href]="physicalDetails?.kyc" target="_blank" rel="noopener noreferrer">
+            <!-- [href]="physicalDetails?.kyc" target="_blank"  -->
+            <a *ngIf="physicalDetails?.kyc"  (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.kyc,'deposit')" rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
           </div>
@@ -52,7 +53,8 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload Device Picture</label>
-            <a *ngIf="physicalDetails?.device_picture" [href]="physicalDetails?.device_picture" target="_blank"
+             <!-- [href]="physicalDetails?.device_picture" target="_blank" -->
+            <a *ngIf="physicalDetails?.device_picture" (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.device_picture,'deposit')"
               rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
@@ -63,7 +65,8 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload Packaging Picture</label>
-            <a *ngIf="physicalDetails?.packaging_picture" [href]="physicalDetails?.packaging_picture" target="_blank"
+             <!-- [href]="physicalDetails?.packaging_picture" target="_blank"  -->
+            <a *ngIf="physicalDetails?.packaging_picture" (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.packaging_picture,'deposit')"
               rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
@@ -72,7 +75,8 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload VAPT Certificate</label>
-            <a *ngIf="physicalDetails?.vapt_certificate" [href]="physicalDetails?.vapt_certificate" target="_blank"
+            <!-- [href]="physicalDetails?.vapt_certificate" target="_blank" -->
+            <a *ngIf="physicalDetails?.vapt_certificate" (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.vapt_certificate,'deposit')"
               rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
@@ -81,7 +85,8 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload ISO Certificate</label>
-            <a *ngIf="physicalDetails?.iso_certificate" [href]="physicalDetails?.iso_certificate" target="_blank"
+            <!-- [href]="physicalDetails?.iso_certificate" target="_blank"  -->
+            <a *ngIf="physicalDetails?.iso_certificate" (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.iso_certificate,'deposit')"
               rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
@@ -90,7 +95,8 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload Other Picture</label>
-            <a *ngIf="physicalDetails?.other_picture" [href]="physicalDetails?.other_picture" target="_blank"
+             <!-- [href]="physicalDetails?.other_picture" target="_blank" -->
+            <a *ngIf="physicalDetails?.other_picture" (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.other_picture,'deposit')"
               rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
@@ -100,8 +106,9 @@
         <div class="col-md-4">
           <div class="form-control bg-light d-flex justify-content-between mt-2">
             <label>Upload Other Document</label>
-            <a *ngIf="physicalDetails?.other_documentation" [href]="physicalDetails?.other_documentation"
-              target="_blank" rel="noopener noreferrer">
+            <!-- [href]="physicalDetails?.other_documentation"
+              target="_blank" -->
+            <a *ngIf="physicalDetails?.other_documentation" (click)="_FileUploadService.HandleFileOpen(escrowId,physicalDetails?.other_documentation,'deposit')"  rel="noopener noreferrer">
               <img src="assets/img/view.png">
             </a>
           </div>

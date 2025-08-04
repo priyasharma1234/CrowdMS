@@ -20,7 +20,7 @@ export class ReleaseActionComponent {
     fileUrl: string | undefined;
     remarks: string = '';
     selectedRequestValue: number | null = null;
-    @Input() escrowId: string
+    @Input() escrowId: any;
     requestTypes = [
         { label: 'Approve', value: 1 },
         { label: 'Reject', value: 0 }
@@ -30,7 +30,7 @@ export class ReleaseActionComponent {
         private fb: FormBuilder,
         private _ApiRequestService: ApiRequestService,
         private _NgxToasterService: NgxToasterService,
-        private _FileUploadService: FileUploadService,
+        public _FileUploadService: FileUploadService,
         public activeModal: NgbActiveModal
     ) {
         this.releaseForm = this.fb.group({

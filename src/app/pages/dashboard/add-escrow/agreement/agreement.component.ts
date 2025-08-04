@@ -11,6 +11,7 @@ import { apiRoutes } from 'src/app/config/api-request';
 import { EscrowService } from 'src/app/services/escrow.service';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 // import { CustomDatepickerComponent } from '@core/custom-datepicker/custom-datepicker.component';
 // import { CustConfg } from '@core/custom-datepicker/ngx-datePicker-CustConfg';
 
@@ -39,7 +40,7 @@ export class AgreementComponent implements OnInit {
     formData: any;
     private route = inject(ActivatedRoute);
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService,
-        private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe) {
+        private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe,public _FileUploadService: FileUploadService) {
         const date = new Date();
         this.endMinScheduleDate = date;
         this.agreementForm = this.fb.group({

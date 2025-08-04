@@ -10,6 +10,7 @@ import { UppercaseDirective } from '../../../../../core/directives/uppercase/upp
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { EscrowService } from 'src/app/services/escrow.service';
 import { lastValueFrom } from 'rxjs';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
     selector: 'app-add-entity-modal',
@@ -31,7 +32,8 @@ export class AddEntityModalComponent implements OnInit {
     depositorId: any;
     beneId: any;
     constructor(public activeModal: NgbActiveModal, private fb: FormBuilder, private _ApiRequestService: ApiRequestService,
-        private _NgxToasterService: NgxToasterService, private _EscrowService: EscrowService) {
+        private _NgxToasterService: NgxToasterService, private _EscrowService: EscrowService,
+        public _FileUploadService: FileUploadService) {
         this._EscrowService.getService().subscribe((serviceKey: any) => {
             this.escrowType = serviceKey
         });
@@ -49,13 +51,13 @@ export class AddEntityModalComponent implements OnInit {
             company_name: ['', [Validators.required]],
             corporate_identifier: ['', [Validators.required]],
             user_identifier: ['', [Validators.required]],
-            company_pan: ['', [Validators.required,Validators.pattern(regExpPattern['PAN'])]],
-            company_cin: ['', [Validators.required,Validators.pattern(regExpPattern['cin'])]],
+            company_pan: ['', [Validators.required, Validators.pattern(regExpPattern['PAN'])]],
+            company_cin: ['', [Validators.required, Validators.pattern(regExpPattern['cin'])]],
             company_address: ['', [Validators.required]],
             rep_name: ['', [Validators.required]],
             rep_email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
             rep_mobile: ['', [Validators.required, Validators.pattern(regExpPattern['mobile'])]],
-            rep_alt_mobile: ['',[Validators.pattern(regExpPattern['mobile'])]],
+            rep_alt_mobile: ['', [Validators.pattern(regExpPattern['mobile'])]],
             rep_profile_pic: [null, Validators.required]
             // remark: ['', [Validators.required]],
         });
@@ -111,7 +113,7 @@ export class AddEntityModalComponent implements OnInit {
 
         // In case of edit
         if (this.entityData) {
-            console.log("this.entityData",this.entityData)
+            console.log("this.entityData", this.entityData)
             this.form.patchValue(this.entityData);
             this.form.get('entity_type')?.disable();
         }

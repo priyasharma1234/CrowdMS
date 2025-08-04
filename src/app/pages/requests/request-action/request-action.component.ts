@@ -22,15 +22,19 @@ export class RequestActionComponent {
   fileUrl: string | undefined;
   remarks: string = '';
   selectedRequestValue: string | null = null;
+  selectedRequestType: number | null = null;
   selectedRequestStatus: number | null = null;
   @Input() escrowId: string
   escrow: any;
-  requestTypes = [
+  requestStagesTypes = [
     {label: 'Validation - Depositor', value: 'AWAITING_DEPOSIT'},
     {label: 'Validation - Beneficiary', value: 'AWAITING_REVIEW'}
   ];
   viewMode: boolean = false;
-
+  requestTypes = [
+        { label: 'Approve', value: 1 },
+        { label: 'Reject', value: 0 }
+    ];
   constructor(
     private fb: FormBuilder,
     private _ApiRequestService: ApiRequestService,
@@ -46,11 +50,14 @@ export class RequestActionComponent {
 
   submit(): void {
     this.releaseForm.markAllAsTouched();
-
     if (this.selectedRequestStatus === null) {
       this._NgxToasterService.showError("Please select release request", 'Error');
       return
     }
+        if (this.selectedRequestType === null) {
+            this._NgxToasterService.showError("Please select release request", 'Error');
+            return
+        }
     if (this.releaseForm.valid) {
       let payload: {
         id: string;
@@ -60,10 +67,12 @@ export class RequestActionComponent {
         stage?: string;
       } = {
         id: this.escrowId,
-        status: this.selectedRequestStatus,
+        // status: this.selectedRequestStatus,
+        status:  this.selectedRequestType,
         remarks: this.releaseForm.get('remarks')?.value || '',
         type: this.escrow.request_type
       };
+     
       if (this.selectedRequestValue) {
         payload.stage = this.selectedRequestValue;
       }
@@ -85,4 +94,7 @@ export class RequestActionComponent {
     }
 
   }
+      selectRequestType(type: { label: string, value: number }): void {
+        this.selectedRequestType = type.value;
+    }
 }
