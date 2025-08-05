@@ -32,6 +32,6 @@ export class TopBarComponent implements OnInit {
 
   }
     logOut() {
-    this._AuthCoreService.logout(false);
+    this._AuthCoreService.logout(false,'You have been logged out successfully');
   }
 }

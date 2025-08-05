@@ -8,7 +8,8 @@ declare global {
 }
 
 type IApiRequestPayload<T> = {
-  form?: string;
+  // form?: string;
+  form?: FormGroup<any>
   payload?: T;
 }
 

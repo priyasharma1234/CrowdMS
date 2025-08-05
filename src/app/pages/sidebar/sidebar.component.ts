@@ -240,7 +240,7 @@ export class SidebarComponent {
   }
 
   logOut() {
-    this._AuthCoreService.logout(false);
+    this._AuthCoreService.logout(false,'You have been logged out successfully');
   }
   ngOnDestroy(): void {
     this._SessionStorageService.removeItem('selectd_item');
@@ -264,7 +264,7 @@ export class SidebarComponent {
     this._CommonService.pageTitle.next('Service Request List');
   }
   logout() {
-    this._AuthCoreService.logout(false)
+    this._AuthCoreService.logout(false,'You have been logged out successfully')
   }
 
   protected readonly sessionStorage = sessionStorage;

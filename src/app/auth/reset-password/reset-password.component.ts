@@ -75,7 +75,7 @@ export class ResetPasswordComponent {
     formInIt() {
         this.changePasswordForm = this._FormBuilder.group(
             {
-                password: [
+                new_password: [
                     '',
                     [
                         Validators.required,
@@ -106,10 +106,10 @@ export class ResetPasswordComponent {
                         passwordStrengthValidator()
                     ],
                 ],
-                confirm_password: ['', [Validators.required, Validators.minLength(8)]],
+                new_password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
                 // old_password:['',[Validators.required]],
             },
-            { validator: ConfirmedValidator('password', 'confirm_password') }
+            { validator: ConfirmedValidator('new_password', 'new_password_confirmation') }
         );
 
     }
@@ -120,12 +120,12 @@ export class ResetPasswordComponent {
     get passwordStrength(): { medium: boolean, strong: boolean, weak: boolean } {
         const mediumRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
         const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+]).{12,}$/;
-        const errors = this.f['password']?.errors;
+        const errors = this.f['new_password']?.errors;
 
         // Determine the strength
         const isWeak = errors?.['passwordStrength'] === 'weak';
-        const isMedium = !isWeak && mediumRegex.test(this.f['password']?.value);
-        const isStrong = !isWeak && strongRegex.test(this.f['password']?.value);
+        const isMedium = !isWeak && mediumRegex.test(this.f['new_password']?.value);
+        const isStrong = !isWeak && strongRegex.test(this.f['new_password']?.value);
 
         return {
             weak: isWeak,
@@ -135,17 +135,27 @@ export class ResetPasswordComponent {
     }
 
     ReSetPassword(type?: 'resend') {
+        this.changePasswordForm.markAllAsTouched()
+        console.log("resetpassword",this.changePasswordForm.value)
+            console.log("this.changePasswordForm",this.changePasswordForm)
         this.submitted = true;
         if (this.changePasswordForm.valid) {
+                   console.log("resetpasswordvALIDDDDDDDDDDDDDDD")
             this.showErrorBox = false;
             let formData = new FormData();
             formData.append('type', type ? type : '')
-            formData.append('new_password', this.changePasswordForm.value.password)
-            formData.append('new_password_confirmation', this.changePasswordForm.value.confirm_password)
+            formData.append('new_password', this.changePasswordForm.value.new_password)
+            formData.append('new_password_confirmation', this.changePasswordForm.value.new_password_confirmation)
             formData.append('token', this.urlToken);
-            this._ApiRequestService.postData({ payload: formData }, apiRoutes.auth.resetPasswordVerifyOtp).subscribe({
+            const requestPayload = {
+                payload: formData,
+                form: this.changePasswordForm 
+            };
+
+            this._ApiRequestService.postData(requestPayload, apiRoutes.auth.resetPasswordVerifyOtp).subscribe({
                 next: (res: any) => {
                     if (res) {
+                             console.log("RESSSSSSSSSS")
                         if (res.statuscode == 200) {
                             this.OpenOtpModal()
                             const phone = res.data.phone;
@@ -185,8 +195,8 @@ export class ResetPasswordComponent {
         }
         let formData = new FormData();
         formData.append('otp', otp);
-        formData.append('new_password', this.changePasswordForm.value.password)
-        formData.append('new_password_confirmation', this.changePasswordForm.value.confirm_password)
+        formData.append('new_password', this.changePasswordForm.value.new_password)
+        formData.append('new_password_confirmation', this.changePasswordForm.value.new_password_confirmation)
         formData.append('token', this.urlToken);
         this._ApiRequestService.postData({ payload: formData }, apiRoutes.auth.resetPassword).subscribe({
             next: (res: any) => {
