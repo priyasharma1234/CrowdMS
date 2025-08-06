@@ -41,7 +41,7 @@ export class AddStaffComponent {
             username: ['', Validators.required],
             email: ['', [Validators.required, Validators.pattern(regExpPattern['email'])]],
             phone: ['', [Validators.required, Validators.minLength(10)]],
-            rights: ['', Validators.required]
+            // rights: ['', Validators.required]
         });
     }
 
@@ -100,7 +100,7 @@ export class AddStaffComponent {
                         username: this.staffData?.username,
                         email: this.staffData?.email,
                         phone: this.staffData?.phone,
-                        rights: this.staffData?.rights
+                        // rights: this.staffData?.rights
                     });
                     this.userPermissions = resp.data.permissions;
                     this._NgxToasterService.showSuccess(resp.message, "Success");
