@@ -118,7 +118,8 @@
                 </app-show-errors>
 
                 <p class="mt-3" *ngIf="agreementDocumentForm.get('document_url')?.value">
-                    <a [href]="agreementDocumentForm.get('document_url')?.value" target="_blank"
+                     <!-- [href]="agreementDocumentForm.get('document_url')?.value" target="_blank" -->
+                    <a (click)="_FileUploadService.HandleFileOpen(escrowId,agreementDocumentForm.get('document_url')?.value,'agreement')"
                         class="text-decoration-none view-border me-3">
                         <img src="assets/img/view.png" class="pe-2"> Uploaded Image
                     </a>
