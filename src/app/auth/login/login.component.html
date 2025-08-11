@@ -24,3 +24,11 @@
     <button type="submit" class="btn btn-primary w-100" (click)="Login()"> Login </button>
   </form>
 </div>
+<ng-template #content let-modal>
+  <div class="otp-modal p-5 text-center">
+    <button type="button" class="btn-close position-absolute end-0 top-0 m-3" aria-label="Close" (click)="handleCloseModal()"></button>
+    <app-custom-dynamic-otp [otpBox]="6" [subtitle]="maskMobileNo"
+      [otpBoxNormal]="true" [submitBtnName]="'Verify & Proceed'" (sendOtp)="VerifyOtp($event)"
+      (resendOtp)="SendOTP(true)" [submitBtnClass]="'btn btn-primary'"></app-custom-dynamic-otp>
+  </div>
+</ng-template>

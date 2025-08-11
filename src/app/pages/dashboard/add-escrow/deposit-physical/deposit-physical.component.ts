@@ -29,9 +29,10 @@ export class DepositPhysicalComponent implements OnInit {
         { controlName: 'vapt_certificate', label: 'Upload VAPT Certificate' },
         { controlName: 'iso_certificate', label: 'Upload ISO Certificate' },
         { controlName: 'other_picture', label: 'Upload Other Picture' },
-        { controlName: 'other_documentation', label: 'Upload Other Documentation' }
+        { controlName: 'other_documentation', label: 'Upload Other Documentation' },
+        { controlName: 'l1_report', label: 'L1 Report' },
+        { controlName: 'l2_report', label: 'L2 Report' }
     ];
-
     datepickerConfig = {
         container: 'body',
         containerClass: 'theme-blue'
@@ -76,6 +77,8 @@ export class DepositPhysicalComponent implements OnInit {
             packaging_picture: ['', Validators.required],
             vapt_certificate: [''],
             iso_certificate: [''],
+            l1_report: [''],
+            l2_report: [''],
             other_picture: [''],
             other_documentation: ['']
         });
@@ -114,6 +117,8 @@ export class DepositPhysicalComponent implements OnInit {
             packaging_picture: this.depositData?.packaging_picture,
             vapt_certificate: this.depositData?.vapt_certificate,
             iso_certificate: this.depositData?.iso_certificate,
+            l1_report: this.depositData?.l1_report,
+            l2_report: this.depositData?.l2_report,
             other_picture: this.depositData?.other_picture,
             other_documentation: this.depositData?.other_documentation,
         })

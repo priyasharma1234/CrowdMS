@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ILoginApiPayload, ILoginApiResponse } from './login.types';
@@ -7,13 +7,16 @@ import { apiRoutes } from '../../config/api-request';
 import { AuthCoreService } from '../../services/auth-core.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { UppercaseDirective } from 'src/app/core/directives/uppercase/uppercase.directive';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CustomDynamicOtpComponent } from 'src/app/core/custom-dynamic-otp/custom-dynamic-otp.component';
 
 @Component({
   selector: 'app-login',
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    UppercaseDirective
+    UppercaseDirective,
+    CustomDynamicOtpComponent
   ],
   templateUrl: './login.component.html',
   standalone: true,
@@ -21,15 +24,52 @@ import { UppercaseDirective } from 'src/app/core/directives/uppercase/uppercase.
 })
 export class LoginComponent {
 
+  // loginForm: FormGroup;
+
+
+  // constructor(
+  //   private _formBuilder: FormBuilder,
+  //   private _ApiRequestService: ApiRequestService,
+  //   private _AuthCoreService: AuthCoreService,
+  //   private _Router: Router,
+  //   private _NgxToasterService: NgxToasterService
+  // ) {
+  //   this.loginForm = this._formBuilder.group({
+  //     userId: [''],
+  //     password: ['']
+  //   });
+  // }
+
+  // Login() {
+  //   this.loginForm.markAllAsTouched()
+  //   if (this.loginForm.valid) {
+  //     const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
+  //     this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
+  //       if (res.statuscode == 200) {
+  //         this._AuthCoreService.SetUser(res.data.user, res.data.token);
+  //          this._NgxToasterService.showSuccess(res?.message, 'Success');
+  //         this._Router.navigate(['/dashboard']);
+  //       } else {
+  //         this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
+  //       }
+  //     });
+  //   }
+
+  // }
+  @ViewChild('content') modalContentRef!: TemplateRef<any>;
+  maskMobileNo: string = '';
+  isResendOtp: boolean = false;
+
   loginForm: FormGroup;
-
-
+  modalRef!: NgbModalRef;
   constructor(
     private _formBuilder: FormBuilder,
     private _ApiRequestService: ApiRequestService,
     private _AuthCoreService: AuthCoreService,
     private _Router: Router,
-    private _NgxToasterService: NgxToasterService
+    private _NgxToasterService: NgxToasterService,
+    private modalService: NgbModal
+
   ) {
     this.loginForm = this._formBuilder.group({
       userId: [''],
@@ -38,22 +78,54 @@ export class LoginComponent {
   }
 
   Login() {
-    this.loginForm.markAllAsTouched()
-    if (this.loginForm.valid) {
-      const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
-      this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
-        if (res.statuscode == 200) {
-          this._AuthCoreService.SetUser(res.data.user, res.data.token);
-           this._NgxToasterService.showSuccess(res?.message, 'Success');
-          this._Router.navigate(['/dashboard']);
-        } else {
-          this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
-        }
-      });
+    if (!this.loginForm.valid) {
+      return;
     }
+    const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
+    this.maskMobileNo = 'Please enter the OTP to complete the process. We send a code to +9977655545'
+    this.OpenOtpModal();
 
   }
 
+  OpenOtpModal() {
+    this.modalRef = this.modalService.open(this.modalContentRef, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+      size: 'md',
+    });
+  }
 
+  VerifyOtp(otp: any) {
+    console.log(otp);
+
+    if (!otp) {
+      this._NgxToasterService.showInfo('please enter OTP', 'Info');
+      return;
+    }
+    let formData = new FormData();
+    formData.append('otp', otp);
+    const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
+    this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
+      if (res.statuscode == 200) {
+        this.handleCloseModal();
+        this._NgxToasterService.showSuccess(res?.message, 'Success');
+        this._AuthCoreService.SetUser(res.data.user, res.data.token);
+        this._Router.navigate(['/dashboard']);
+      } else {
+        this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
+      }
+    });
+  }
+
+  async SendOTP(isResendOtp?: boolean) {
+    this.isResendOtp = true;
+    // this.Login();
+  }
+
+  handleCloseModal() {
+    this.modalRef.close();
+  }
 
 }
+

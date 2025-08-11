@@ -45,7 +45,7 @@
       <div>
              <div *ngIf="fileUrl" class="mt-1">
                <!-- [href]="fileUrl" target="_blank" -->
-        <a (click)="_FileUploadService.HandleFileOpen(escrowId,fileUrl,'release-add-edit')" class=""><img src="assets/img/view.png" class="pe-2"></a>
+        <a (click)="$event.preventDefault(); $event.stopPropagation();_FileUploadService.HandleFileOpen(escrowId,fileUrl,'release-add-edit')" class=""><img src="assets/img/view.png" class="pe-2"></a>
       </div>
       </div>
 </div>  
