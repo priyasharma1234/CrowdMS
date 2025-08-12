@@ -6,6 +6,7 @@ import { DynamicTableComponent, DynamicTableModule } from '@ciphersquare/dynamic
 import { ViewEditReleaseComponent } from './view-edit-release/view-edit-release.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReleaseActionComponent } from './release-action/release-action.component';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
     selector: 'app-release',
@@ -23,11 +24,12 @@ export class ReleaseComponent {
 
     constructor(
         private _ApiRequestService: ApiRequestService,
-        private _ModalService: NgbModal
+        private _ModalService: NgbModal,
+        private _FileUploadService: FileUploadService
     ) {
         this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
     }
-    onTableAction($event: { type: string; row: any }) {
+    async onTableAction($event: { type: string; row: any }) {
         console.log('Table action triggered:', $event);
         // 
         if ($event.type == 'escrow.release.edit' && ($event.row.status_txt === 'Partially Approved' || $event.row.status_txt === 'Pending')) {
@@ -35,10 +37,15 @@ export class ReleaseComponent {
         } if ($event.type == 'document') {
             const docUrl = $event.row?.document;
             if (docUrl) {
-                window.open(docUrl, '_blank');
+                 await this._FileUploadService.HandleFileOpen($event?.row?.raw_escrow_id, docUrl, 'release-action');
             } else {
                 console.warn('No document URL found in event data');
             }
+            // if (docUrl) {
+            //     window.open(docUrl, '_blank');
+            // } else {
+            //     console.warn('No document URL found in event data');
+            // }
         }
     }
     CreateReleaseRequest(): void {

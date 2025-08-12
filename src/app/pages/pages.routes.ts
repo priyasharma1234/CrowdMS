@@ -51,6 +51,10 @@ export const PagesRoutes: Routes = [
         loadComponent: () => import('./requests/requests.component').then(m => m.RequestsComponent)
       },
       {
+        path: 'deposits',
+        loadComponent: () => import('./deposits/deposits.component').then(m => m.DepositsComponent)
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard'
