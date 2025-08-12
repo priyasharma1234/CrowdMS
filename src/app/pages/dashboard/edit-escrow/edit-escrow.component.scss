@@ -47,6 +47,17 @@ justify-content: center;
  .upcoming-line {
   background-color: #E6EFF5;
 }
+  .active {
+    border-color: #062745;
+    background-color: #062745;
+    // color: #062745;
+   color: #fff;
+  }
+    .active1 {
+    border-color: #062745;
+    background-color: #e6eff5;
+    color: #062745;
+  }
 .step-wrapper {
   position: relative;
 

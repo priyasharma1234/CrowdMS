@@ -41,11 +41,15 @@
                 <div class="text-center">
                     <div [ngClass]="{
           'circle': true,
+        'active1': step.step === currentStep && status, 
+        'active': step.step === currentStep && !status,
           'completed': step.step <= currentStep,
           'upcoming': step.step > currentStep
         }">
-                  <!-- 'active': step.step === currentStep, -->
-                        <span *ngIf="step.step <= currentStep"><i class="fa-solid fa-check"></i></span>
+                        <!-- 'active': step.step === currentStep, -->
+                        <span *ngIf="step.step < currentStep"><i class="fa-solid fa-check"></i></span>
+                            <span *ngIf="step.step === currentStep  && status" style="color:#062745;"></span>
+                        <span *ngIf="step.step === currentStep && !status"><i class="fa-solid fa-check"></i></span>
                         <!-- <span *ngIf="step.step === currentStep" style="color:#062745;">●</span> -->
                         <span *ngIf="step.step > currentStep" style="color:#E6EFF5;">○</span>
                     </div>
