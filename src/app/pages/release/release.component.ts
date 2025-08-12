@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { ApiRequestService } from '../../services/api-request.service';
@@ -7,6 +7,8 @@ import { ViewEditReleaseComponent } from './view-edit-release/view-edit-release.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReleaseActionComponent } from './release-action/release-action.component';
 import { FileUploadService } from 'src/app/services/file-upload.service';
+import { SidebarService } from '../sidebar/sidebar-service.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 @Component({
     selector: 'app-release',
@@ -17,7 +19,7 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
     styleUrl: './release.component.scss',
     standalone: true
 })
-export class ReleaseComponent {
+export class ReleaseComponent implements OnInit {
     @ViewChild(DynamicTableComponent) dynamicTable!: DynamicTableComponent;
     protected readonly environment = environment;
     protected httpHeaders: HttpHeaders;
@@ -25,9 +27,16 @@ export class ReleaseComponent {
     constructor(
         private _ApiRequestService: ApiRequestService,
         private _ModalService: NgbModal,
-        private _FileUploadService: FileUploadService
+        private _FileUploadService: FileUploadService,
+        private _SidebarService: SidebarService,
+        private _SessionStorageService: SessionStorageService
+
     ) {
         this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
+    }
+    ngOnInit(): void {
+        this._SidebarService.selectedItemActive = 'Release Requests';
+        this._SessionStorageService.setItem('selectd_item', 'Release Requests');
     }
     async onTableAction($event: { type: string; row: any }) {
         console.log('Table action triggered:', $event);
@@ -37,7 +46,7 @@ export class ReleaseComponent {
         } if ($event.type == 'document') {
             const docUrl = $event.row?.document;
             if (docUrl) {
-                 await this._FileUploadService.HandleFileOpen($event?.row?.raw_escrow_id, docUrl, 'release-action');
+                await this._FileUploadService.HandleFileOpen($event?.row?.raw_escrow_id, docUrl, 'release-action');
             } else {
                 console.warn('No document URL found in event data');
             }
