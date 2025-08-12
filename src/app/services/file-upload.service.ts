@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, throwError } from 'rxjs';
 import { apiRoutes } from '../config/api-request';
 import { ApiRequestService } from './api-request.service';
 
@@ -32,20 +32,36 @@ export class FileUploadService {
       })
     );
   }
-  HandleFileOpen(_escrowId: number | '', _documentPath: any, _fileType: string) {
+ async HandleFileOpen(_escrowId: number | '', _documentPath: any, _fileType: string, _openDoc = true) {
     console.log("_escrowId", _escrowId);
     console.log("_documentPath", _documentPath);
     console.log("_fileType", _fileType);
-    this._ApiRequestService.postData({ payload: { escrow_id: _escrowId, document_path: _documentPath } }, apiRoutes.uploadDocument.getToken).subscribe({
-      next: (response: any) => {
-        if (response && response.data.token) {
-          const fileUrl = `${_documentPath}&token=${response.data.token}&type=${_fileType}`;
-          window.open(fileUrl, '_blank');
-        }
+      const payload = {
+      payload: {
+        escrow_id: _escrowId,
+        document_path: _documentPath,
       },
-      error: (error: any) => {
-        console.error('Error fetching document token:', error);
+    };
+
+     try {
+      const response: any = await firstValueFrom(this._ApiRequestService.postData(payload, apiRoutes.uploadDocument.getToken));
+
+      const token = response?.data?.token;
+      if (!token) {
+        return;
       }
-    });
+
+      const fileUrl = `${_documentPath}&token=${token}&type=${_fileType}`;
+
+      if (_openDoc) {
+        return window.open(fileUrl, '_blank');
+      } else {
+        return fileUrl;
+      }
+
+    } catch (error) {
+      console.error('Error fetching document token:', error);
+      throw error;
+    }
   }
-}
+  }

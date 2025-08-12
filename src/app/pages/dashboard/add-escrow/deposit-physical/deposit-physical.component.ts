@@ -136,9 +136,9 @@ export class DepositPhysicalComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
         const imageTypes = ['image/png', 'image/jpeg'];
+        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate','l1_report','l2_report'];
 
-        // Set allowedTypes based on controlName
-        const allowedTypes = controlName === 'other_documentation'
+        const allowedTypes = docControls.includes(controlName)
             ? [...imageTypes, ...documentTypes]
             : imageTypes;
 
@@ -146,7 +146,7 @@ export class DepositPhysicalComponent implements OnInit {
             const docMsg = 'Only PDF, Word, Excel, PNG or JPEG allowed';
             const imgMsg = 'Only PNG or JPEG allowed';
             this._NgxToasterService.showError(
-                controlName === 'other_documentation' ? docMsg : imgMsg,
+                   docControls.includes(controlName) ? docMsg : imgMsg,
                 'Invalid File'
             );
             this.depositForm.patchValue({ [controlName]: null });
