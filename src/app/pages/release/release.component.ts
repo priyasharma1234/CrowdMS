@@ -29,7 +29,8 @@ export class ReleaseComponent {
     }
     onTableAction($event: { type: string; row: any }) {
         console.log('Table action triggered:', $event);
-        if ($event.type == 'escrow.release.edit') {
+        // 
+        if ($event.type == 'escrow.release.edit' && ($event.row.status_txt === 'Partially Approved' || $event.row.status_txt === 'Pending')) {
             this.actionReleaseRequest($event?.row?.id);
         } if ($event.type == 'document') {
             const docUrl = $event.row?.document;

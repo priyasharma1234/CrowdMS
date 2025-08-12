@@ -226,7 +226,7 @@
     </div> -->
 
 
-    <!-- <div class="row" *ngIf="this.depositDetails?.deposit?.documents">
+    <div class="row" *ngIf="this.depositDetails?.deposit?.documents">
       <h5 class="my-3">Additional Documents</h5>
       <ng-container *ngFor="let doc of this.depositDetails.deposit.documents.split(',')">
         <div class="col-12 col-lg-6">
@@ -235,14 +235,14 @@
               *ngIf="uploadedDocuments[this.CertName(doc)]">
               <span class="text-success">
                 {{ doc.replace('Upload', '') }}</span>
-              <a  *ngIf="userType === 'depositor'" (click)="_FileUploadService.HandleFileOpen(escrowId,uploadedDocuments[this.CertName(doc)].url,'deposit-additional-documents')"><img
-                  src="assets/img/view.png"></a>
+              <!-- <a  *ngIf="userType === 'depositor'" (click)="_FileUploadService.HandleFileOpen(escrowId,uploadedDocuments[this.CertName(doc)].url,'deposit-additional-documents')"><img
+                  src="assets/img/view.png"></a> -->
             </li>
           </ul>
         </div>
       </ng-container>
 
-    </div> -->
+    </div>
     <div class="row" *ngIf="this.depositDetails?.deposit?.certificates">
       <h5 class="my-3">Certificates</h5>
       <ng-container *ngFor="let cert of this.depositDetails.deposit.certificates.split(',')">
