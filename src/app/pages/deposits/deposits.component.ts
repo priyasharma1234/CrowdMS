@@ -6,6 +6,7 @@ import { ApiRequestService } from 'src/app/services/api-request.service';
 import { environment } from 'src/environments/environment';
 import { SidebarService } from '../sidebar/sidebar-service.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { DepositListSoftwareComponent } from './deposit-list-software/deposit-list-software.component';
 
 @Component({
     selector: 'app-deposits',
@@ -33,28 +34,29 @@ export class DepositsComponent implements OnInit {
     }
     onTableAction($event: { type: string; row: any }) {
         console.log('Table action triggered:', $event);
-        // 
-        if ($event.type == 'escrow.release.edit' && ($event.row.status_txt === 'Partially Approved' || $event.row.status_txt === 'Pending')) {
-            this.actionReleaseRequest($event?.row?.id);
-        } if ($event.type == 'document') {
-            const docUrl = $event.row?.document;
-            if (docUrl) {
-                window.open(docUrl, '_blank');
-            } else {
-                console.warn('No document URL found in event data');
-            }
+        if ($event.type == 'edit') {
+             const modalRef = this._ModalService.open(DepositListSoftwareComponent, {
+                size: 'xl',
+                backdrop: 'static',
+                centered: true
+            })
+             modalRef.componentInstance.depositDetails = $event?.row;
+             modalRef.componentInstance.viewMode = true
+            modalRef.closed.subscribe(() => {
+                this.dynamicTable.refresh();
+            });
         }
     }
 
-    actionReleaseRequest(id: string): void {
-        //     const modalRef = this._ModalService.open(ReleaseActionComponent, {
-        //         size: 'md',
-        //         backdrop: 'static',
-        //         centered: true
-        //     })
-        //     modalRef.componentInstance.escrowId = id;
-        //     modalRef.closed.subscribe(() => {
-        //         this.dynamicTable.refresh();
-        //     });
-    }
+    // actionReleaseRequest(id: string): void {
+    //         const modalRef = this._ModalService.open(DepositListSoftwareComponent, {
+    //             size: 'md',
+    //             backdrop: 'static',
+    //             centered: true
+    //         })
+    //          modalRef.componentInstance.escrowId = id;
+    //         modalRef.closed.subscribe(() => {
+    //             this.dynamicTable.refresh();
+    //         });
+    // }
 }

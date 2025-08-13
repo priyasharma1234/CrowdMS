@@ -173,6 +173,11 @@ export const apiRoutes = {
       url: 'usermanagement/staff/destroy'
     },
   },
+  deposits:{
+   updateDeposit: {
+   url: 'escrow/deposits/update',
+   }
+  },
   requests: {
     takeAction: {
       url: 'escrow/requests/action',
