@@ -463,7 +463,7 @@ export class DepositListSoftwareComponent {
         .subscribe({
           next: (res: any) => {
             if (res?.statuscode == 200) {
-              this.activeModal.dismiss();
+              this.activeModal.close();
               this._NgxToasterService.showSuccess(res.message, "Success");
             } else {
               console.log("res", res)
