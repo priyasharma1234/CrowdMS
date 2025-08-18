@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedModule } from '../../../../shared/shared.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,12 +22,14 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
     styleUrl: './agreement.component.scss'
 })
 export class AgreementComponent implements OnInit {
+    @ViewChild('content') contentTemplate!: TemplateRef<any>;
     @Output() formInstance = new EventEmitter<FormGroup>();
     datepickerConfig = {
         container: 'body',
         containerClass: 'theme-blue'
     } as any;
     endMinScheduleDate!: Date;
+    endMinDateMonthAgo!: Date;
     bsCustConfg = CustConfg;
     agreementForm: FormGroup;
     agreementDocumentForm: FormGroup;
@@ -40,7 +42,7 @@ export class AgreementComponent implements OnInit {
     formData: any;
     private route = inject(ActivatedRoute);
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService,
-        private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe,public _FileUploadService: FileUploadService) {
+        private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe, public _FileUploadService: FileUploadService) {
         const date = new Date();
         this.endMinScheduleDate = date;
         this.agreementForm = this.fb.group({
@@ -67,6 +69,11 @@ export class AgreementComponent implements OnInit {
             console.log("escrow", id)
             this.escrowId = id
         });
+        const today = new Date();
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(today.getMonth() - 1);
+
+        this.endMinDateMonthAgo = oneMonthAgo;
         const id = this.route.snapshot.paramMap.get('id');
         console.log("idddddddddd", id)
         console.log("this.agreementData)", this.agreementData)
@@ -268,6 +275,12 @@ export class AgreementComponent implements OnInit {
     }
     openModal(content: any) {
         const form = this.agreementDocumentForm;
+        console.log("agreementData", this.agreementData);
+        console.log("form", form)
+          console.log("!form.get('signing_date')?.value",!form.get('signing_date')?.value);
+          console.log(" && !form.get('effective_date')?.value", !form.get('effective_date')?.value)
+          console.log("!form.get('expiry_date')?.value ",  !form.get('expiry_date')?.value , !this.agreementData , !this.formData)
+        console.log("!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value && !this.agreementData && !this.formData",!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value && !this.agreementData && !this.formData)
         if (!form.get('signing_date')?.value && !form.get('effective_date')?.value && !form.get('expiry_date')?.value && !this.agreementData && !this.formData) {
             const today = new Date();
             const expiry = new Date();
@@ -302,6 +315,16 @@ export class AgreementComponent implements OnInit {
 
 
         this.modalService.open(content, { centered: true, size: 'lg' });
+    }
+    closeModal(){
+        this.modalService.dismissAll();
+         this.agreementDocumentForm.reset();
+        }
+    
+    onAgreementTypeChange(event: any) {
+        const selectedType = event.target.value;
+          this.agreementDocumentForm.reset();
+        // this.openModal(this.contentTemplate);
     }
 
     handleModalFile(event: Event, fileInput: HTMLInputElement): void {

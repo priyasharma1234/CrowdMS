@@ -1,8 +1,24 @@
 <form [formGroup]="agreementForm" class="agreement">
     <div class="mb-3">
         <label>Agreement Type:</label><br />
+ <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" 
+           formControlName="agreement_type" 
+           value="triparty"
+           id="triparty"
+           (change)="onAgreementTypeChange($event)" />
+    <label class="form-check-label" for="triparty">Triparty Agreement</label>
+  </div>
 
-        <div class="form-check form-check-inline">
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" 
+           formControlName="agreement_type" 
+           value="biparty"
+           id="biparty"
+           (change)="onAgreementTypeChange($event)" />
+    <label class="form-check-label" for="biparty">Biparty Agreement</label>
+  </div>
+        <!-- <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" formControlName="agreement_type" value="triparty"
                 id="triparty" />
             <label class="form-check-label" for="triparty">Triparty Agreement</label>
@@ -12,7 +28,7 @@
             <input class="form-check-input" type="radio" formControlName="agreement_type" value="biparty"
                 id="biparty" />
             <label class="form-check-label" for="biparty">Biparty Agreement</label>
-        </div>
+        </div> -->
     </div>
     <div class="mb-3" *ngIf="agreementForm.get('agreement_type')?.value">
         <label for="agreementDoc">Upload {{ agreementForm.get('agreement_type')?.value | titlecase }} Document</label>
@@ -72,7 +88,7 @@
 <ng-template #content let-modal>
     <div class="modal-header">
         <h5 class="modal-title">Upload Form</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
     </div>
     <div class="modal-body">
         <form [formGroup]="agreementDocumentForm">
@@ -80,7 +96,7 @@
                 <label>Signing Date*</label>
                 <app-custom-datepicker formControlName="signing_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
-                    [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo"></app-custom-datepicker>
 
                 
                 <app-show-errors [ctrl]="agreementDocumentForm.get('signing_date')"
@@ -91,7 +107,7 @@
                 <label>Effective Date*</label>
                 <app-custom-datepicker formControlName="effective_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
-                    [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo"></app-custom-datepicker>
 
                 <span class="highlight"></span>
                 <app-show-errors [ctrl]="agreementDocumentForm.get('effective_date')"
@@ -121,7 +137,7 @@
                      <!-- [href]="agreementDocumentForm.get('document_url')?.value" target="_blank" -->
                     <a (click)="_FileUploadService.HandleFileOpen(escrowId,agreementDocumentForm.get('document_url')?.value,'agreement')"
                         class="text-decoration-none view-border me-3">
-                        <img src="assets/img/view.png" class="pe-2"> Uploaded Image
+                        <img src="assets/img/view.png" class="pe-2"> View Document
                     </a>
                     <button type="button" class="btn border-0 p-0" (click)="clearModalDocument()">
                        <img src="assets/img/delete.png">
