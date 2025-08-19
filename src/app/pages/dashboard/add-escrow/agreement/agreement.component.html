@@ -67,8 +67,8 @@
             <!-- <label>Document {{ i + 1 }}</label> -->
             <div class="mb-2">
                 <label>Document Name {{ i + 1 }}</label>
-                <div class="d-flex gap-3">
-                                  <input type="text" class="form-control w-50" formControlName="doc_name"
+                <div class="d-flex gap-3 flex-wrap">
+                                  <input type="text" class="form-control w-100 w-lg-50" formControlName="doc_name"
                     placeholder="Enter document name" />
                           <div *ngIf="docCtrl.get('url')?.value" class="text-success">
                  <!-- [href]="docCtrl.get('url')?.value"  target="_blank"-->
@@ -83,7 +83,7 @@
       
             <!-- *ngIf="additionalDocs.length > 1" -->
         
-        </div>>
+        </div>
         </div>
     </div>
 
