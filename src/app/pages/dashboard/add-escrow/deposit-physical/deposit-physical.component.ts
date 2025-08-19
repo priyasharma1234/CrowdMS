@@ -127,7 +127,7 @@ export class DepositPhysicalComponent implements OnInit {
         })
 
     }
- parseDDMMYYYY(dateStr: string): Date | null {
+    parseDDMMYYYY(dateStr: string): Date | null {
         if (!dateStr) return null;
         const parts = dateStr.split('/'); // ["20", "08", "2025"]
         if (parts.length !== 3) return null;
@@ -149,18 +149,27 @@ export class DepositPhysicalComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
+        const PdfType = [
+            'application/pdf',
+        ];
         const imageTypes = ['image/png', 'image/jpeg'];
-        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate', 'l1_report', 'l2_report','kyc'];
+        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate', 'l1_report', 'l2_report'];
+
 
         const allowedTypes = docControls.includes(controlName)
             ? [...imageTypes, ...documentTypes]
-            : imageTypes;
+            : controlName === 'kyc'
+                ? [...imageTypes, ...PdfType]
+                : [...imageTypes];
 
         if (!allowedTypes.includes(file.type)) {
+            const pdfImgMsg = 'Only PDF, PNG or JPEG allowed';
             const docMsg = 'Only PDF, Word, Excel, PNG or JPEG allowed';
             const imgMsg = 'Only PNG or JPEG allowed';
             this._NgxToasterService.showError(
-                docControls.includes(controlName) ? docMsg : imgMsg,
+                docControls.includes(controlName) ? docMsg : controlName === 'kyc'
+                    ? pdfImgMsg
+                    : imgMsg,
                 'Invalid File'
             );
             this.depositForm.patchValue({ [controlName]: null });
