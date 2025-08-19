@@ -84,6 +84,7 @@
         </div>
         <ng-container *ngFor="let field of fileFields">
             <div class="col-md-6 upload-doc">
+                 <label class="opacity-0"  *ngIf="field.controlName == 'kyc' && depositForm.get('device')?.value === 'others'">{{ field.label }}</label>
                 <div class="position-relative">
                     <label class="custom-file-upload">
                         <img src="assets/img/upload.png" class="me-2"> {{ field.label }}

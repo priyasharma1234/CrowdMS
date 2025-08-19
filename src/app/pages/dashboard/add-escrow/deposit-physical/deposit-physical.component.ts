@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -51,6 +52,7 @@ export class DepositPhysicalComponent implements OnInit {
     private _EscrowService = inject(EscrowService);
     private route = inject(ActivatedRoute);
     public _FileUploadService = inject(FileUploadService)
+    private _DatePipe = inject(DatePipe)
     async ngOnInit() {
         const date = new Date();
         this.endMinScheduleDate = date;
@@ -109,6 +111,7 @@ export class DepositPhysicalComponent implements OnInit {
             device: this.depositData?.device,
             other: this.depositData?.other,
             submit_date: this.depositData?.submit_date,
+            // submit_date: this._DatePipe.transform(this.depositData?.submit_date, 'dd-MM-yyyy'),
             primary_location: this.depositData?.primary_location,
             vault_number: this.depositData?.vault_number,
             kyc: this.depositData?.kyc,
@@ -136,7 +139,7 @@ export class DepositPhysicalComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
         const imageTypes = ['image/png', 'image/jpeg'];
-        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate','l1_report','l2_report'];
+        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate', 'l1_report', 'l2_report'];
 
         const allowedTypes = docControls.includes(controlName)
             ? [...imageTypes, ...documentTypes]
@@ -146,7 +149,7 @@ export class DepositPhysicalComponent implements OnInit {
             const docMsg = 'Only PDF, Word, Excel, PNG or JPEG allowed';
             const imgMsg = 'Only PNG or JPEG allowed';
             this._NgxToasterService.showError(
-                   docControls.includes(controlName) ? docMsg : imgMsg,
+                docControls.includes(controlName) ? docMsg : imgMsg,
                 'Invalid File'
             );
             this.depositForm.patchValue({ [controlName]: null });
