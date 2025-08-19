@@ -58,28 +58,32 @@
     <div class="mb-3">
         <label>Upload Additional Document</label>
         <p>Other Agreement related documents like SLA, NDA and other documents can be uploaded here.</p>
-        <div>
+        <div class="mb-2">
             <input type="file" multiple (change)="onMultiFileSelect($event)"
                 accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx" class="form-control upload-doc p-3" />
         </div>
         <div formArrayName="additional_docs">
-        <div  *ngFor="let docCtrl of additionalDocs.controls; let i = index" [formGroupName]="i" class="border p-3 mb-2 rounded">
+     <div  *ngFor="let docCtrl of additionalDocs.controls; let i = index" [formGroupName]="i" class="border p-3 mb-2 rounded">
             <!-- <label>Document {{ i + 1 }}</label> -->
             <div class="mb-2">
                 <label>Document Name {{ i + 1 }}</label>
-                <input type="text" class="form-control" formControlName="doc_name"
+                <div class="d-flex gap-3">
+                                  <input type="text" class="form-control w-50" formControlName="doc_name"
                     placeholder="Enter document name" />
-            </div>
-            <div *ngIf="docCtrl.get('url')?.value" class="text-success">
+                          <div *ngIf="docCtrl.get('url')?.value" class="text-success">
                  <!-- [href]="docCtrl.get('url')?.value"  target="_blank"-->
                 Uploaded ✔️ –
-                <button class="btn btn-primary px-2 py-1" (click)="_FileUploadService.HandleFileOpen(escrowId,docCtrl.get('url')?.value,'agreement')">View</button>
-            </div>
-            <!-- *ngIf="additionalDocs.length > 1" -->
-            <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeAdditionalDoc(i)">
+                <button class="btn btn-primary" (click)="_FileUploadService.HandleFileOpen(escrowId,docCtrl.get('url')?.value,'agreement')">View</button>
+                </div>
+      <button type="button" class="btn btn-danger" (click)="removeAdditionalDoc(i)">
                 Remove
             </button>
-        </div>
+            </div>
+            </div>
+      
+            <!-- *ngIf="additionalDocs.length > 1" -->
+        
+        </div>>
         </div>
     </div>
 
