@@ -110,7 +110,7 @@ export class DepositPhysicalComponent implements OnInit {
             depositor_mobile: this.depositData?.depositor_mobile,
             device: this.depositData?.device,
             other: this.depositData?.other,
-            submit_date: this.depositData?.submit_date,
+            submit_date: this.parseDDMMYYYY(this.depositData?.submit_date),
             // submit_date: this._DatePipe.transform(this.depositData?.submit_date, 'dd-MM-yyyy'),
             primary_location: this.depositData?.primary_location,
             vault_number: this.depositData?.vault_number,
@@ -127,6 +127,17 @@ export class DepositPhysicalComponent implements OnInit {
         })
 
     }
+ parseDDMMYYYY(dateStr: string): Date | null {
+        if (!dateStr) return null;
+        const parts = dateStr.split('/'); // ["20", "08", "2025"]
+        if (parts.length !== 3) return null;
+
+        const day = +parts[0];
+        const month = +parts[1] - 1; // JS months are 0-based
+        const year = +parts[2];
+
+        return new Date(year, month, day);
+    }
     handleCommonFileUpload(event: Event, fileInput: HTMLInputElement, controlName: string): void {
         const file = (event.target as HTMLInputElement)?.files?.[0];
         if (!file) return;
@@ -139,7 +150,7 @@ export class DepositPhysicalComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
         const imageTypes = ['image/png', 'image/jpeg'];
-        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate', 'l1_report', 'l2_report'];
+        const docControls = ['other_documentation', 'vapt_certificate', 'iso_certificate', 'l1_report', 'l2_report','kyc'];
 
         const allowedTypes = docControls.includes(controlName)
             ? [...imageTypes, ...documentTypes]
