@@ -6,6 +6,11 @@ export const apiRoutes = {
       method: 'POST',
       description: 'Login API for corporate users'
     },
+    verifyOtp: {
+      url: 'auth/verify-otp',
+      method: 'POST',
+      description: 'Login API for corporate users'
+    },
     logout: {
       url: 'auth/logout',
       method: 'POST',
