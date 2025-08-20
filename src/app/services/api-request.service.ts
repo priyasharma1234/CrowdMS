@@ -34,6 +34,24 @@ export class ApiRequestService {
     return this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload, { headers })
       .pipe(retry(0), catchError(this.errorHandl));
   };
+  postDataWithoutBase<T, U>(
+    payload: IApiRequestPayload<T>,
+    fullUrl: string
+  ): Observable<IGenericApiResponse<U>> {
+
+    let headers = new HttpHeaders();
+
+    if (payload?.form) {
+      headers = headers.set('from', payload.form);
+    }
+
+    if (this._AuthCoreService.token()) {
+      headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
+    }
+
+    return this.http.post<any>(fullUrl, payload?.payload ?? payload, { headers })
+      .pipe(retry(0), catchError(this.errorHandl));
+  }
   getData<T>(path: any, param?: any): Observable<IGenericApiResponse<T>> {
     let headers = new HttpHeaders();
 
@@ -59,7 +77,7 @@ export class ApiRequestService {
       catchError(this.errorHandl)
     );
   }
-  
+
   async postDataAsync(payload: any, path: any): Promise<any> {
     let headers = new HttpHeaders();
     if (payload?.form) {
@@ -74,14 +92,14 @@ export class ApiRequestService {
       console.error(error);
     }
   };
-   async PostDataAsync<T, U>(payload: IApiRequestPayload<T>, path: any): Promise<IGenericApiResponse<U>> {
+  async PostDataAsync<T, U>(payload: IApiRequestPayload<T>, path: any): Promise<IGenericApiResponse<U>> {
     let headers = new HttpHeaders();
-    if( this._AuthCoreService.token()) {
+    if (this._AuthCoreService.token()) {
       headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
     }
 
     try {
-      const res = await this.http.post<IGenericApiResponse<U>>(environment.baseUrl + path['url'], payload?.payload ?? payload.form, {headers}).toPromise();
+      const res = await this.http.post<IGenericApiResponse<U>>(environment.baseUrl + path['url'], payload?.payload ?? payload.form, { headers }).toPromise();
       if (res) {
         return res;
       } else {
@@ -125,8 +143,8 @@ export class ApiRequestService {
     }
     return throwError(() => error)
   }
-  getTableApiHeaders(){
-     let headers = new HttpHeaders();
+  getTableApiHeaders() {
+    let headers = new HttpHeaders();
 
     const token = this._AuthCoreService.token();
     if (token) {

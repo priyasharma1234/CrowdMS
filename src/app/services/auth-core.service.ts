@@ -12,10 +12,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   providedIn: 'root'
 })
 export class AuthCoreService {
+    encrypted = signal<boolean | undefined>(undefined);
   readonly user = signal<IUser | null>(null);
   readonly isAuthenticated = signal<boolean>(false);
   readonly token = signal<string | null>(null);
-  encrypted: boolean | undefined = undefined;
+  // encrypted: boolean | undefined = undefined;
 
   private route = inject(Router);
   private toaster = inject(NgxToasterService);

@@ -8,16 +8,12 @@ import { AuthCoreService } from 'src/app/services/auth-core.service';
 import { NgxToasterService } from '../services/toasterNgs.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { SessionStorageService } from '../services/session-storage.service';
+import { CryptoService } from 'src/app/services/crypto.service';
 
 
 @Injectable()
 export class HttpInterceptorInterceptor implements HttpInterceptor {
-
-  loginSession: string;
-  fetchsServiceToken: any;
-  latitude: any;
-  longitude: any;
-  returnData: any;
+  loginSession: any;
   form_keys: any;
 
   secureCall: boolean = false;
@@ -25,101 +21,82 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
 
 
   constructor(
-    private loader: LoaderService,
-    private authCoreService: AuthCoreService,
+    private _LoaderService: LoaderService,
+    private _AuthCoreService: AuthCoreService,
     private toaster: NgxToasterService,
+    private _CryptoService: CryptoService
   ) {
   }
 
   removeRequest(req: HttpRequest<any>) {
-
-    // const isLoader: any = req.headers.get('isLoader') == 'true' ? true : false;
     const i = this.requests.indexOf(req);
     if (i >= 0) {
       this.requests.splice(i, 1);
     }
-    this.loader.setLoading(this.requests.length > 0);
+    this._LoaderService.setLoading(this.requests.length > 0);
   }
 
   intercept(request: HttpRequest<any> | any, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.secureCall = this.authCoreService.encrypted ?? true;
+    this.secureCall = this._AuthCoreService.encrypted() ?? true;
     this.requests.push(request);
 
     if (request.headers['lazyUpdate']) {
       this.form_keys = request.headers['lazyUpdate'][0].value;
     }
-
-    this.loader.show();
-    // let session: any = ''
+    this._LoaderService.show();
     this.loginSession = ''
-    let token = this.authCoreService.token()
-    console.log("token", token)
+    let token = this._AuthCoreService.token();
     if (token) {
       this.loginSession = token
 
     }
 
-    var headers = new HttpHeaders({ // adding login session in api's header
+    var headers = new HttpHeaders({
+      // adding login session in api's header
       'Authorization': this.loginSession ? 'Bearer ' + this.loginSession : '',
       'token': '22509F2AE7BA71E4C3FB32AB94B6CEA8',
     })
 
-    //  if (request.url.indexOf(`${environment.corporateBaseUrl}kyc/pan-ocr`) > -1) {
-    //   var headers = new HttpHeaders({ // adding login session in api's header
-    //     'Authorization': 'Bearer' + this.loginSession,
-    //     'token': '22509F2AE7BA71E4C3FB32AB94B6CEA8',
-    //   })
-    // }
-    // let shouldEncrypt: boolean = true;
+    let shouldEncrypt: boolean = true;
     let body: any = {};
     if (request.body instanceof FormData) {
-      // request.clone({
-      //   body: request.body.append('latitude', this.latitude)
-      // })
-      // request.clone({
-      //   body: request.body.append('longitude', this.longitude)
-      // })
-      //   for (let key of request.body.keys()) {
-      //     if (key == 'encrypt') {
-      //       // shouldEncrypt = false;
-      //       request.body.delete('encrypt');
-      //       break;
-      //     }
-      //     body[key] = request.body.get(key);
-      //   }
-      // } else {
-      //   body = request.body;
-      // }
+      for (let key of request.body.keys()) {
+        if (key == 'encrypt') {
+          shouldEncrypt = false;
+          request.body.delete('encrypt');
+          break;
+        }
+        body[key] = request.body.get(key);
+      }
+    } else {
+      body = request.body;
     }
 
-    // if (shouldEncrypt && this.secureCall) {
-    // if (this.secureCall) {
-    //   request.body = body;
-    //   // request.body = this.crypto.encrypt(request.body);
-    // }
+    if (shouldEncrypt && this.secureCall) {
+      request.body = body;
+      request.body = this._CryptoService.encrypt(request.body);
+    }
+
     const requestmod = request.clone({
-      headers
+      // headers
     });
     return new Observable(observer => {
       const subscription = next.handle(requestmod).subscribe(
         {
           next: (event) => {
             if (event instanceof HttpResponse) {
-              // this.loader.hidden(false);
-              // console.log('next');
 
-              // let shouldDecrypt = shouldEncrypt;
-              // this.loader.hide();
-              // console.log(event.body)
-              // if (shouldDecrypt && this.secureCall) {
-              //   event = event.clone({
-              //     body: this.crypto.decrypt(JSON.stringify(event.body))
-              //   })
-              // }
-              if (event.status !== 400 && event.status !== 401) {
+              let shouldDecrypt = shouldEncrypt;
+              if (shouldDecrypt && this.secureCall) {
+                event = event.clone({
+                  body: this._CryptoService.decrypt(JSON.stringify(event.body))
+                })
+              }
+
+              if (event.status != 400 && event.status != 401) {
                 observer.next(event);
               } else {
-                this.authCoreService.logout();
+                this._AuthCoreService.logout();
                 const Toast = Swal.mixin({
                   toast: true,
                   position: 'top-end',
@@ -141,45 +118,27 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
             }
           },
           error: (err) => {
-            console.log("err11111111111111111111111111htttttppppppp", err);
             this.removeRequest(request);
+            let shouldDecrypt = shouldEncrypt;
 
-            // this.loader.hide();
-            // console.log(err);
-            // let shouldDecrypt = shouldEncrypt;
-            // this.loader.hide();
-            // if (shouldDecrypt && this.secureCall) {
-            //   err['error'] = this.crypto.decrypt(JSON.stringify(err['error']))
-            // }
+            if (shouldDecrypt && this.secureCall) {
+              err['error'] = this._CryptoService.decrypt(JSON.stringify(err['error']))
+            }
             if (err.error.statuscode == 400 || err.error.statuscode == 401 || err.error.statuscode == 520) {
-              this.authCoreService.logout(false);
+              this._AuthCoreService.logout(false);
             } else if (err.error.statuscode == 422) {
-              // for (const key in err.error.errors) {
-              //   const elementValue = err.error.errors[key];
-              //   let element
-              //   if (Array.isArray(elementValue)) {
-              //     element = elementValue[0]
-              //   } else {
-              //     element = elementValue
-              //   }
-              //   this.toaster.showError(element.split('<br')[0] ?? 'Session Expired!!', 'Error');
-              // }
               if (err?.error?.errors && Object.keys(err.error.errors).length > 0) {
                 for (const key in err.error.errors) {
                   const elementValue = err.error.errors[key];
                   const element = Array.isArray(elementValue) ? elementValue[0] : elementValue;
+                  // if (this.form_keys) {
+                  //   this.form_keys.get(key)?.setErrors({ 'dynError': element.split('<br')[0] });
+                  // }
                   this.toaster.showError(element.split('<br')[0] ?? 'Session Expired!!', 'Error');
                 }
               } else {
                 this.toaster.showError(err.error.message, 'Error');
               }
-              // for (const key in err.error.data) {
-              //   const element = err.error.data[key];
-              //   if (this.form_keys) {
-              //     this.form_keys.get(key)?.setErrors({ 'dynError': element.split('<br')[0] });
-              //   }
-              //   this.toaster.showError(element.split('<br')[0] ?? 'Session Expired!!', 'Error');
-              // }
             } else if (err.error.statuscode == 500) {
               this.toaster.showError(err.error.message, 'Error');
             } else {
@@ -188,9 +147,6 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
           },
           complete: () => {
             this.removeRequest(request);
-
-            // this.loader.hidden(false);
-            // this.loader.hide();
             observer.complete();
           }
         }
