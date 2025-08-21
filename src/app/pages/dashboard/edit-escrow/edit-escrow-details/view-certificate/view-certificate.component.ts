@@ -15,22 +15,23 @@ export class ViewCertificateComponent {
     certificateUrl: any;
     isPdfFile: boolean = false;
     showViewer: boolean = false;
+    escrowId: any;
 
     constructor(private _EditEscrowService: EditEscrowService,
         private cdRef: ChangeDetectorRef,
-        private _FileUploadService: FileUploadService
+        public _FileUploadService: FileUploadService
     ) { }
 
     async ngOnInit() {
         const cert = this._EditEscrowService.escrowDetails?.certificate_url;
-       const escrowId = this._EditEscrowService.escrowDetails?.id
+      this.escrowId = this._EditEscrowService.escrowDetails?.id
         if (cert) {
             // this.certificateUrl = cert;
             this.isPdfFile = this.isPdf(cert);
             // this._FileUploadService.HandleFileOpen(cert, 'certificate', false, (fileUrl) => {
             //     this.certificateUrl = fileUrl;
             // });
-            const url = await this._FileUploadService.HandleFileOpen(Number(escrowId),cert, 'certificate', false);
+            const url = await this._FileUploadService.HandleFileOpen(Number(this.escrowId),cert, 'certificate', false);
             if (url) {
                 this.certificateUrl = url;
             } this.cdRef.detectChanges();

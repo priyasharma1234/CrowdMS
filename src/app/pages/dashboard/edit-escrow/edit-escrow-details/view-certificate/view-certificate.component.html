@@ -1,6 +1,11 @@
 <div class="certificate-container">
  <main class="certificate-content p-3">
         <div class="certificate-status">This escrow is active</div>
+          <div class="d-flex justify-content-end mb-2" *ngIf="certificateUrl">
+            <button class="btn btn-primary" (click)="this._FileUploadService.HandleFileOpen(escrowId,certificateUrl!, 'certificate')">
+                <i class="fa fa-download me-2"></i>Download Certificate
+            </button>
+        </div>
         <h2 class="certificate-title">Escrow Certificate</h2>
         <p class="certificate-subtitle">
             This Escrow Certificate certifies that the specified funds/assets are being securely held in escrow. The

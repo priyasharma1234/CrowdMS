@@ -106,7 +106,8 @@ export class DepositListSoftwareComponent {
         if (this.integrationDetails) {
           this.repoName = this.integrationDetails?.repo ?? '';
           this.selectedIntegration = this.integrationDetails?.provider ?? '';
-          this.HandleSelect({ name: 'GitHub', logo: 'github', supported: true, activated: true, selected: false })
+          console.log("selectedIntegration", this.selectedIntegration )
+          this.HandleSelect({ name: this.selectedIntegration == 'github' ? 'GitHub' : 'BitBucket', logo: this.selectedIntegration, supported: true, activated: true, selected: false })
         }
 
         console.log(this);
