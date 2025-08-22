@@ -24,7 +24,7 @@ export class ApiRequestService {
   postData<T, U>(payload: IApiRequestPayload<T>, path: any): Observable<IGenericApiResponse<U>> {
     let headers = new HttpHeaders()
     if (payload?.form) {
-      headers = headers.set('from', payload.form);
+      // headers = headers.set('from', payload.form);
     }
     if (this._AuthCoreService.token()) {
       console.log('Token found:', this._AuthCoreService.token());
