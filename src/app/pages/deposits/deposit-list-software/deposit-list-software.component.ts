@@ -82,8 +82,8 @@ export class DepositListSoftwareComponent {
       this.softwareDeposit = this.depositDetails.software_deposit;
       this.escrowId = this.depositDetails.software_deposit[0].escrow_id;
       if (this.depositDetails?.software_deposit) {
-        const verification = this.depositDetails.software_deposit[0]?.verification;
-        console.log("this.depositDetails.software_deposit[0]?.verification", this.depositDetails.software_deposit[0]?.verification)
+        const verification = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1]?.verification;
+        console.log("this.depositDetails.software_deposit[0]?.verification", this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1]?.verification)
         if (verification) {
           if (verification.v_basic) {
             this.depositForm.patchValue({ v_basic: verification.v_basic });
@@ -92,16 +92,16 @@ export class DepositListSoftwareComponent {
             this.depositForm.patchValue({ v_build: verification.v_build });
           }
         }
-        this.uploadType = this.depositDetails.software_deposit[0].upload_type;
-        this.codeUpload = !!this.depositDetails.software_deposit[0].source_code;
+        this.uploadType = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].upload_type;
+        this.codeUpload = !!this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].source_code;
         this.uploadedSourceCode = {
           name: 'source-code.zip',
-          url: this.depositDetails.software_deposit[0].source_code
+          url: this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].source_code
         };
-        this.uploadedDocuments = this.depositDetails.software_deposit[0].additional_documents || [];
-        this.uploadedCertificates = this.depositDetails.software_deposit[0].certificates || {};
-        this.integrationDetails = this.depositDetails.software_deposit[0].auto_deposit;
-        this.version = this.depositDetails.software_deposit[0].version;
+        this.uploadedDocuments = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].additional_documents || [];
+        this.uploadedCertificates = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].certificates || {};
+        this.integrationDetails = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].auto_deposit;
+        this.version = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].version;
         this.branchName = this.integrationDetails?.branch ?? '';
         if (this.integrationDetails) {
           this.repoName = this.integrationDetails?.repo ?? '';

@@ -43,7 +43,8 @@ export class ViewSoftwareComponent {
     branchName: string = '';
     softwareDeposit: any;
     userType: 'beneficiary' | 'depositor' = 'depositor';
-    escrowId: any
+    escrowId: any;
+    verification: any
     constructor(
         private _AuthCoreService: AuthCoreService,
         protected _EditEscrowService: EditEscrowService,
@@ -66,17 +67,18 @@ export class ViewSoftwareComponent {
             this.userType = (escrowDetails?.user_type ?? 'depositor') as 'beneficiary' | 'depositor';
             this.softwareDeposit = this._EditEscrowService.escrowDetails?.software_deposit
             if (escrowDetails?.software_deposit) {
-                this.uploadType = escrowDetails.software_deposit[0].upload_type;
-                this.codeUpload = !!escrowDetails.software_deposit[0].source_code;
+                this.uploadType = escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].upload_type;
+                this.codeUpload = !!escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].source_code;
                 this.uploadedSourceCode = {
                     name: 'source-code.zip',
-                    url: escrowDetails.software_deposit[0].source_code
+                    url: escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].source_code
                 };
-                this.uploadedDocuments = escrowDetails.software_deposit[0].additional_documents || [];
-                this.uploadedCertificates = escrowDetails.software_deposit[0].certificates || {};
-                this.integrationDetails = escrowDetails.software_deposit[0].auto_deposit;
-                this.version = escrowDetails.software_deposit[0].version;
+                this.uploadedDocuments = escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].additional_documents || [];
+                this.uploadedCertificates = escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].certificates || {};
+                this.integrationDetails = escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].auto_deposit;
+                this.version = escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1].version;
                 this.branchName = this.integrationDetails?.branch ?? '';
+                this.verification = escrowDetails.software_deposit[escrowDetails.software_deposit.length - 1]?.verification;
                 if (this.integrationDetails) {
                     this.repoName = this.integrationDetails?.repo ?? '';
                     this.selectedIntegration = this.integrationDetails?.provider ?? '';
