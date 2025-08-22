@@ -9,6 +9,7 @@ import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { UppercaseDirective } from 'src/app/core/directives/uppercase/uppercase.directive';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDynamicOtpComponent } from 'src/app/core/custom-dynamic-otp/custom-dynamic-otp.component';
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-login',
@@ -102,15 +103,24 @@ export class LoginComponent {
   loginForm: FormGroup;
   modalRef!: NgbModalRef;
   loginToken!: string;
+    longitude: any;
+  latitude: any;
   constructor(
     private _formBuilder: FormBuilder,
     private _ApiRequestService: ApiRequestService,
     private _AuthCoreService: AuthCoreService,
     private _Router: Router,
     private _NgxToasterService: NgxToasterService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _LocationService: LocationService
 
   ) {
+        this._LocationService.seterLocation.subscribe((letLang: any) => {
+      if (letLang) {
+        this.longitude = letLang.long;
+        this.latitude = letLang?.lat;
+      }
+    })
     this.loginForm = this._formBuilder.group({
       userId: [''],
       password: ['']
@@ -121,7 +131,10 @@ export class LoginComponent {
     if (!this.loginForm.valid) {
       return;
     }
-    const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
+    const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" 
+        ,longitude: this.longitude ?? 0,
+        latitude: this.latitude ?? 0
+    };
     this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
       if (res.statuscode == 200) {
         this.loginToken = res.data.token;

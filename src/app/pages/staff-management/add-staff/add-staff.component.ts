@@ -11,11 +11,12 @@ import { staffService } from 'src/app/services/staffService';
 import { ShowErrorsComponent } from 'src/app/features/show-errors/show-errors.component';
 import { InputRestrictionDirective } from 'src/app/core/directives/InputRestriction/input-restriction.directive';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UppercaseDirective } from 'src/app/core/directives/uppercase/uppercase.directive';
 
 @Component({
     selector: 'app-add-staff',
     standalone: true,
-    imports: [CommonModule, SharedModule, ShowErrorsComponent, InputRestrictionDirective],
+    imports: [CommonModule, SharedModule, ShowErrorsComponent, InputRestrictionDirective,UppercaseDirective],
     templateUrl: './add-staff.component.html',
     styleUrl: './add-staff.component.scss'
 })

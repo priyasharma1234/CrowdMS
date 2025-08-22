@@ -7,7 +7,7 @@ import { AuthCoreService } from './auth-core.service';
   providedIn: 'root'
 })
 export class CryptoService {
- private secretKey = ''; // Store this securely
+private secretKey = ''; // Store this securely
   private _AuthCoreService = inject(AuthCoreService);
 
 

@@ -30,7 +30,7 @@
                     <div class="col-12 col-lg-6">
                 <div class="form-group">
                             <label>Username*</label>
-                            <input type="text" class="form-control" placeholder="Enter username"
+                            <input appUppercase type="text" class="form-control" placeholder="Enter username"
                                 formControlName="username" />
                             <app-show-errors [ctrl]="addStaffForm.get('username')"
                                 [requiredMesg]="'Username is Required'">
