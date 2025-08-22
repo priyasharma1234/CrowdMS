@@ -5,7 +5,7 @@
             <div class="d-flex flex-wrap gap-4 justify-content-between flex-wrap align-items-center">
                 <div class="doc-preview me-3"><img [src]="agreements.type === 'triparty' ? 'assets/img/tri_partite.png' : 'assets/img/bi_partite.png'"></div>
                 <h4 class="user-details">
-                    <p class="py-2 mb-0"><strong>test_121.pdf</strong></p>Added on {{ agreements.signing_date }}
+                    <p class="py-2 mb-0"><strong>{{ agreements.type | titlecase }}</strong></p>Added on {{ agreements.created_at | date: 'dd/MM/yyyy' }}
                 </h4>
                 <h4 class="user-details">
                     <p class="py-2 mb-0"><strong>Signing Date</strong></p>{{ agreements.signing_date }}

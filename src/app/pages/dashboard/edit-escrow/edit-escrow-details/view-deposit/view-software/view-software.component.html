@@ -282,14 +282,14 @@
       <!--        </div>-->
       <!--        <div class="col-md-6 mt-2">Upload ISO Certificate</div>-->
     </div>
-    <div class="row" *ngIf="viewMode && softwareDeposit?.[0]?.verification">
+    <div class="row" *ngIf="viewMode && verification">
       <h5 class="my-3">Verification</h5>
-      <div class="col-md-6" *ngFor="let key of getVerificationKeys(softwareDeposit[0].verification)">
+      <div class="col-md-6" *ngFor="let key of getVerificationKeys(verification)">
         <div class="card p-3 mb-2 shadow-sm border">
           <div class="d-flex justify-content-between align-items-center">
             <h6 class="mb-0 text-capitalize">{{ key.replace('_', ' ') }}</h6>
              <!-- [href]="softwareDeposit[0].verification[key]" target="_blank" -->
-            <a (click)="_FileUploadService.HandleFileOpen(escrowId,softwareDeposit[0].verification[key],'deposit-verification')" rel="noopener noreferrer">
+            <a (click)="_FileUploadService.HandleFileOpen(escrowId,verification[key],'deposit-verification')" rel="noopener noreferrer">
               <img src="assets/img/view.png" alt="view" />
             </a>
           </div>
