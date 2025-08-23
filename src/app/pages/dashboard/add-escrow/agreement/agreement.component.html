@@ -2,8 +2,8 @@
     <div class="mb-3">
         <label>Agreement Type:</label><br />
  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" 
-           formControlName="agreement_type" 
+    <input class="form-check-input" type="radio"
+           formControlName="agreement_type"
            value="triparty"
            id="triparty"
            (change)="onAgreementTypeChange($event)" />
@@ -11,8 +11,8 @@
   </div>
 
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" 
-           formControlName="agreement_type" 
+    <input class="form-check-input" type="radio"
+           formControlName="agreement_type"
            value="biparty"
            id="biparty"
            (change)="onAgreementTypeChange($event)" />
@@ -38,8 +38,8 @@
                     <img src="assets/img/upload.png">
             <span class="text-primary">Upload document<p class="mb-0">File size must be less than 5mb</p></span>
             </div>
-        
-            
+
+
             <p *ngIf="formData"><img src="assets/img/edit2.png" class="pe-1"></p>
         </div>
         <div class="card mt-2 gap-3 p-4 d-flex justify-content-between flex-row flex-wrap"  *ngIf="formData">
@@ -80,9 +80,9 @@
             </button>
             </div>
             </div>
-      
+
             <!-- *ngIf="additionalDocs.length > 1" -->
-        
+
         </div>
         </div>
     </div>
@@ -100,9 +100,9 @@
                 <label>Signing Date*</label>
                 <app-custom-datepicker formControlName="signing_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
-                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo"></app-custom-datepicker>
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo" [maxDate]="endMaxDateMonthForward"></app-custom-datepicker>
 
-                
+
                 <app-show-errors [ctrl]="agreementDocumentForm.get('signing_date')"
                     [requiredMesg]="'Signing date is Required'">
                 </app-show-errors>
@@ -111,7 +111,7 @@
                 <label>Effective Date*</label>
                 <app-custom-datepicker formControlName="effective_date" [datepickerType]="'bsDatepicker'"
                     [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
-                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo"></app-custom-datepicker>
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo" [maxDate]="endMaxDateMonthForward"></app-custom-datepicker>
 
                 <span class="highlight"></span>
                 <app-show-errors [ctrl]="agreementDocumentForm.get('effective_date')"

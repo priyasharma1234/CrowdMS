@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Swal from 'sweetalert2';
+import {environment} from '../../environments/environment';
 
 export interface LatLong {
   lat: number,
@@ -29,17 +30,23 @@ export class LocationService {
   }
 
   getLocationService(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject('Geolocation not supported by browser.');
-      }
-      navigator.geolocation.getCurrentPosition((resp) => {
-        resolve({ long: resp.coords.longitude, lat: resp.coords.latitude });
-      }, (error) => {
-        // console.log(r);
-        reject('Please allow location access!');
+    if(environment.location) {
+      return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject('Geolocation not supported by browser.');
+        }
+        navigator.geolocation.getCurrentPosition((resp) => {
+          resolve({ long: resp.coords.longitude, lat: resp.coords.latitude });
+        }, (error) => {
+          // console.log(r);
+          // reject('Please allow location access!');
+        });
       });
-    });
+    }
+    else {
+      return Promise.resolve({ lat: 28.6139, long: 77.209 }); // Default to New Delhi coordinates
+    }
+
   };
 
   private handleLocationError(error: any) {

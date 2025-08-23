@@ -41,6 +41,7 @@ export class AgreementComponent implements OnInit {
     selectedService: any;
     formData: any;
     private route = inject(ActivatedRoute);
+  endMaxDateMonthForward!: Date;
     constructor(private fb: FormBuilder, private modalService: NgbModal, private _ApiRequestService: ApiRequestService,
         private _NgxToasterService: NgxToasterService, private _DatePipe: DatePipe, public _FileUploadService: FileUploadService) {
         const date = new Date();
@@ -74,6 +75,11 @@ export class AgreementComponent implements OnInit {
         oneMonthAgo.setMonth(today.getMonth() - 1);
 
         this.endMinDateMonthAgo = oneMonthAgo;
+
+        const oneMonthForward = new Date();
+        oneMonthForward.setMonth(today.getMonth() + 1);
+        this.endMaxDateMonthForward = oneMonthForward;
+
         const id = this.route.snapshot.paramMap.get('id');
         console.log("idddddddddd", id)
         console.log("this.agreementData)", this.agreementData)
@@ -320,7 +326,7 @@ export class AgreementComponent implements OnInit {
         this.modalService.dismissAll();
          this.agreementDocumentForm.reset();
         }
-    
+
     onAgreementTypeChange(event: any) {
         const selectedType = event.target.value;
           this.agreementDocumentForm.reset();

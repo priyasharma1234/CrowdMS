@@ -80,7 +80,7 @@ export class DepositListSoftwareComponent {
       // this.escrowId = this._EditEscrowService.escrowDetails?.id
       // this.userType = (escrowDetails?.user_type ?? 'depositor') as 'beneficiary' | 'depositor';
       this.softwareDeposit = this.depositDetails.software_deposit;
-      this.escrowId = this.depositDetails.software_deposit[0].escrow_id;
+      this.escrowId = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1].escrow_id;
       if (this.depositDetails?.software_deposit) {
         const verification = this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1]?.verification;
         console.log("this.depositDetails.software_deposit[0]?.verification", this.depositDetails.software_deposit[this.depositDetails.software_deposit.length - 1]?.verification)
@@ -459,7 +459,7 @@ export class DepositListSoftwareComponent {
           formData.append(key, String(value ?? ''));
         }
       });
-      formData.append('id', this.depositDetails?.software_deposit[0]?.id);
+      formData.append('id', this.depositDetails?.software_deposit[this.depositDetails.software_deposit.length - 1]?.id);
       await this._ApiRequestService.postData({ payload: formData }, apiRoutes.deposits.updateDeposit)
         .subscribe({
           next: (res: any) => {
