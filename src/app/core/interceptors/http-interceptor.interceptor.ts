@@ -227,6 +227,7 @@ loginSession: any;
       request.body = this._CryptoService.encrypt(request.body);
     }
 
+    console.log("request", request)
     // const requestmod = request.clone({
     //   headers
     // });
@@ -234,6 +235,7 @@ loginSession: any;
       const subscription = next.handle(request)?.subscribe(
         {
           next: (event) => {
+            console.log(event);
             if (event instanceof HttpResponse) {
 
               let shouldDecrypt = shouldEncrypt;
@@ -270,11 +272,12 @@ loginSession: any;
           error: (err) => {
             this.removeRequest(request);
             let shouldDecrypt = shouldEncrypt;
+            console.log("err.error",err)
 
             if (shouldDecrypt && this.secureCall) {
               err['error'] = this._CryptoService.decrypt(JSON.stringify(err['error']))
             }
-            console.log("err.error",err.error)
+            console.log("err.error",err)
             if (err.error.statuscode == 400 || err.error.statuscode == 401 || err.error.statuscode == 520) {
               this._AuthCoreService.logout(false);
             } else if (err.error.statuscode == 422) {
