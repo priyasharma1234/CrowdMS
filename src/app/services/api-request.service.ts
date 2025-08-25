@@ -83,6 +83,9 @@ export class ApiRequestService {
     if (payload?.form) {
       headers = headers.set('from', payload.form);
     }
+       if (this._AuthCoreService.token()) {
+      headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
+    }
 
     try {
       const response = await firstValueFrom(this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload, { headers })
