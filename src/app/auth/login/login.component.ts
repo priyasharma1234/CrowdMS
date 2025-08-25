@@ -24,86 +24,86 @@ import { LocationService } from 'src/app/services/location.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-//   @ViewChild('content') modalContentRef!: TemplateRef<any>;
-//   maskMobileNo: string = '';
-//   isResendOtp: boolean = false;
+  //   @ViewChild('content') modalContentRef!: TemplateRef<any>;
+  //   maskMobileNo: string = '';
+  //   isResendOtp: boolean = false;
 
-//   loginForm: FormGroup;
-//   modalRef!: NgbModalRef;
-//   constructor(
-//     private _formBuilder: FormBuilder,
-//     private _ApiRequestService: ApiRequestService,
-//     private _AuthCoreService: AuthCoreService,
-//     private _Router: Router,
-//     private _NgxToasterService: NgxToasterService,
-//     private modalService: NgbModal
+  //   loginForm: FormGroup;
+  //   modalRef!: NgbModalRef;
+  //   constructor(
+  //     private _formBuilder: FormBuilder,
+  //     private _ApiRequestService: ApiRequestService,
+  //     private _AuthCoreService: AuthCoreService,
+  //     private _Router: Router,
+  //     private _NgxToasterService: NgxToasterService,
+  //     private modalService: NgbModal
 
-//   ) {
-//     this.loginForm = this._formBuilder.group({
-//       userId: [''],
-//       password: ['']
-//     });
-//   }
+  //   ) {
+  //     this.loginForm = this._formBuilder.group({
+  //       userId: [''],
+  //       password: ['']
+  //     });
+  //   }
 
-//   Login() {
-//     if (!this.loginForm.valid) {
-//       return;
-//     }
-//     const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
-//     this.maskMobileNo = 'Please enter the OTP to complete the process. We send a code to +9977655545'
-//     this.OpenOtpModal();
+  //   Login() {
+  //     if (!this.loginForm.valid) {
+  //       return;
+  //     }
+  //     const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
+  //     this.maskMobileNo = 'Please enter the OTP to complete the process. We send a code to +9977655545'
+  //     this.OpenOtpModal();
 
-//   }
+  //   }
 
-//   OpenOtpModal() {
-//     this.modalRef = this.modalService.open(this.modalContentRef, {
-//       centered: true,
-//       backdrop: 'static',
-//       keyboard: false,
-//       size: 'md',
-//     });
-//   }
+  //   OpenOtpModal() {
+  //     this.modalRef = this.modalService.open(this.modalContentRef, {
+  //       centered: true,
+  //       backdrop: 'static',
+  //       keyboard: false,
+  //       size: 'md',
+  //     });
+  //   }
 
-//   VerifyOtp(otp: any) {
-//     console.log(otp);
+  //   VerifyOtp(otp: any) {
+  //     console.log(otp);
 
-//     if (!otp) {
-//       this._NgxToasterService.showInfo('please enter OTP', 'Info');
-//       return;
-//     }
-//     let formData = new FormData();
-//     formData.append('otp', otp);
-//     const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
-//     this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
-//       if (res.statuscode == 200) {
-//         this.handleCloseModal();
-//         this._NgxToasterService.showSuccess(res?.message, 'Success');
-//         this._AuthCoreService.SetUser(res.data.user, res.data.token);
-//         this._Router.navigate(['/dashboard']);
-//       } else {
-//         this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
-//       }
-//     });
-//   }
+  //     if (!otp) {
+  //       this._NgxToasterService.showInfo('please enter OTP', 'Info');
+  //       return;
+  //     }
+  //     let formData = new FormData();
+  //     formData.append('otp', otp);
+  //     const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" };
+  //     this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
+  //       if (res.statuscode == 200) {
+  //         this.handleCloseModal();
+  //         this._NgxToasterService.showSuccess(res?.message, 'Success');
+  //         this._AuthCoreService.SetUser(res.data.user, res.data.token);
+  //         this._Router.navigate(['/dashboard']);
+  //       } else {
+  //         this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
+  //       }
+  //     });
+  //   }
 
-//   async SendOTP(isResendOtp?: boolean) {
-//     this.isResendOtp = true;
-//     // this.Login();
-//   }
+  //   async SendOTP(isResendOtp?: boolean) {
+  //     this.isResendOtp = true;
+  //     // this.Login();
+  //   }
 
-//   handleCloseModal() {
-//     this.modalRef.close();
-//   }
+  //   handleCloseModal() {
+  //     this.modalRef.close();
+  //   }
 
-// }
- @ViewChild('content') modalContentRef!: TemplateRef<any>;
+  // }
+  @ViewChild('content') modalContentRef!: TemplateRef<any>;
   maskMobileNo: string = '';
   isResendOtp: boolean = false;
 
   loginForm: FormGroup;
   modalRef!: NgbModalRef;
   loginToken!: string;
-    longitude: any;
+  longitude: any;
   latitude: any;
   constructor(
     private _formBuilder: FormBuilder,
@@ -115,7 +115,7 @@ export class LoginComponent {
     private _LocationService: LocationService
 
   ) {
-        this._LocationService.seterLocation.subscribe((letLang: any) => {
+    this._LocationService.seterLocation.subscribe((letLang: any) => {
       if (letLang) {
         this.longitude = letLang.long;
         this.latitude = letLang?.lat;
@@ -131,17 +131,23 @@ export class LoginComponent {
     if (!this.loginForm.valid) {
       return;
     }
-    const payload: ILoginApiPayload = { username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? "" 
-        ,longitude: this.longitude ?? 0,
-        latitude: this.latitude ?? 0
+    const payload: ILoginApiPayload = {
+      username: this.loginForm.value.userId ?? "", password: this.loginForm.value.password ?? ""
+      , longitude: this.longitude ?? 0,
+      latitude: this.latitude ?? 0
     };
     this._ApiRequestService.postData<ILoginApiPayload, ILoginApiResponse>({ payload: payload }, apiRoutes.auth.login).subscribe(res => {
       if (res.statuscode == 200) {
         this.loginToken = res.data.token;
         // this._NgxToasterService.showSuccess(res?.message, 'Success');
+        // const phone = (res.data?.user?.phone)?.toString() || '';
+        // const maskedPhone = phone.slice(0, -4) + 'XXXX';
+
         this._AuthCoreService.SetUser(res.data.user, res.data.token);
+            let maskMobile = res.data?.user?.phone?.toString() ?? '';
+        maskMobile = maskMobile.slice(0, -4) + maskMobile.slice(-4).replace(/\d/g, '*');
         // this._Router.navigate(['/dashboard']);
-        this.maskMobileNo = `Please enter the OTP to complete the process. We send a code to ${res.data?.user?.phone}`;
+        this.maskMobileNo = `Please enter the OTP to complete the process. We send a code to ${maskMobile}`;
         this.OpenOtpModal();
       } else {
         this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
