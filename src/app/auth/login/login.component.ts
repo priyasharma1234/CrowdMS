@@ -140,14 +140,13 @@ export class LoginComponent {
       if (res.statuscode == 200) {
         this.loginToken = res.data.token;
         // this._NgxToasterService.showSuccess(res?.message, 'Success');
-        // const phone = (res.data?.user?.phone)?.toString() || '';
-        // const maskedPhone = phone.slice(0, -4) + 'XXXX';
-
         this._AuthCoreService.SetUser(res.data.user, res.data.token);
-            let maskMobile = res.data?.user?.phone?.toString() ?? '';
-        maskMobile = maskMobile.slice(0, -4) + maskMobile.slice(-4).replace(/\d/g, '*');
+        const phone = (res.data?.user?.phone)?.toString() || '';
+        const maskedPhone = '*'.repeat(Math.max(0, phone.length - 4)) + phone.slice(-4);
+        //     let maskMobile = res.data?.user?.phone?.toString() ?? '';
+        // maskMobile = maskMobile.slice(0, -4) + maskMobile.slice(-4).replace(/\d/g, '*');
         // this._Router.navigate(['/dashboard']);
-        this.maskMobileNo = `Please enter the OTP to complete the process. We send a code to ${maskMobile}`;
+        this.maskMobileNo = `Please enter the OTP to complete the process. We send a code to ${maskedPhone}`;
         this.OpenOtpModal();
       } else {
         this._NgxToasterService.showError(res?.message ?? res['data'][0], 'Error');
