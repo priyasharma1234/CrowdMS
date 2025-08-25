@@ -159,8 +159,8 @@ export class AgreementComponent implements OnInit {
                 return; // Skip further processing
             }
 
-            if (file.size > 5 * 1024 * 1024) {
-                this._NgxToasterService.showError(`${file.name} exceeds 5MB`, 'File Too Large');
+            if (file.size > 15 * 1024 * 1024) {
+                this._NgxToasterService.showError(`${file.name} exceeds 15MB`, 'File Too Large');
                 inputEl.value = '';
                 return;
             }
@@ -354,8 +354,8 @@ export class AgreementComponent implements OnInit {
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-            this._NgxToasterService.showError('File must be less than 5MB', 'Error');
+        if (file.size > 15 * 1024 * 1024) {
+            this._NgxToasterService.showError('File must be less than 15MB', 'Error');
             this.agreementDocumentForm.patchValue({ document_url: null });
             fileInput.value = '';
             return;

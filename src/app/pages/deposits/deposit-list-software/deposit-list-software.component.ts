@@ -426,8 +426,8 @@ export class DepositListSoftwareComponent {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      this._NgxToasterService.showError('File must be less than 5MB', 'Error');
+    if (file.size > 15 * 1024 * 1024) {
+      this._NgxToasterService.showError('File must be less than 15MB', 'Error');
       this.depositForm.patchValue({ [controlName]: null });
       fileInput.value = '';
       return;

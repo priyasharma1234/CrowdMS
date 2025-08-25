@@ -192,8 +192,8 @@ export class ReleaseConditionComponent implements OnInit {
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-            this._NgxToasterService.showError('File must be less than 5MB', 'Error');
+        if (file.size > 15 * 1024 * 1024) {
+            this._NgxToasterService.showError('File must be less than 15MB', 'Error');
             this.releaseForm.patchValue({ document: null });
             fileInput.value = '';
             return;
