@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { lastValueFrom } from "rxjs";
 import Swal from "sweetalert2";
 import { PermissionServiceService } from "src/app/core/services/permission-service.service";
@@ -8,6 +8,7 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { NgxToasterService } from "src/app/core/services/toasterNgs.service";
 import { DynamicTableComponent, DynamicTableModule } from "@ciphersquare/dynamic-table";
 import { environment } from "src/environments/environment";
+import { ApiRequestService } from "src/app/services/api-request.service";
 
 @Component({
     standalone: true,
@@ -24,12 +25,14 @@ export class RoleListComponent implements OnInit {
         private _NgxToasterService: NgxToasterService,
         private _Router: Router,
         private _staffService: staffService,
-        private _activatedRoute: ActivatedRoute,
+        private _ApiRequestService: ApiRequestService,
         public permissionService: PermissionServiceService
     ) {
         this.customParams = {
             gaurd_name: 'admin',
         };
+            this.httpHeaders = this._ApiRequestService.getTableApiHeaders();
+        console.log("httpHeaders", this.httpHeaders)
     }
 
     async ngOnInit(): Promise<void> {

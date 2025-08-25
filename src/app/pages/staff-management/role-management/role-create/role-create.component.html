@@ -18,7 +18,8 @@
         </nav>
     </div>
 </div> -->
-<div class="wrapper">
+<!-- class="wrapper"  -->
+<div [ngClass]="{ 'wrapper': router.url.includes('staff/permissions') }">
     <!-- Main Wrapper -->
     <div class="main-container">
         <div class="content-inside m-4">

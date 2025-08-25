@@ -27,10 +27,11 @@ export class RoleCreateComponent implements OnInit {
     permissions: any;
     roleNameStatic: any = "TEST";
 
-    constructor(private router: Router, private sessionStorage: SessionStorageService,
+    constructor(public router: Router, private sessionStorage: SessionStorageService,
         private _activatedRoute: ActivatedRoute, private store: StoreService,
         private _apiRequestService: ApiRequestService,
-        private toaster: NgxToasterService) {
+        private toaster: NgxToasterService,
+    ) {
     }
 
     async ngOnInit() {
