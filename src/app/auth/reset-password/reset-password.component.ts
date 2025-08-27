@@ -11,12 +11,15 @@ import { PasswordReg } from 'src/app/core/utility/password-reg';
 import { ConfirmedValidator, passwordStrengthValidator } from 'src/app/core/utility/validator';
 import { apiRoutes } from 'src/app/config/api-request';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ShowHidePasswordDirective } from 'src/app/core/directives/show-hide-password.directive';
 
 @Component({
     selector: 'app-reset-password',
     imports: [CommonModule, FormsModule,
         ReactiveFormsModule,
-        CustomDynamicOtpComponent],
+        CustomDynamicOtpComponent,
+        ShowHidePasswordDirective
+    ],
     templateUrl: './reset-password.component.html',
     styleUrl: './reset-password.component.scss'
 })

@@ -233,3 +233,13 @@ img {
     }
   }
 }
+.pw-eye {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  font-size: 18px;
+
+  @media (min-width: 1440px) {
+    top: 12px;
+  }
+}

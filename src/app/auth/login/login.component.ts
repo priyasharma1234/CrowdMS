@@ -10,6 +10,7 @@ import { UppercaseDirective } from 'src/app/core/directives/uppercase/uppercase.
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDynamicOtpComponent } from 'src/app/core/custom-dynamic-otp/custom-dynamic-otp.component';
 import { LocationService } from 'src/app/services/location.service';
+import { ShowHidePasswordDirective } from 'src/app/core/directives/show-hide-password.directive';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ import { LocationService } from 'src/app/services/location.service';
     RouterLink,
     ReactiveFormsModule,
     UppercaseDirective,
-    CustomDynamicOtpComponent
+    CustomDynamicOtpComponent,
+    ShowHidePasswordDirective
   ],
   templateUrl: './login.component.html',
   standalone: true,
