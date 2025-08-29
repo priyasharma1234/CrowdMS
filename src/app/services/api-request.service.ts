@@ -67,7 +67,7 @@ export class ApiRequestService {
 //       retry(0),
 //       catchError(this.errorHandl)
 //     );
-    return this.http.get<any>(fullUrl, { headers }).pipe(
+    return this.http.post<any>(fullUrl,{}, { headers }).pipe(
       retry(0),
       catchError(this.errorHandl)
     );
