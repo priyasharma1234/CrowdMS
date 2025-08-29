@@ -11,6 +11,7 @@ type IApiRequestPayload<T> = {
   // form?: string;
   form?: FormGroup<any>
   payload?: T;
+  id?: any;
 }
 
 export type IGenericApiResponse<T> = {

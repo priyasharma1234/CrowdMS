@@ -9,6 +9,7 @@ import { NgxToasterService } from '../services/toasterNgs.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { SessionStorageService } from '../services/session-storage.service';
 import { CryptoService } from 'src/app/services/crypto.service';
+import { ENCRYPT_REQUEST } from 'src/app/services/api-request.service';
 
 
 @Injectable()
@@ -209,6 +210,9 @@ loginSession: any;
 
     let shouldEncrypt: boolean = true;
     let body: any = {};
+       if (request.context.get(ENCRYPT_REQUEST)) {
+      shouldEncrypt = false;
+    }
     if (request.body instanceof FormData) {
       for (let key of request.body.keys()) {
         if (key == 'encrypt') {

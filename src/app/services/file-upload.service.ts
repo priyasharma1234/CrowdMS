@@ -17,7 +17,7 @@ export class FileUploadService {
     formData.append('file', file);
     formData.append('dir', dir);
 
-    return this._ApiRequestService.postFormData<{ fileUrl: string }>(formData, apiRoutes.uploadDocument.fileUrl).pipe(
+    return this._ApiRequestService.postFormData<{ fileUrl: string }>(formData, apiRoutes.uploadDocument.fileUrl,true).pipe(
       map((res: any) => {
         if (res?.statuscode === 200 && res?.data?.url) {
           return res.data.url;
