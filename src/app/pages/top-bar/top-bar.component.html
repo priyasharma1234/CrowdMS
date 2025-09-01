@@ -1,0 +1,43 @@
+<div class="topbar">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="text-primary m-0">Welcome {{this._AuthCoreService.user()?.name}}</h5>
+      <ul class="navbar-item d-flex align-items-center mb-0 gap-3">
+            <!-- <li>
+            <div class="position-relative"><i class="fa-regular fa-bell"></i><span class="badge-notification">0</span>
+            </div>
+          </li>
+          <li><i class="fa-regular fa-circle-user"></i></li> -->
+          <li><a (click)="logOut()" class="text-primary"><i class="fas fa-power-off"></i></a></li>
+
+  
+        <!-- <li>
+          <div class="dropdown profile">
+            <button type="button" data-toggle="dropdown" class="btn m-0 p-0 border-0 d-flex align-items-center gap-2"
+              type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="name-label">M</span>
+              <div class="text-start m-0">
+                <p class="text-primary m-0"><strong>{{this._AuthCoreService.user()?.name}}</strong></p>
+                <h6 class="text-start m-0">{{this._AuthCoreService.user()?.username}}</h6>
+              </div>
+              <i class="fas fa-chevron-down ms-2"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li><a class="dropdown-item active" >Profile</a></li>
+              <li><a class="dropdown-item" (click)="logOut()" >Logout</a></li>
+            </ul>
+          </div>
+        </li> -->
+      </ul>
+    </div>
+
+  </div>
+</div>
+<div class="wrapper">
+  <div class="main-container">
+    <div class="content-inside m-4">
+      <h3 class="text-primary pb-4">{{_titleName}}</h3>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

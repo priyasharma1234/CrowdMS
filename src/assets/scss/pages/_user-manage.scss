@@ -1,0 +1,24 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+
+.permitallow-box {
+    width: 224px;
+    border: 1px solid #DADADA;
+    border-radius: 10px;
+    flex-direction: column;
+    margin: 10px;
+}
+.page-title{
+    color:$dark-blue;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 17px; 
+}
+.user-box {
+    background: #fff;
+    border: 1px solid #E6EFF5;
+    border-radius: 10px;
+    padding: 1.5rem
+}

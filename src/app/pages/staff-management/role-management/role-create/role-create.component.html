@@ -1,0 +1,76 @@
+<!-- <div class="row my-2">
+
+    <div class="col-12 d-flex justify-content-between">
+        <nav class="breadcrumb-one" aria-label="breadcrumb" (click)="back()" style="margin-right: 2%; cursor: pointer;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-home">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item">Back</li>
+            </ol>
+        </nav>
+    </div>
+</div> -->
+<!-- class="wrapper"  -->
+<div [ngClass]="{ 'wrapper': router.url.includes('staff/permissions') }">
+    <!-- Main Wrapper -->
+    <div class="main-container">
+        <div class="content-inside m-4">
+            <div class="row">
+            <div class="col-12">
+                <div class="permission-box">
+                    <form>
+                        <div class="form-group mb-4">
+                            <label>Name</label>
+                            <input type="text" class="form-control" placeholder="Role Name" [value]="roleName"
+                                (change)="handleNameChange($event)">
+                        </div>
+                        <!-- <div class="form-group mb-4">
+                <ng-select [clearable]="false" [items]="userTypeMaster" bindLabel="name" bindValue="name"
+                           placeholder="Select User Type" [(ngModel)]="userType"
+                           (change)="onUserTypeChange($event)"></ng-select>
+            </div> -->
+                    </form>
+                </div>
+            </div>
+            </div>
+            <!--    <div class="col-3">-->
+            <!--        <input type="text" class="form-control" [(ngModel)]="roleName">-->
+            <!--    </div>-->
+            <!--    <br>-->
+            <!--    <div class="col-3">-->
+            <!--        <ng-select [items]="userTypeMaster" bindLabel="name" bindValue="id" placeholder="Select User Type" [(ngModel)]="userType" (change)="onUserTypeChange($event)"></ng-select>-->
+            <!--    </div>-->
+            <!--    <br><br>-->
+
+
+            <app-permission-list [type]="'role'" [canSet]="true"
+                (emitter)="permissions = $event"></app-permission-list>
+            <button class="btn btn-yellow ms-4" (click)="onSubmit()">Submit</button>
+
+        </div>
+    </div>
+</div>
+<!--    <div class="col-3">-->
+<!--        <input type="text" class="form-control" [(ngModel)]="roleName">-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div class="col-3">-->
+<!--        <ng-select [items]="userTypeMaster" bindLabel="name" bindValue="id" placeholder="Select User Type" [(ngModel)]="userType" (change)="onUserTypeChange($event)"></ng-select>-->
+<!--    </div>-->
+<!--    <br><br>-->
+
+
+    <!-- <app-permission-list [canSet]="true" (emitter)="permissions = $event"></app-permission-list>
+    <button class="btn btn-yellow ms-4" (click)="onSubmit()">Submit</button> -->
+
+
+                    
+            

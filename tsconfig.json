@@ -4,6 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+     "baseUrl": "./",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -17,10 +18,27 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+    "strictPropertyInitialization": false,
     "paths": {
       "@assets/*": [
-        "./src/assets/*"
+        "./src/assets/*",
       ],
+      // "@core/*": [
+      //   "src/app/core/*"
+      // ],
+      // "@features/*": [
+      //   "src/app/features/*"
+      // ],
+      // ,
+      // "@shared/*": [
+      //   "src/app/shared/*"
+      // ],
+      "@rnficonfig/*": [
+        "src/app/rnfi-config/*"
+      ],
+      // "@page/*": [
+      //   "src/app/pages/*"
+      // ],
     }
   },
   "angularCompilerOptions": {

@@ -1,0 +1,48 @@
+
+<label [ngClass]="{'text-center': subtitle != null,'text-left': subtitle == null}" *ngIf="title"
+  [innerHTML]="title"></label>
+<p class="p-subtitle text-center" *ngIf="subtitle" [innerHTML]="subtitle"></p>
+<div class="verification-code-inputs" #inputDiv>
+  <ng-container *ngIf="!otpBoxNormal;else singleInput">
+
+    <ng-template ngFor let-control [ngForOf]="code.controls" let-i="index" let-isLast="last" let-isFirst="first">
+      <ng-template [ngIf]="!isLast || isLast && isSubmitBtn">
+        <input type="text" class="digit mx-10" autocomplete="new-password" [ngClass]="{'isFirst': isFirst}"
+          appFocusToNextInput [focusAfterLastInput]="'#verifyOtpBtn'" [isBorderFocus]="true" maxlength="1"
+          (keypress)="numberOnly($event)" [formControl]="getket(i)">
+      </ng-template>
+      <ng-template [ngIf]="isLast && !isSubmitBtn">
+        <input type="text" class="digit mx-10" autocomplete="new-password" [ngClass]="{'isFirst': isFirst}"
+          appFocusToNextInput [focusAfterLastInput]="'#verifyOtpBtn'" [isBorderFocus]="true" maxlength="1"
+          (keypress)="numberOnly($event,true)" [formControl]="getket(i)">
+      </ng-template>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #singleInput>
+    <input type="text" class="singleInput form-control isFirst text-center w-100" id="singleInput"
+      [appInputRestriction]="'integer'" [placeholder]="placeholder" autocomplete="new-password"
+      [formControl]="normalOtpInp" [maxlength]="otpBox"
+      (keyup.enter)="otpBoxNormal == false?!code.valid:!normalOtpInp.valid? false:checkit()" />
+  </ng-template>
+</div>
+
+<p class="my-2 otp-text" *ngIf="message" [innerHTML]="message"></p>
+<p class="my-2 otp-text" *ngIf="count">This OTP will expired in<span class="text-danger font-weight-bold"> {{count}}
+    second</span></p>
+
+<div class="" *ngIf="isSubmitBtn">
+  <button type="button" [id]="cancelBtnName ? 'otherBtn' : 'verifyOtpBtn'"
+    [disabled]="otpBoxNormal == false?!code.valid:!normalOtpInp.valid" (click)="checkit()" class="btn btn-primary"
+    [class]="submitBtnClass">
+    {{submitBtnName}}
+  </button>
+  <button type="button" *ngIf="cancelBtnName" class="btn btn-bordered w-100">
+    {{cancelBtnName}}
+  </button>
+</div>
+
+<div class="resend-otp d-flex justify-content-center mt-4" *ngIf="!count">
+  <p class="expire mb-0">Didn't receive OTP Code?<a href="javascript:void(0)" (click)="resendOtpFn(true)" class="ps-2">Resend OTP</a></p>
+
+</div>

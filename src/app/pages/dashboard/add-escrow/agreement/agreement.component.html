@@ -1,0 +1,158 @@
+<form [formGroup]="agreementForm" class="agreement">
+    <div class="mb-3">
+        <label>Agreement Type:</label><br />
+ <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio"
+           formControlName="agreement_type"
+           value="triparty"
+           id="triparty"
+           (change)="onAgreementTypeChange($event)" />
+    <label class="form-check-label" for="triparty">Triparty Agreement</label>
+  </div>
+
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio"
+           formControlName="agreement_type"
+           value="biparty"
+           id="biparty"
+           (change)="onAgreementTypeChange($event)" />
+    <label class="form-check-label" for="biparty">Biparty Agreement</label>
+  </div>
+        <!-- <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="agreement_type" value="triparty"
+                id="triparty" />
+            <label class="form-check-label" for="triparty">Triparty Agreement</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" formControlName="agreement_type" value="biparty"
+                id="biparty" />
+            <label class="form-check-label" for="biparty">Biparty Agreement</label>
+        </div> -->
+    </div>
+    <div class="mb-3" *ngIf="agreementForm.get('agreement_type')?.value">
+        <label for="agreementDoc">Upload {{ agreementForm.get('agreement_type')?.value | titlecase }} Document</label>
+        <p>{{agreementForm.get('agreement_type')?.value == 'triparty' ? 'An Escrow Agreement defining rights and release terms between depositor, beneficiary and agent.' : 'An Escrow Agreement between the software developer or beneficiary and the escrow agent.'}} </p>
+        <div class="d-flex align-items-center justify-content-between mt-2 flex-wrap gap-2 upload-doc p-3" role="button" (click)="openModal(content)">
+            <div>
+                    <img src="assets/img/upload.png">
+            <span class="text-primary">Upload document<p class="mb-0">File size must be less than 15mb</p></span>
+            </div>
+
+
+            <p *ngIf="formData"><img src="assets/img/edit2.png" class="pe-1"></p>
+        </div>
+        <div class="card mt-2 gap-3 p-4 d-flex justify-content-between flex-row flex-wrap"  *ngIf="formData">
+            <p>Signing Date: {{formData?.signing_date}}</p>
+            <p>Effective Date: {{formData?.effective_date}}</p>
+            <p>Expiry Date: {{formData?.expiry_date}}</p>
+            <!-- [href]="formData?.document_url" -->
+            <p><a (click)="_FileUploadService.HandleFileOpen(escrowId,formData.document_url,'agreement')"
+                        class="text-decoration-none view-border">
+                        <img src="assets/img/view.png" class="pe-1"> View Document
+                    </a></p>
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label>Upload Additional Document</label>
+        <p>Other Agreement related documents like SLA, NDA and other documents can be uploaded here.</p>
+        <div class="mb-2">
+            <input type="file" multiple (change)="onMultiFileSelect($event)"
+                accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx" class="form-control upload-doc p-3" />
+        </div>
+        <div formArrayName="additional_docs">
+     <div  *ngFor="let docCtrl of additionalDocs.controls; let i = index" [formGroupName]="i" class="border p-3 mb-2 rounded">
+            <!-- <label>Document {{ i + 1 }}</label> -->
+            <div class="mb-2">
+                <label>Document Name {{ i + 1 }}</label>
+                <div class="d-flex gap-3 flex-wrap">
+                                  <input type="text" class="form-control w-100 w-lg-50" formControlName="doc_name"
+                    placeholder="Enter document name" />
+                          <div *ngIf="docCtrl.get('url')?.value" class="text-success">
+                 <!-- [href]="docCtrl.get('url')?.value"  target="_blank"-->
+                Uploaded ✔️ –
+                <button class="btn btn-primary" (click)="_FileUploadService.HandleFileOpen(escrowId,docCtrl.get('url')?.value,'agreement')">View</button>
+                </div>
+      <button type="button" class="btn btn-danger" (click)="removeAdditionalDoc(i)">
+                Remove
+            </button>
+            </div>
+            </div>
+
+            <!-- *ngIf="additionalDocs.length > 1" -->
+
+        </div>
+        </div>
+    </div>
+
+    <button type="submit" (click)="onSubmit()" class="btn btn-primary">Next</button>
+</form>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Upload Form</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="agreementDocumentForm">
+            <div class="mb-3">
+                <label>Signing Date*</label>
+                <app-custom-datepicker formControlName="signing_date" [datepickerType]="'bsDatepicker'"
+                    [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo" [maxDate]="endMaxDateMonthForward"></app-custom-datepicker>
+
+
+                <app-show-errors [ctrl]="agreementDocumentForm.get('signing_date')"
+                    [requiredMesg]="'Signing date is Required'">
+                </app-show-errors>
+            </div>
+            <div class="mb-3">
+                <label>Effective Date*</label>
+                <app-custom-datepicker formControlName="effective_date" [datepickerType]="'bsDatepicker'"
+                    [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinDateMonthAgo" [maxDate]="endMaxDateMonthForward"></app-custom-datepicker>
+
+                <span class="highlight"></span>
+                <app-show-errors [ctrl]="agreementDocumentForm.get('effective_date')"
+                    [requiredMesg]="'Effective date is Required'">
+                </app-show-errors>
+            </div>
+            <div class="mb-3">
+                <label>Expiry Date*</label>
+                <app-custom-datepicker formControlName="expiry_date" [datepickerType]="'bsDatepicker'"
+                    [class]="'form-control'" [dateFormate]="'yyyy/MM/dd'" [placeholder]="'yyyy/MM/dd'"
+                    [bsCustConfg]="bsCustConfg" [minDate]="endMinScheduleDate"></app-custom-datepicker>
+
+                <span class="highlight"></span>
+                <app-show-errors [ctrl]="agreementDocumentForm.get('expiry_date')"
+                    [requiredMesg]="'Expiry date is Required'">
+                </app-show-errors>
+            </div>
+            <div class="mb-3">
+                <label>Upload Document*</label>
+                <input #fileInput type="file" class="form-control" (change)="handleModalFile($event, fileInput)"
+                    [class.is-invalid]="agreementDocumentForm.get('document_url')?.invalid && agreementDocumentForm.get('document_url')?.touched" />
+                <app-show-errors [ctrl]="agreementDocumentForm.get('document_url')"
+                    [requiredMesg]="'Document is Required'">
+                </app-show-errors>
+
+                <p class="mt-3" *ngIf="agreementDocumentForm.get('document_url')?.value">
+                     <!-- [href]="agreementDocumentForm.get('document_url')?.value" target="_blank" -->
+                    <a (click)="_FileUploadService.HandleFileOpen(escrowId,agreementDocumentForm.get('document_url')?.value,'agreement')"
+                        class="text-decoration-none view-border me-3">
+                        <img src="assets/img/view.png" class="pe-2"> View Document
+                    </a>
+                    <button type="button" class="btn border-0 p-0" (click)="clearModalDocument()">
+                       <img src="assets/img/delete.png">
+                    </button>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button class="btn btn-primary" [disabled]="!agreementDocumentForm.valid"
+            (click)="submitModal(modal)">Submit</button>
+    </div>
+</ng-template>

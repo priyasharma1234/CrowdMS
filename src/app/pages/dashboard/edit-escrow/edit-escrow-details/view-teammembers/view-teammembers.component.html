@@ -1,0 +1,81 @@
+
+<div class="deposit-table gap-4 p-3 mt-3" *ngIf="_EditEscrowService.escrowDetails">
+    <dynamic-table [showHeader]="false" [apiUrl]="environment.baseUrl + 'escrow/team-member'" [pageSize]="10"
+        [httpHeaders]="httpHeaders" [customParams]="customParams" (action)="onTableAction($event)">
+    </dynamic-table>
+</div>
+<ng-template #editTeamModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Team Member</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body" [formGroup]="editTeamForm">
+        <form [formGroup]="editTeamForm" class="p-2">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Role</label>
+                        <input readonly formControlName="user_type" type="text" class="form-control" />
+                        <app-show-errors [ctrl]="editTeamForm.get('user_type')"
+                            [requiredMesg]="'Role is required'"></app-show-errors>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input formControlName="name" type="text" class="form-control" />
+                        <app-show-errors [ctrl]="editTeamForm.get('name')"
+                            [requiredMesg]="'Name is required'"></app-show-errors>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input formControlName="email" type="email" class="form-control" />
+                        <app-show-errors [ctrl]="editTeamForm.get('email')"
+                            [requiredMesg]="'Email is required'"></app-show-errors>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                         <label class="form-label">Mobile</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text me-0" id="basic-addon1">+91</span>
+                            <input class="form-control" [appInputRestriction]="'integer'" maxlength="10" type="text"
+                                placeholder="Enter phone" formControlName="phone" />
+                        </div>
+                        <app-show-errors [ctrl]="editTeamForm.get('phone')"
+                            [requiredMesg]="'Phone is required'"></app-show-errors>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label d-block mb-2">Rights:</label>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" formControlName="rights" [value]="'edit'"
+                                id="rights-edit">
+                            <label class="form-check-label" for="rights-edit">Edit</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" formControlName="rights" [value]="'view'"
+                                id="rights-view">
+                            <label class="form-check-label" for="rights-view">View</label>
+                        </div>
+                        <app-show-errors [ctrl]="editTeamForm.get('rights')" [requiredMesg]="'Rights is Required'">
+                        </app-show-errors>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button class="btn btn-primary" (click)="submit()">Submit</button>
+    </div>
+</ng-template>

@@ -1,0 +1,187 @@
+<div class="modal-header text-center">
+    <h2 class="modal-title w-100 text-center">Add {{ entityType | titlecase }}</h2>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body p-4">
+    <form [formGroup]="form" class="p-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                <label>{{ entityType | titlecase }} Type*</label>
+                <select class="form-control" formControlName="entity_type">
+                    <option selected value="" disabled>Please Select {{ entityType | titlecase }} Type</option>
+                    <option [value]="item.value" *ngFor="let item of typeList">{{item.name}}</option>
+                </select>
+                <app-show-errors [ctrl]="form.get('entity_type')"
+                    [requiredMesg]="typeRequiredMessage"></app-show-errors>
+            </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="form.get('entity_type')?.value === 'existing'">
+                 <div class="form-group">
+                <label>Choose {{ entityType | titlecase }}*</label>
+                <ng-select [items]="corporateList" bindLabel="company_name" bindValue="id"
+                    placeholder="Please select type" formControlName="corpid">
+                </ng-select>
+                <!-- <select class="form-control" formControlName="entity_id">
+                    <option selected value="" disabled>Please Select {{ entityType | titlecase }}</option>
+                    <option [value]="item.id" *ngFor="let item of corporateList.list">{{item.name}}</option>
+                </select> -->
+                <app-show-errors [ctrl]="form.get('corpid')" [requiredMesg]="entityRequiredMessage"></app-show-errors>
+            </div>
+</div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Corporate Identifier*</label>
+              <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="corporate_identifier"
+                     class="form-control" placeholder="Enter Corporate Identifier"  appUppercase/>
+              <app-show-errors [ctrl]="form.get('corporate_identifier')"
+                               [requiredMesg]="'Corporate Identifier is Required'"></app-show-errors>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>User Identifier*</label>
+              <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="user_identifier"
+                     class="form-control" placeholder="Enter User Identifier"  appUppercase/>
+              <app-show-errors [ctrl]="form.get('user_identifier')"
+                               [requiredMesg]="'User Identifier is Required'"></app-show-errors>
+            </div>
+          </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                <label>Company Name*</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_name"
+                    class="form-control" placeholder="Enter Company Name" />
+                <app-show-errors [ctrl]="form.get('company_name')"
+                    [requiredMesg]="'Company Name is Required'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                  <div class="form-group">
+                <label>Company PAN*</label>
+                <!-- [appInputRestriction]="'alphanumeric'" -->
+                <input maxlength="10" type="text"
+                    [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_pan"
+                    class="form-control" placeholder="Enter Company PAN" appUppercase />
+                <app-show-errors [ctrl]="form.get('company_pan')"
+                    [requiredMesg]="'Company Pan is Required'"  [patternMesg]="'Enter valid pan'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="form-group">
+                <label>Company CIN*</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="company_cin"
+                    class="form-control" placeholder="Enter Company CIN" />
+                <app-show-errors [ctrl]="form.get('company_cin')"
+                    [requiredMesg]="'Company CIN is Required'"  [patternMesg]="'Enter valid company cin'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="form-group">
+                <label>Company Address*</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
+                    formControlName="company_address" class="form-control" placeholder="Enter Company Address" />
+                <app-show-errors [ctrl]="form.get('company_address')"
+                    [requiredMesg]="'Company Address is Required'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                  <div class="form-group">
+                <label>Representative Name*</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="rep_name"
+                    class="form-control" placeholder="Enter Representative Name" />
+                <app-show-errors [ctrl]="form.get('rep_name')"
+                    [requiredMesg]="'Representative Name is Required'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="form-group">
+                <label>Representative Email*</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="rep_email"
+                    class="form-control" placeholder="Enter Representative Email" />
+                <app-show-errors [ctrl]="form.get('rep_email')"
+                    [requiredMesg]="'Representative Email is Required'" [patternMesg]="'Enter valid representative email'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="form-group">
+                <label>Representative Mobile Number*</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
+                    [appInputRestriction]="'integer'" maxlength="10" formControlName="rep_mobile" class="form-control"
+                    placeholder="Enter Mobile Number" />
+                <app-show-errors [ctrl]="form.get('rep_mobile')"
+                    [requiredMesg]="'Representative Mobile Number is Required'"  [patternMesg]="'Enter valid representative mobile number'"></app-show-errors>
+                    </div>
+            </div>
+
+            <div class="col-md-6">
+                 <div class="form-group">
+                <label>Representative Alternate Mobile Number</label>
+                <input type="text" [readonly]="form.get('entity_type')?.value !== 'new'"
+                    [appInputRestriction]="'integer'" maxlength="10" formControlName="rep_alt_mobile"
+                    class="form-control" placeholder="Enter Alternate Mobile Number" />
+                       <app-show-errors [ctrl]="form.get('rep_alt_mobile')"
+                    [requiredMesg]="'Representative Alternate Mobile Number is Required'"  [patternMesg]="'Enter valid representative alternate mobile number'"></app-show-errors>
+                    </div>
+            </div>
+            <!-- <div class="col-md-6">
+                <label>Upload Photo*</label>
+                <input [disabled]="form.get('entity_type')?.value !== 'new'" type="file" class="form-control"
+                    (change)="onPhotoSelected($event)"
+                    [class.is-invalid]="form.get('rep_profile_pic')?.invalid && form.get('rep_profile_pic')?.touched" />
+                <app-show-errors [ctrl]="form.get('rep_profile_pic')" [requiredMesg]="'Photo is Required'">
+                </app-show-errors>
+            </div> -->
+            <div class="col-md-6">
+                  <div class="form-group">
+                <label>Upload Photo*</label>
+
+                <!-- Show image URL with option to remove if existing -->
+                <div *ngIf="form.get('entity_type')?.value !== 'new' && form.get('rep_profile_pic')?.value">
+                    <p class="mb-1">
+                        <!-- [href]="form.get('rep_profile_pic')?.value"  -->
+                        <a (click)="_FileUploadService.HandleFileOpen('',form.get('rep_profile_pic')?.value,'corporate')" class="text-decoration-none">
+                            <img src="assets/img/view.png" class="pe-2"> View Uploaded Image
+                        </a>
+                    </p>
+                    <!-- <button type="button" class="btn btn-outline-danger btn-sm" (click)="clearRepPhoto()">
+                        Remove
+                    </button> -->
+                </div>
+
+                <!-- <input *ngIf="form.get('entity_type')?.value == 'new'" type="file" class="form-control" (change)="onPhotoSelected($event)"
+                    [class.is-invalid]="form.get('rep_profile_pic')?.invalid && form.get('rep_profile_pic')?.touched" /> -->
+                <input #fileInput *ngIf="form.get('entity_type')?.value == 'new'" type="file" class="form-control"
+                    (change)="onPhotoSelected($event, fileInput)"
+                    [class.is-invalid]="form.get('rep_profile_pic')?.invalid && form.get('rep_profile_pic')?.touched" />
+
+                <app-show-errors [ctrl]="form.get('rep_profile_pic')"
+                    [requiredMesg]="'Photo is Required'"></app-show-errors>
+            </div>
+</div>
+
+            <!-- <div class="col-md-12">
+                <div class="form-group">
+                <label>Remarks*</label>
+                <textarea type="text" [readonly]="form.get('entity_type')?.value !== 'new'" formControlName="remark"
+                    class="form-control" placeholder="Enter Remarks"></textarea>
+                <app-show-errors [ctrl]="form.get('remark')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
+                </div>
+            </div> -->
+        </div>
+    </form>
+
+</div>
+
+<div class="modal-footer justify-content-center">
+    <button class="btn btn-white " (click)="activeModal.dismiss()">Cancel</button>
+    <button class="btn btn-primary" (click)="submit()">{{editId ? 'Update' : 'Add'}}</button>
+</div>

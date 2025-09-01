@@ -1,0 +1,6 @@
+<button class="btn btn-primary add-role-btn" (click)="openModal()"> Add Staff</button>
+<div class="user-box">
+<dynamic-table [searchPlaceholder]="'Search by Name, Email'" [showSubmitAndClear]="false" [showDatePicker]="false" [showGlobalSearch]="true" [apiUrl]="environment.baseUrl + 'usermanagement/staff/list'" [pageSize]="10" [httpHeaders]="httpHeaders"
+    (action)="onTableAction($event)">
+</dynamic-table>
+</div>

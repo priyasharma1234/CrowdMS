@@ -10,11 +10,11 @@
   border-radius: 10px;
   font-family: $font-primary;
   border: 1px solid;
+      font-weight: $bold;
 
   &.btn-primary {
     background: $dark-blue;
     color: $white;
-    font-weight: $bold;
     border: 2px solid $dark-blue;
     transition: all 0.3s ease-in-out;
     &:hover {
@@ -31,7 +31,7 @@
     background: $white;
     color:#808080;
     font-weight: $bold;
-   border: 2px solid #E6EFF5;
+   border: 2px solid $gray4;
     &:hover {
       background: $dark-blue;
       color:$white;
@@ -41,11 +41,11 @@
     &.btn-bordered {
     background: $white;
     padding: 10px 20px;
-    color: $red;
+    color: $dark-blue;
     border: 0;
-    border:1px solid $red;
+    border:1px solid $dark-blue;
     &:hover {
-      background: $red;
+      background:$dark-blue;
       color: $white;
     }
   }

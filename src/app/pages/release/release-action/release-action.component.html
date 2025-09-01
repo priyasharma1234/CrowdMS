@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <h2 class="modal-title w-100 text-center">Take Action</h2>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body p-4" [formGroup]="releaseForm">
+    <div class="mb-3">
+        <label class="form-label">Select Release Request</label>
+        <div class="d-flex gap-4 flex-wrap">
+            <div *ngFor="let type of requestTypes" class="form-check form-check-inline"
+                [class.selected-radio]="selectedRequestValue === type.value">
+                <input class="form-check-input" type="radio" name="releaseRequestType"
+                    [checked]="selectedRequestValue === type.value" (change)="selectRequestType(type)" />
+                <label class="form-check-label">{{ type.label }}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Upload Document</label>
+        <label class="file-upload d-block p-3 border rounded text-center cursor-pointer">
+            <input type="file" hidden (change)="onFileSelected($event)" />
+            <span class="upload-button fw-semibold text-primary"><img src="assets/img/upload.png" class="pe-2">
+                 Upload Document</span>
+
+            <div *ngIf="uploadedFile" class="mt-2">
+                <span class="file-name text-dark fw-normal">{{ uploadedFile.name }}</span>
+            </div>
+
+            <div *ngIf="fileUrl" class="mt-1">
+                <!-- [href]="fileUrl" target="_blank" -->
+                <a  (click)="$event.preventDefault(); $event.stopPropagation();_FileUploadService.HandleFileOpen(escrowId,fileUrl,'release-action')" class="btn btn-sm btn-outline-primary">
+                    <img src="assets/img/upload.png"> View Uploaded Document
+                </a>
+            </div>
+        </label>
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Remarks*</label>
+        <textarea class="form-control" formControlName="remarks" rows="3" placeholder="Enter remarks"></textarea>
+        <app-show-errors [ctrl]="releaseForm.get('remarks')" [requiredMesg]="'Remarks is Required'"></app-show-errors>
+    </div>
+</div>
+
+<div class="modal-footer justify-content-center">
+    <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancel</button>
+    <button class="btn btn-primary" (click)="submit()">Submit</button>
+</div>

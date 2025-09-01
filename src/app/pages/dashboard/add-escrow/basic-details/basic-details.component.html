@@ -1,0 +1,88 @@
+<div class="row g-4">
+  <div class="col-md-6" *ngFor="let item of serviceOptions">
+    <div class="service-card p-4 shadow-sm rounded-3 h-100 border" role="button" (click)="onSelect(item.key)">
+      <ng-container [ngSwitch]="item.key">
+        <ng-container *ngSwitchCase="'depositor'">
+          <ng-container *ngIf="!(depositorId && depositor); else showEditDepositor">
+            <div>
+              <img [src]="item.icon" class="mb-2" />
+              <div>
+                <h5 class="mb-1">{{ item.title }}</h5>
+                <p class="text-muted mb-0">{{ item.description }}</p>
+              </div>
+            </div>
+
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'beneficiary'">
+          <ng-container *ngIf="!(beneId && beneficiary); else showEditBeneficiary">
+            <div>
+              <img [src]="item.icon" class="mb-2" />
+              <div>
+                <h5 class="mb-1">{{ item.title }}</h5>
+                <p class="text-muted mb-0">{{ item.description }}</p>
+              </div>
+            </div>
+
+          </ng-container>
+        </ng-container>
+
+      </ng-container>
+
+      <ng-template #showEditDepositor>
+        <div class="mt-3">
+          <div class="d-flex justify-content-between">
+            <h5 class="mb-1">Depositor Details</h5>
+            <button type="button" class="border-0 bg-transparent">
+              <img src="assets/img/edit2.png">
+            </button>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Depositor Company Name:</p>
+            <p class="mb-0">{{ depositor.company_name }}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Depositor Company PAN:</p>
+            <p class="mb-0">{{ depositor.company_pan }}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Depositor CIN:</p>
+            <p class="mb-0">{{ depositor.company_cin }}</p>
+          </div>
+
+        </div>
+      </ng-template>
+
+      <ng-template #showEditBeneficiary>
+        <div class="mt-3">
+          <div class="d-flex justify-content-between">
+            <h5 class="mb-1">Beneficiary Details</h5>
+            <button type="button" class="border-0 bg-transparent">
+              <img src="assets/img/edit2.png">
+            </button>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Depositor Company Name:</p>
+            <p class="mb-0">{{ beneficiary.company_name }}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Company PAN:</p>
+            <p class="mb-0">{{ beneficiary.company_pan }}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="mb-0">Company CIN:</p>
+            <p class="mb-0">{{ beneficiary.company_cin }}</p>
+          </div>
+
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
+  <div class="col-12 mt-3">
+    <button class="btn btn-primary" type="button" (click)="submit()">Next</button>
+  </div>
+</div>

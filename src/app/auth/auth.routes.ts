@@ -1,5 +1,5 @@
-import {Routes} from '@angular/router';
-import {AuthComponent} from './auth.component';
+import { Routes } from '@angular/router';
+import { AuthComponent } from './auth.component';
 
 export const AuthRoutes: Routes = [
   {
@@ -22,6 +22,16 @@ export const AuthRoutes: Routes = [
       {
         path: 'forgot-password',
         loadComponent: () => import('./forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () => import('./reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+        data: { type: 'reset' }
+      },
+      {
+        path: 'create-password',
+        loadComponent: () => import('./reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+        data: { type: 'create' }
       }
     ]
   }

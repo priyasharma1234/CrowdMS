@@ -1,3 +1,48 @@
 @use "../config/veriables" as *;
 @use "../config/mixins" as *;
 @use "../config/extends" as *;
+
+ul {
+  list-style: none;
+  li {
+    .badge-notification {
+      position: absolute;
+      top: -3px;
+      width: 15px;
+      height: 15px;
+      right: -6px;
+      font-size: 12px;
+      border-radius: 50%;
+      background: #f92232;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    button {
+      h6 {
+        color: #808080;
+        font-weight: 400;
+      }
+    }
+  }
+  .profile{
+   .dropdown-menu {
+    width: 200px;
+    border-radius: 10px;
+  }
+}
+}
+.name-label {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #ffe6b5;
+  color: #ffac0a;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

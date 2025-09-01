@@ -1,0 +1,34 @@
+<ul class="nav nav-pills escrow-tabs2 mb-3 border-bottom">
+    <li class="nav-item">
+        <button class="nav-link" [class.active]="activeEntity === 'depositor'" (click)="setEntity('depositor')">
+            Depositor
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" [class.active]="activeEntity === 'beneficiary'" (click)="setEntity('beneficiary')">
+            Beneficiary
+        </button>
+    </li>
+</ul>
+<ul class="nav nav-pills mb-3 escrow-tabs2 border-bottom">
+    <li class="nav-item" *ngFor="let tab of subTabs">
+        <button class="nav-link" [class.active]="activeSubTab === tab.label" (click)="setSubTab(tab.label)">
+            {{ tab.label }}
+        </button>
+    </li>
+</ul>
+<div class="tab-content">
+    <ng-container [ngSwitch]="activeSubTab">
+
+        <app-view-basic-details *ngSwitchCase="'Basic Details'" [userType]="activeEntity" />
+        <app-view-agreement *ngSwitchCase="'Agreement'" />
+        <app-view-teammembers *ngSwitchCase="'Team Members'" />
+        <app-view-deposit *ngSwitchCase="'Deposit'" />
+
+        <app-view-release *ngSwitchCase="'Release'" />
+        <app-view-certificate *ngSwitchCase="'Certificate'" />
+
+        <div *ngSwitchDefault>Select a tab</div>
+
+    </ng-container>
+</div>

@@ -1,0 +1,151 @@
+  <div class="notification">
+        <div><img src="assets/img/notification.png" alt="sprintexcode"></div>
+        <p class="mb-0">{{dashboardData?.dashboard_message}}<a>Click Here To Start.</a></p>
+      </div>
+      <div class="row">
+             <div class="col-12 col-lg-3" *ngFor="let count of dashboardData?.dashboard_count">
+
+          <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
+            <div>
+              <h4 class="text-primary">{{count?.name}}</h4>
+              <h2 class="font-large">{{count?.count}}</h2>
+            </div>
+            <div class="position-relative">
+               <div class="box" [ngClass]="{'box-pink': count?.name != 'Active Escrow'}"></div>
+              <div class="box-img"><img [src]="count?.icon"></div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- <div class="col-12 col-lg-3">
+          <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
+            <div>
+              <h4 class="text-primary">Awaiting Deposit Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.AWAITING_DEPOSIT}}</h2>
+            </div>
+            <div class="position-relative">
+              <div class="box"></div>
+              <div class="box-img"><img src="assets/img/user.png"></div>
+
+            </div>
+
+          </div>
+        </div> -->
+              <!-- <div class="col-12 col-lg-3">
+          <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
+            <div>
+              <h4 class="text-primary">Awaiting Review Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.AWAITING_REVIEW}}</h2>
+            </div>
+            <div class="position-relative">
+              <div class="box"></div>
+              <div class="box-img"><img src="assets/img/user.png"></div>
+
+            </div>
+
+          </div>
+        </div> -->
+                   <!-- <div class="col-12 col-lg-3">
+          <div class="user-card d-flex align-items-center justify-content-between p-3 mt-3">
+            <div>
+              <h4 class="text-primary">Active Escrow</h4>
+              <h2 class="font-large">{{dashboardCount?.AWAITING_REVIEW}}</h2>
+            </div>
+            <div class="position-relative">
+              <div class="box"></div>
+              <div class="box-img"><img src="assets/img/user.png"></div>
+
+            </div>
+
+          </div>
+        </div> -->
+      </div>
+
+      <!-- <div class="filter-box d-flex gap-4 p-3 mt-3">
+        <h4>Filter</h4>
+        <form class="d-flex justify-content-between align-items-center w-100 flex-wrap">
+          <div class="d-flex gap-3 flex-wrap mb-2">
+            <div>
+              <input type="date" class="form-control" id="exampleInputPassword1">
+            </div>
+
+            <div>
+              <select class="form-select" aria-label="Default select example">
+                <option selected="">User Type</option>
+                <option value="1">One</option>
+              </select>
+            </div>
+
+            <div>
+              <select class="form-select" aria-label="Default select example">
+                <option selected="">Type of Escrow</option>
+                <option value="1">One</option>
+              </select>
+            </div>
+
+            <div>
+              <select class="form-select" aria-label="Default select example">
+                <option selected="">Status</option>
+                <option value="1">One</option>
+              </select>
+            </div>
+
+            <div>
+              <select class="form-select" aria-label="Default select example">
+                <option selected="">Sort By</option>
+                <option value="1">One</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex gap-3 align-items-center">
+            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-white"><span><img src="assets/img/edit.png" class="pe-3"></span>Clear</button>
+          </div>
+
+        </form>
+
+      </div> -->
+      <div class="d-flex justify-content-between my-3">
+        <h5 class="mt-3 text-primary">Your Escrow Deposits</h5>
+        <button class="btn btn-primary" (click)="addNew()">Add New</button>
+      </div>
+
+      <div class="mt-3">
+        <dynamic-table [isDateFilledType]="null"  [isActionDisabledFn]="isActionDisabled" [apiUrl]="environment.baseUrl + 'escrow/list'" [pageSize]="10"
+       [httpHeaders]="httpHeaders" (action)="onTableAction($event)">
+        </dynamic-table>
+        <!-- <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Escrow ID: <span class="fw-normal">ABCD4564</span></th>
+              <th scope="col" colspan="7">User Type: <span class="fw-normal">Depositor</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Depositor Company Name</th>
+              <th>Depositor Representative Name</th>
+              <th>Beneficiary Company Name</th>
+              <th>Beneficiary Representative Name</th>
+              <th>Type of Escrow</th>
+              <th>Stage</th>
+              <th>Action</th>
+            </tr>
+            <tr>
+              <td>ACME Inc</td>
+              <td>Parthiv Patel</td>
+              <td>PaySprint</td>
+              <td>Shubham Bhola</td>
+              <td>Software/SaaS</td>
+              <td>Escrow Activation</td>
+              <td>
+                <div class="d-flex gap-3">
+                  <div><img src="assets/img/edit2.png"></div>
+                  <div><img src="assets/img/view.png"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+        </table> -->

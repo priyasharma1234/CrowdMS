@@ -2,7 +2,6 @@
 @use "../config/mixins" as *;
 @use "../config/extends" as *;
 
-
 form {
   max-width: 100%;
 }
@@ -15,9 +14,11 @@ form {
 label {
   font-weight: $medium;
   font-size: 16px;
+  margin-bottom: 10px;
 
   &.form-check-label {
     font-family: $font-primary;
+    font-size: 16px;
   }
 }
 
@@ -33,7 +34,7 @@ input {
   font-weight: $medium;
   font-size: 16px;
   letter-spacing: 0.3px;
-border: 1px solid $border;
+  border: 1px solid #e6eff5;
   padding: 12px 15px;
   line-height: 1.5;
   height: auto;
@@ -80,54 +81,101 @@ border: 1px solid $border;
     font-weight: $medium;
     font-size: 16px;
     letter-spacing: 0.3px;
-    padding: 2px 5px;
-    border: 0;
-    border-right: 1px solid #efefef;
-    background-color: transparent;
+    padding: 2px 11px;
+    background-color: #e9ecef;
+    border-right: 1px solid #ced4da;
+    border: 1px solid #ced4da;
     margin-right: 10px;
   }
   input[type="text"] {
-    padding: 2px 5px;
-    border: none;
+    padding: 12px 5px;
+    // border: none;
     box-shadow: none;
     flex: 1;
   }
 }
 .input-group-prepend {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
 }
+.form-check-input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  &:checked::after {
+    content: "✔";
+    position: absolute;
+    top: -1px;
+    left: 4px;
+    font-size: 17px;
+    color: #0caf54;
+  }
+  &:checked {
+    background-color: #e1ffee;
+    border-color: #e1ffee;
+    width: 25px;
+    height: 25px;
+    position: relative;
+  }
+}
+
 // --login input css-
 .login-form {
-  .form-control-placeholder {
-  position: absolute;
-  top: 0;
-  padding:13px;
-  transition: all 200ms;
-  left: 40px;
-}
+  &.ng-untouched {
+    .form-control-placeholder {
+      top: -15px;
+      background-color: #fff;
+      padding: 0 5px;
+    }
+  }
+  &.ng-touched {
+    .form-control-placeholder {
+      top: 0;
 
-.form-control:focus + .form-control-placeholder,
-.form-control:valid + .form-control-placeholder {
-  font-size: 75%;
-  transform: translate3d(0, -50%, 0);
-  opacity: 1;
-  background-color: $white;
-  padding: 0 5px;
-  margin-left: 8px;
-}
-.form-control{
-  padding: 12px 50px;
-}
-.bottom-label{
-  a{
-    font-size: 16px;
-color: $text-grey;
-font-weight: $normal;
-text-decoration:none;
+    }
+  }
+  .form-control-placeholder {
+    position: absolute;
+    top: 0;
+    padding: 13px;
+    transition: all 200ms;
+    left: 40px;
   }
 
+  .form-control:focus + .form-control-placeholder,
+  .form-control:valid + .form-control-placeholder {
+    font-size: 75%;
+    transform: translate3d(0, -50%, 0);
+    opacity: 1;
+    background-color: $white;
+    padding: 0 5px;
+    margin-left: 8px;
+  }
+  .form-control {
+    padding: 12px 50px;
+  }
+  .bottom-label {
+    a {
+      font-size: 16px;
+      color: $text-grey;
+      font-weight: $normal;
+      text-decoration: none;
+    }
+  }
 }
+.form-select {
+  padding: 12px 15px;
+  line-height: 1.5;
+}
+
+.ng-select {
+  &.ng-select-multiple {
+    .ng-select-container {
+      .ng-value-container {
+        padding: 12px 15px;
+        line-height: 1.5;
+      }
+    }
+  }
 }

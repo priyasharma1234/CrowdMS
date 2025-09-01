@@ -986,7 +986,7 @@ input {
   background: #fff;
   color: #808080;
   font-weight: 700;
-  border: 2px solid #E6EFF5;
+  border: 2px solid $gray4;
 }
 .btn.btn-white:hover {
   background: #062745;
@@ -1270,12 +1270,12 @@ table {
 
 .filter-box {
   background: #fff;
-  border: 1px solid #E6EFF5;
+  border: 1px solid $gray4;
   border-radius: 10px;
   align-items: center;
 }
 .filter-box form .form-select, .filter-box form .form-control {
-  border: 1px solid #E6EFF5;
+  border: 1px solid $gray4;
   height: 55px;
   border-radius: 10px;
   color: #808080;

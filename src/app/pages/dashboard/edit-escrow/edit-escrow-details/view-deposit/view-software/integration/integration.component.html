@@ -1,0 +1,35 @@
+<div class="row g-2 mb-3" *ngIf="selectedIntegration == 'github'">
+  <div class="col-md-6">
+    <select [(ngModel)]="selectedRepository" (ngModelChange)="HandleRepoSelect()" class="form-select">
+      <option value="" disabled selected>Select Repository</option>
+      <option *ngFor="let repo of repositories" [value]="repo">{{ repo }}</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <select [(ngModel)]="selectedBranch" (ngModelChange)="HandleBranchSelect()" class="form-select">
+      <option value="" disabled selected>Select Branch</option>
+      <option *ngFor="let branch of branches" [value]="branch">{{ branch }}</option>
+    </select>
+  </div>
+</div>
+<div class="row g-2 mb-3" *ngIf="selectedIntegration == 'bitbucket'">
+  <div class="col-md-6">
+    <select [(ngModel)]="selectedWorkspace" (ngModelChange)="HandleWorkspaceSelect()" class="form-select">
+      <option value="" disabled selected>Select Repository</option>
+      <option *ngFor="let workspace of workspaces" [value]="workspace">{{ workspace }}</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <select [(ngModel)]="selectedRepository" (ngModelChange)="HandleRepoSelect()" class="form-select">
+      <option value="" disabled selected>Select Repository</option>
+      <option *ngFor="let repo of repositories" [value]="repo">{{ repo }}</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <select [(ngModel)]="selectedBranch" (ngModelChange)="HandleBranchSelect()" class="form-select">
+      <option value="" disabled selected>Select Branch</option>
+      <option *ngFor="let branch of branches" [value]="branch">{{ branch }}</option>
+    </select>
+  </div>
+</div>
+

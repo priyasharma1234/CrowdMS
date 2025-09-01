@@ -1,0 +1,9 @@
+<div class="pb-2">
+  <button class="btn btn-primary add-role-btn " (click)="CreateReleaseRequest()">Add Release Requests</button>
+</div>
+
+<div class="deposit-table gap-4 p-3 mt-3">
+  <dynamic-table [isDateFilledType]="null" [apiUrl]="environment.baseUrl + 'escrow/release/list'" [pageSize]="10"
+                 [httpHeaders]="httpHeaders"   (action)="onTableAction($event)">
+  </dynamic-table>
+</div>

@@ -1,0 +1,16 @@
+      <div class="row g-4">
+                <div class="col-md-6" *ngFor="let service of services">
+                    <div class="select-srvice p-4" [ngClass]="{
+        'border-primary': selectedService === service.key,
+        'border-light': selectedService !== service.key
+      }" (click)="selectService(service.key)" role="button">
+                        <div class="">
+                            <img [src]="service.icon" alt="sprint excode" />
+                            <div>
+                                <h5 class="my-2">{{ service.name }}</h5>
+                                <p class="text-muted mb-0">{{ service.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

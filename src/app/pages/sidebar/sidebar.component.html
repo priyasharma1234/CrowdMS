@@ -1,17 +1,58 @@
-<!-- Offcanvas -->
+<nav class="navbar navbar-dark bg-dark d-lg-none">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsiveSidebar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <img src="assets/img/logo-red.png" alt="Logo">
+  </div>
+</nav>
+  <!-- <li class="nav-item theme-logo d-lg-none list-unstyled">
+      <a (click)="onSideBar(dashboardStatic, 0)" class="d-flex align-items-center">
+        <span><img src="assets/assets/img/logo.png" /></span>
+      </a>
+    </li> -->
 <div class="sidebar offcanvas offcanvas-start offcanvas-lg" tabindex="-1" id="responsiveSidebar">
-  <div class="text-center py-4 d-none d-lg-block">
+  <div class="text-center py-4 d-none d-lg-block"> 
     <img src="assets/img/logo-red.png" alt="Logo">
   </div>
   <div class="offcanvas-header d-lg-none">
     <h5 class="offcanvas-title">
-      <img src="assets/img/logo-red.png" alt="Logo">
+      <img src="assets/img/logo-red.png" alt="Logo" >
     </h5>
-    <button  type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close">☰ Menu</button>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <ul class="nav flex-column w-100">
-      <ng-container *ngFor="let item of m_sideBarLinks">
+    <ul class="nav flex-column w-100 ps-height">
+      <li class="nav-item" *ngFor="let obj of sidebarList; let i = index">
+        <a (click)="onSideBar(obj, i)" data-toggle="collapse" [attr.aria-expanded]="obj.name == selectedItem"
+          *ngIf="_permissionService?.hasModule(obj?.module)" class="dropdown-toggle"
+          [ngClass]="{ active: obj?.name == selectedItem }" class="nav-link">
+    
+            <span class="pe-3">
+               <span [innerHTML]="obj?.icon | safeHtml" title="{{obj?.name}}" class="svg-outer"></span>
+            </span>
+             
+              {{ obj?.name }}
+          
+            <i *ngIf="obj?.subMenu && cachedIndex != obj?.name" class="fas fa-chevron-down"></i>
+            <i *ngIf="obj?.subMenu && cachedIndex == obj?.name" class="fas fa-chevron-right "></i>
+
+        </a>
+        <div class="subMenu" *ngIf="_payoutSideBar && cachedIndex == obj?.name">
+          <ul class="ps-0">
+            <li *ngFor="let item of _payoutSideBar;let i=index">
+              <a class="nav-link ps-0" (click)="ResetSubMenu(item)" [routerLink]="[item.routePath]"
+                [routerLinkActive]="'active'" href="javascript:void(0);"
+                (isActiveChange)="$event ?_title = item.value:null">
+                <span class="px-3">  <span [innerHTML]="item?.icon | safeHtml" title="{{item?.name}}" class="svg-outer"></span></span>{{item.value}}
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+      <!-- <ng-container *ngFor="let item of m_sideBarLinks">
         <li class="nav-item">
           <a [routerLink]="item.href ?? item.routerLink" class="nav-link" [ngClass]="{'active': item.active}">
             <span class="pe-3">
@@ -20,7 +61,24 @@
             {{item.name}}
           </a>
         </li>
-      </ng-container>
+      </ng-container> -->
+      
     </ul>
   </div>
+  <ul class="nav flex-column w-100">
+     <li class="nav-item">
+      <a href="javascript:void(0);" class="nav-link" (click)="logout()">
+        <span  class="pe-3"> <svg id="logout" xmlns="http://www.w3.org/2000/svg" width="24" height="23.905" viewBox="0 0 24 23.905">
+          <path id="Path_268772" data-name="Path 268772"
+            d="M315.23,48.215a3.415,3.415,0,0,0-3.415-3.415h-7.684a3.415,3.415,0,0,0-3.415,3.415V51.4a1.138,1.138,0,0,0,2.277,0V48.215a1.138,1.138,0,0,1,1.138-1.138h7.684a1.138,1.138,0,0,1,1.138,1.138V65.29a1.138,1.138,0,0,1-1.138,1.138h-7.684a1.138,1.138,0,0,1-1.138-1.138v-3.13a1.138,1.138,0,0,0-2.277,0v3.13a3.415,3.415,0,0,0,3.415,3.415h7.684a3.415,3.415,0,0,0,3.415-3.415Z"
+            transform="translate(-291.23 -44.8)" fill="#fff" />
+          <path id="Path_268773" data-name="Path 268773"
+            d="M122.02,139.364a1.138,1.138,0,0,0-1.611,0l-5.976,5.976h0a1.138,1.138,0,0,0,0,1.708l5.976,5.976h0a1.139,1.139,0,1,0,1.611-1.611l-4.1-4.081h12.724a1.138,1.138,0,1,0,0-2.276H117.925l4.1-4.092a1.138,1.138,0,0,0,0-1.6Z"
+            transform="translate(-114.048 -134.241)" fill="#fff" />
+        </svg>
+ </span>
+       Logout
+    </a>
+     </li>
+  </ul>
 </div>
