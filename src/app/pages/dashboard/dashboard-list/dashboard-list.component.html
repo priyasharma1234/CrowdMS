@@ -55,6 +55,40 @@
             </canvas>
         </div>
     </div>
+    <div class="row g-3 mt-3">
+
+        <div class="col-md-4">
+            <div class="card p-3 h-100">
+                <h6 class="mb-3">Chart of Demographics</h6>
+
+                <div style="height:220px">
+                    <canvas baseChart [data]="demographicsDonutData" [options]="demographicsDonutOptions"
+                        [plugins]="[demographicsCenterTextPlugin]" chartType="doughnut">
+                    </canvas>
+                </div>
+
+                <div class="mt-3 text-center small">
+                    <div>👨 {{ malePercent || 0 }}% Males</div>
+                    <div>👩 {{ femalePercent || 0 }}% Females</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Chart -->
+        <div class="col-md-8">
+            <div class="card p-3 h-100">
+                <h6 class="mb-3">Demographics Analysis</h6>
+
+                <div style="height:260px">
+                    <canvas baseChart [data]="demographicsLineData" [options]="demographicsLineOptions"
+                        chartType="line">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 
 
 </div>

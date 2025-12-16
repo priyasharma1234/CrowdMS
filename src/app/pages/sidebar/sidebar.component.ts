@@ -8,16 +8,13 @@ import { SessionStorageService } from 'src/app/core/services/session-storage.ser
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonService } from 'src/app/core/services/common.service';
 import { SidebarService } from './sidebar-service.service';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { SafeHtmlPipe } from 'src/app/core/pipes/safe-html.pipe';
 
 @Component({
     selector: 'app-sidebar',
     imports: [
         NgForOf,
-        RouterLink,
         NgClass,
-        SharedModule,
         SafeHtmlPipe
     ],
     templateUrl: './sidebar.component.html',
@@ -28,13 +25,6 @@ export class SidebarComponent {
   sidebarList: any = [...Side_Bar];
     selectedItem: any = 0;
     selectedBottom: any;
-    dashboardStatic = {
-        icon: 'assets/svg/sidebar/dashboard.svg',
-        id: 1,
-        is_active: 1,
-        name: "Dashboard",
-        routeUrl: "dashboard"
-    }
     isShown: boolean = false
     title: string;
     cachedIndex: string | null = null;
@@ -160,12 +150,6 @@ export class SidebarComponent {
 
 
 
-    clickProfile() {
-        this.selectedItem = 50;
-        this._Router.navigate(['profile']);
-        this._SessionStorageService.setItem('selectd_item', this.selectedItem);
-    };
-
     bottomsidebar(selected: any) {
         this.selectedBottom = selected;
         this.selectedItem = '';
@@ -190,11 +174,6 @@ export class SidebarComponent {
         this._CommonService.pageTitle.next(item.value)
         this.selectedItem = this.cachedIndex;
         this._CommonService.subMenu.next(null);
-    }
-    onNavigateToServiceRequests() {
-        this.selectedItem = 'Service Requests';
-        sessionStorage.setItem('selectd_item', 'Service Requests');
-        this._CommonService.pageTitle.next('Service Request List');
     }
     logout() {
         this._AuthCoreService.logout(false, 'You have been logged out successfully')

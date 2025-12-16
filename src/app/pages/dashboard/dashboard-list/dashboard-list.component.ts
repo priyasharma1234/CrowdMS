@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-import { forkJoin } from 'rxjs';
 import { apiRoutes } from 'src/app/config/api-request';
 import { ApiRequestService } from 'src/app/services/api-request.service';
 @Component({
@@ -12,6 +11,8 @@ import { ApiRequestService } from 'src/app/services/api-request.service';
     styleUrl: './dashboard-list.component.scss'
 })
 export class DashboardListComponent implements OnInit {
+    malePercent = 0;
+    femalePercent = 0;
     dwellDetails: any;
     footfallDetails: any;
     occupancyDetails: any;
@@ -24,86 +25,106 @@ export class DashboardListComponent implements OnInit {
         datasets: []
     };
 
-occupancyChartOptions: ChartOptions<'line'> = {
-  responsive: true,
-  maintainAspectRatio: false,
+    occupancyChartOptions: ChartOptions<'line'> = {
+        responsive: true,
+        maintainAspectRatio: false,
 
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      mode: 'index',
-      intersect: false
-    }
-  },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                mode: 'index',
+                intersect: false
+            }
+        },
 
-  scales: {
-    x: {
-      grid: {
-        display: false   
-      },
-      title: {
-        display: true,
-        text: 'Time'
-      }
-    },
-    y: {
-      grid: {
-        color: '#eef2f7'
-      },
-      title: {
-        display: true,
-        text: 'Count'
-      }
-    }
-  }
-};
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Time'
+                }
+            },
+            y: {
+                grid: {
+                    color: '#eef2f7'
+                },
+                title: {
+                    display: true,
+                    text: 'Count'
+                }
+            }
+        }
+    };
+    demographicsCenterTextPlugin = {
+        id: 'centerText',
+        beforeDraw(chart: any) {
+            const { ctx, width, height } = chart;
 
+            ctx.restore();
+            ctx.textAlign = 'center';
 
-    //   ● POST Average Dwell Time: https://hiring-dev.internal.kloudspot.com/api/analytics/dwell
-    // ● POST Today’s Footfall: https://hiring-dev.internal.kloudspot.com/api/analytics/footfall
+            ctx.font = '500 12px Inter';
+            ctx.fillStyle = '#6B7280';
+            ctx.fillText('Total Crowd', width / 2, height / 2 - 6);
+
+            ctx.font = '700 18px Inter';
+            ctx.fillStyle = '#111827';
+            ctx.fillText('100%', width / 2, height / 2 + 16);
+
+            ctx.save();
+        }
+    };
+    demographicsDonutData: ChartData<'doughnut'> = {
+        labels: ['Male', 'Female'],
+        datasets: []
+    };
+
+    demographicsDonutOptions: ChartOptions<'doughnut'> = {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '72%',
+        plugins: {
+            legend: { display: false }
+        }
+    };
+    demographicsLineData: ChartData<'line'> = {
+        labels: [],
+        datasets: []
+    };
+
+    demographicsLineOptions: ChartOptions<'line'> = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    usePointStyle: true
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                title: { display: true, text: 'Time' }
+            },
+            y: {
+                grid: { color: '#eef2f7' },
+                title: { display: true, text: 'Count' }
+            }
+        }
+    };
+
     ngOnInit(): void {
         this.fetchDwellTime();
         this.fetchFootfall();
         this.fetchOccupancy();
         this.fetchDemographics();
 
-    }
-    fetchAnalyticsData() {
-        const payload = {
-            siteId: 'SITE-AE-DXB-001',
-            fromUtc: 2,
-            toUtc: 7,
-            avgDwellMinutes: 0,
-            dwellRecords: 0
-        };
-
-        forkJoin([
-            // Existing APIs
-            this._ApiRequestService.postData<any, any>({ payload }, apiRoutes.analyticsDwell),
-            this._ApiRequestService.postData<any, any>({ payload }, apiRoutes.analyticsFootfall),
-
-            // New APIs
-            this._ApiRequestService.postData<any, any>({ payload }, apiRoutes.analyticsOccupancy),
-            this._ApiRequestService.postData<any, any>({ payload }, apiRoutes.analyticsDemographics)
-        ]).subscribe({
-            next: ([dwellRes, footfallRes, occupancyRes, demographicsRes]) => {
-                this.dwellDetails = dwellRes;
-                this.footfallDetails = footfallRes;
-                this.occupancyDetails = occupancyRes;
-                this.demographicsRes = demographicsRes;
-                console.log('Average Dwell Time:', dwellRes);
-                console.log('Today’s Footfall:', footfallRes);
-                console.log('Overall Occupancy Timeseries:', occupancyRes);
-                console.log('Demographics Data:', demographicsRes);
-
-                // You can now set your chart data here
-                // e.g., this.occupancyChartData = occupancyRes.data;
-                // e.g., this.demographicsChartData = demographicsRes.data;
-            },
-            error: (err) => {
-                console.error('Analytics API error:', err);
-            }
-        });
     }
     private getAnalyticsPayload() {
         return {
@@ -145,9 +166,9 @@ occupancyChartOptions: ChartOptions<'line'> = {
         this._ApiRequestService
             .postData<any, any>({ payload }, apiRoutes.analyticsOccupancy)
             .subscribe({
-                next: (res:any) => {
+                next: (res: any) => {
                     this.occupancyDetails = res;
-                    console.log("res1111",res)
+                    console.log("res1111", res)
                     this.updateOccupancyChart(res?.buckets || [])
                     console.log('Occupancy Timeseries:', res);
                     // this.occupancyChartData = res?.data;
@@ -161,10 +182,10 @@ occupancyChartOptions: ChartOptions<'line'> = {
         this._ApiRequestService
             .postData<any, any>({ payload }, apiRoutes.analyticsDemographics)
             .subscribe({
-                next: (res) => {
+                next: (res: any) => {
                     this.demographicsRes = res;
-                    console.log('Demographics Data:', res);
-                    // this.demographicsChartData = res?.data;
+                    console.log("demographicsssssssssss", res)
+                    this.updateDemographicsCharts(res?.buckets || []);
                 },
                 error: (err) => console.error('Demographics API error:', err)
             });
@@ -178,32 +199,61 @@ occupancyChartOptions: ChartOptions<'line'> = {
 
         return `${hours} hr ${minutes} min ${seconds} sec`;
     }
-updateOccupancyChart(buckets: any[]) {
-  if (!buckets || !buckets.length) return;
+    updateOccupancyChart(buckets: any[]) {
+        if (!buckets || !buckets.length) return;
 
-  this.occupancyChartData = {
-    labels: buckets.map(b =>
-      b.local?.split(' ')[1]?.slice(0, 5) // HH:mm
-    ),
-    datasets: [
-      {
-        label: 'Occupancy',
-        data: buckets.map(b => b.avg ?? 0),
+        this.occupancyChartData = {
+            labels: buckets.map(b =>
+                b.local?.split(' ')[1]?.slice(0, 5)
+            ),
+            datasets: [
+                {
+                    label: 'Occupancy',
+                    data: buckets.map(b => b.avg ?? 0),
+                    tension: 0.45,
+                    fill: true,
 
-        // 👇 Figma-style smooth line
-        tension: 0.45,
-        fill: true,
+                    borderWidth: 2,
+                    borderColor: '#4F9DA6',
+                    backgroundColor: 'rgba(79,157,166,0.12)',
 
-        borderWidth: 2,
-        borderColor: '#4F9DA6',
-        backgroundColor: 'rgba(79,157,166,0.12)',
+                    pointRadius: 0,
+                    pointHoverRadius: 4
+                }
+            ]
+        };
+    }
+    updateDemographicsCharts(buckets: any[]) {
 
-        pointRadius: 0,
-        pointHoverRadius: 4
-      }
-    ]
-  };
-}
+        let maleCount = 0;
+        let femaleCount = 0;
+
+        buckets.forEach(item => {
+            if (item.male) {
+                maleCount += item.male || 0;
+            }
+            if (item.female) {
+                femaleCount += item.female || 0;
+            }
+        });
+
+        const total = maleCount + femaleCount || 1;
+
+        this.malePercent = Math.round((maleCount / total) * 100);
+        this.femalePercent = Math.round((femaleCount / total) * 100);
+
+        this.demographicsDonutData = {
+            labels: ['Male', 'Female'],
+            datasets: [
+                {
+                    data: [this.malePercent, this.femalePercent],
+                    backgroundColor: ['#4F9DA6', '#B7E0E3'],
+                    borderWidth: 0
+                }
+            ]
+        };
+    }
+
 
 
 }

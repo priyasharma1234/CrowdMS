@@ -1,12 +1,12 @@
 
 import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { SharedModule } from '../../shared.module';
 import { LoaderService } from 'src/app/services/loader.service';
 import { Subject, takeUntil } from 'rxjs';
+import { NgIf } from '@angular/common';
 
 @Component({
   standalone:true,
-  imports:[SharedModule],
+  imports:[NgIf],
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss']
