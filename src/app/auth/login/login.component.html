@@ -1,67 +1,18 @@
-<!-- <div class="login-right w-75 m-auto">
-  <div class="auth-page-content py-3 px-4">
-    <h2 class="font-large text-center text-primary">Login to Your Account</h2>
-    <p></p>
-  </div>
-
-  <form class="login-form" [formGroup]="loginForm">
-    <div class="form-group position-relative">
-      <div class="input-group-prepend"><img src="assets/img/email.png" class="pe-1"> </div>
-      <input type="text" id="name" class="form-control" required formControlName="email" autocomplete="username">
-      <label class="form-control-placeholder" for="name">Log In</label>
-    </div>
-    <div class="form-group position-relative">
-      <div class="input-group-prepend"><img src="assets/img/password.png" class="pe-1"> </div>
-      <input type="password" id="password" class="form-control" required formControlName="password" appShowHidePassword
-        autocomplete="current-password">
-      <label class="form-control-placeholder" for="password">Password</label>
-    </div>
-    <button type="submit" class="btn btn-primary w-100" (click)="Login()"> Login </button>
-  </form>
-</div> -->
-
-  <div class="login-card">
+<div class="login-card">
     <div class="login-header">
       <img src="assets/img/kloudspot.png" alt="Kloudspot" />
     </div>
-
     <form class="login-form" [formGroup]="loginForm">
-      <!-- LOGIN -->
-      <!-- <div class="form-group position-relative icon-input">
-        <input
-          type="text"
-          class="form-control"
-          formControlName="email"
-          placeholder=" "
-          autocomplete="username"
-        />
-        <label>Log In *</label>
-      </div> -->
-
-      <!-- PASSWORD -->
-      <!-- <div class="form-group position-relative icon-input">
-        <input
-          type="password"
-          class="form-control"
-          formControlName="password"
-          placeholder=" "
-          autocomplete="current-password"
-        />
-        <label>Password *</label>
-      </div> -->
        <div class="form-group position-relative">
-      <!-- <div class="input-group-prepend"><img src="assets/img/email.png" class="pe-1"> </div> -->
       <input type="text" id="name" class="form-control" required formControlName="email" autocomplete="username">
       <label class="form-control-placeholder" for="name">Log In</label>
     </div>
     <div class="form-group position-relative">
-      <!-- <div class="input-group-prepend"><img src="assets/img/password.png" class="pe-1"> </div> -->
       <input type="password" id="password" class="form-control" required formControlName="password" appShowHidePassword
         autocomplete="current-password">
       <label class="form-control-placeholder" for="password">Password</label>
     </div>
-
-      <button type="submit" class="login-btn" (click)="Login()">
+      <button type="button" class="login-btn" (click)="Login()">
         Login
       </button>
     </form>
