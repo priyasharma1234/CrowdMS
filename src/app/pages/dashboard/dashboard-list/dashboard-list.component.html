@@ -1,6 +1,4 @@
 <div class="overview-wrapper">
-
-    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fw-semibold mb-0">Overview</h3>
 
@@ -9,8 +7,6 @@
             Today
         </button>
     </div>
-
-    <!-- OCCUPANCY CARDS -->
     <div class="row g-3 mb-4">
         <div class="col-lg-4">
             <div class="stat-card">
@@ -19,9 +15,6 @@
                 <p class="trend up">▲ 10% More than yesterday</p>
             </div>
         </div>
-
-
-
         <div class="col-lg-4">
             <div class="stat-card">
                 <p class="label">Today’s Footfall</p>
@@ -29,7 +22,6 @@
                 <p class="trend down">▼ 10% Less than yesterday</p>
             </div>
         </div>
-
         <div class="col-lg-4">
             <div class="stat-card">
                 <p class="label">Avg Dwell Time</p>
@@ -39,7 +31,6 @@
         </div>
     </div>
     <div class="chart-card">
-        <!-- Header -->
         <div class="chart-header">
             <h4>Overall Occupancy</h4>
 
@@ -48,8 +39,6 @@
                 <span class="legend-text">Occupancy</span>
             </div>
         </div>
-
-        <!-- Chart -->
         <div class="chart-body">
             <canvas baseChart [data]="occupancyChartData" [options]="occupancyChartOptions" chartType="line">
             </canvas>
@@ -73,8 +62,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Line Chart -->
         <div class="col-md-8">
             <div class="card p-3 h-100">
                 <h6 class="mb-3">Demographics Analysis</h6>

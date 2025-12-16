@@ -10,7 +10,6 @@ export const authGuard: CanActivateFn = (route, state) => {
   const _AuthCoreService = inject(AuthCoreService);
 
     const authToken = _SessionStorageService.getItem('authToken');
-  // const user = _SessionStorageService.getItem('user');
 
   const isAuthenticated = !!authToken;
 
