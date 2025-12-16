@@ -1,8 +1,8 @@
-import {IUser} from '../../types/global';
+import { IUser } from '../../types/global';
 
 
 export type ILoginApiPayload = {
-  username: string;
+  email: string;
   password: string;
 }
 

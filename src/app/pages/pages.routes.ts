@@ -1,5 +1,6 @@
-import {Routes} from '@angular/router';
-import {PagesComponent} from './pages.component';
+import { Routes } from '@angular/router';
+import { PagesComponent } from './pages.component';
+import { CrowdEntriesComponent } from './crowd-entries/crowd-entries.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -8,10 +9,18 @@ export const PagesRoutes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
+        loadChildren: () =>
+          import('./dashboard/dashboard.routes').then(m => m.DashboardRoutes)
       },
-
+        {
+    path: 'crowd-entries',
+    component: CrowdEntriesComponent
+  },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard'
+      }
     ]
   }
-
 ];

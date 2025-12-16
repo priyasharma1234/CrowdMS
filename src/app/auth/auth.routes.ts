@@ -1,5 +1,5 @@
-import {Routes} from '@angular/router';
-import {AuthComponent} from './auth.component';
+import { Routes } from '@angular/router';
+import { AuthComponent } from './auth.component';
 
 export const AuthRoutes: Routes = [
   {
@@ -14,14 +14,6 @@ export const AuthRoutes: Routes = [
       {
         path: 'login',
         loadComponent: () => import('./login/login.component').then(m => m.LoginComponent)
-      },
-      {
-        path: 'forgot-user-id',
-        loadComponent: () => import('./forgot-userid/forgot-userid.component').then(m => m.ForgotUseridComponent)
-      },
-      {
-        path: 'forgot-password',
-        loadComponent: () => import('./forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
       }
     ]
   }

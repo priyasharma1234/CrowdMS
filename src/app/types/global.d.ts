@@ -8,8 +8,10 @@ declare global {
 }
 
 type IApiRequestPayload<T> = {
-  form?: string;
+  // form?: string;
+  form?: FormGroup<any>
   payload?: T;
+  id?: any;
 }
 
 export type IGenericApiResponse<T> = {
@@ -39,5 +41,22 @@ export type IUser = {
   updated_at: string,
   permissions: string[],
   role: string
+}
+export type   IHeader = {
+  canEdit: 'always' | 'onedit' | 'never',
+    is_show: boolean | 0 | 1,
+    isalways:boolean | 0 | 1,
+    isedit: boolean | 0 | 1,
+    isorder: boolean | 0 | 1,
+    issearch: boolean | 0 | 1,
+    issort: boolean | 0 | 1,
+    name: string,
+    options: any, //change this
+    permission:any
+    row: number,
+    type: 'text' | 'inrSh' | 'inr' | 'textarea' | 'number' | 'select' | 'date' | 'time' | 'datetime' | 'checkbox' | 'radio' | 'file' | 'image' | 'color' | 'password' | 'email' | 'tel' | 'url' | 'range' | 'search' | 'month' | 'week' | 'hidden' | 'button' | 'submit' | 'reset',
+    value: string,
+    values: any,
+    edit: boolean
 }
 

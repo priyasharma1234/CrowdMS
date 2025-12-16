@@ -5,6 +5,7 @@
 
 .login-sec {
   background:$white-light;
+
 }
 
 .login-left {
@@ -17,6 +18,10 @@
   opacity: 1;
   position: relative;
   padding: 35px;
+        display:none;
+    @include breakpoint("desktop-small",min) {
+       display:block;
+    }
 }
 
 .logo {
@@ -104,6 +109,12 @@
 }
 
 .login-right {
+
+height:100vh;
+  justify-content: center;
+    display: flex;
+    flex-direction: column;
+
   .login-form {
     h2 {
       font-weight: $bold;

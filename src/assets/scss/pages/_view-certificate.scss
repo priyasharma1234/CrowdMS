@@ -1,0 +1,90 @@
+@use "../config/veriables" as *;
+@use "../config/mixins" as *;
+@use "../config/extends" as *;
+
+.certificate-container {
+  display: flex;
+  gap: 2rem;
+  background-color:$white-light;
+  padding: 1.5rem;
+  border-radius: 12px;
+  min-height: 600px;
+  flex-wrap: wrap;
+  
+  .certificate-sidebar {
+border-right:0;
+  padding: 1rem;
+@include breakpoint('desktop-small',min){
+border-right: 1px solid $gray3;
+}
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+display: flex;
+    align-items: flex-start;
+      &:hover {
+        background-color: #f0f4fa;
+      }
+
+      &.active {
+        background-color:$gray;
+        font-weight: 600;
+        color:$dark-blue;
+      }
+    }
+  }
+}
+
+}
+
+
+.certificate-content {
+  flex: 1;
+  .certificate-status {
+    // background-color: #dcfce7;
+    // color: #15803d;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    // display: inline-block;
+    // margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .certificate-title {
+    background-color: #dcfce7;
+    color: $green;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .certificate-subtitle {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .certificate-preview {
+    pdf-viewer {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ddd;
+    }
+
+    img {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      max-height: 500px;
+    }
+  }
+}

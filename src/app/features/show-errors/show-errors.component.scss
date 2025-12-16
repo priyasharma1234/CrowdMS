@@ -1,0 +1,11 @@
+.alert-error {
+    >div {
+        margin-top: 2px;
+        .col-red {
+            color: #ed202d !important;
+            letter-spacing: 0.0312rem;
+            font-size: 13px;
+            font-family: "Montserrat", sans-serif !important;
+        }
+    }
+}

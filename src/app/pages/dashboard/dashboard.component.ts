@@ -1,20 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiRequestService} from '../../services/api-request.service';
-import {apiRoutes} from '../../config/api-request';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { CommonService } from 'src/app/core/services/common.service';
+import { SidebarService } from '../sidebar/sidebar-service.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   standalone: true
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
+  private _SessionStorageService = inject(SessionStorageService);
+  private _SidebarService = inject(SidebarService)
+  private _CommonService = inject(CommonService);
 
-  constructor(private _ApiRequestService: ApiRequestService) {
-    this._ApiRequestService.postData({}, apiRoutes.escrow.list).subscribe(res => console.log(res));
-
-  }
   ngOnInit() {
+     this._SidebarService.selectedItemActive = 'Overview';
+    this._SessionStorageService.setItem('selectd_item', 'Overview');
+    this._CommonService.pageTitle.next('Overview');
   }
+
 }

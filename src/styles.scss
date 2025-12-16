@@ -1,1 +1,147 @@
-/* You can add global styles to this file, and also import other style files */
+input[readonly],
+textarea[readonly] {
+  color:#808080;
+  cursor: not-allowed;
+      font-weight: 400;
+          background: #ece8e8;
+}/* You can add global styles to this file, and also import other style files */
+
+.floating-label.fltLbValid label {
+  left: -10px;
+  top: -30px;
+  color: #1a1a1a;
+}
+
+::ng-deep app-custom-datepicker .form-control {
+  height: 46px !important;
+  width: 250px;
+  text-align: center;
+}
+
+::ng-deep app-custom-datepicker .form-control::before {
+  position: absolute;
+  right: 9px;
+  top: 10px;
+  content: url("assets/img/calender.png");
+}
+.floating-label {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+/* .floating-input,
+.floating-select {
+    font-size: 14px;
+    padding: 4px 4px;
+    display: block;
+    width: 100%;
+    height: 30px;
+    background-color: transparent;
+
+} */
+
+.floating-input:focus,
+.floating-select:focus {
+  outline: none;
+  border-bottom: 2px solid #5264ae;
+}
+
+.floating-label label {
+  color: #d7bcbc;
+  font-size: 14px;
+  font-weight: 500;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 5px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.floating-label label:focus {
+  color: #1a1a1a;
+}
+
+.floating-label select.floating-select label {
+  left: 11px;
+  top: 10px;
+}
+
+.floating-input:focus ~ label,
+.floating-input:not(:placeholder-shown) ~ label {
+  top: -32px;
+  left: -8px;
+  color: #1a1a1a;
+}
+
+.floating-select:focus ~ label,
+.floating-select.ng-valid:not([value=""]):valid ~ label {
+  font-size: 14px;
+  color: #1a1a1a;
+  top: -33px;
+  left: -7px;
+}
+
+.floating-input:focus ~ .bar:before,
+.floating-input:focus ~ .bar:after,
+.floating-select:focus ~ .bar:before,
+.floating-select:focus ~ .bar:after {
+  width: 50%;
+}
+
+.highlight {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  top: 15%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.floating-input:focus ~ .highlight,
+.floating-select:focus ~ .highlight {
+  -webkit-animation: inputHighlighter 0.3s ease;
+  -moz-animation: inputHighlighter 0.3s ease;
+  animation: inputHighlighter 0.3s ease;
+}
+
+// dynamic table css disabled
+.img-disabled {
+  filter: grayscale(100%) brightness(0.6);
+  opacity: 0.6;
+}
+
+.disabled-btn {
+  cursor: not-allowed;
+}
+
+table{
+      background: #fff;
+    border: 1px solid #f7f7f7;
+    border-radius: 10px;
+    padding: 1rem;
+
+  td,th{
+border: 0 !important;
+    border-bottom: 1px solid;
+    border-bottom: 1px solid #F7F7F7 !important;
+      background:transparent!important;
+  }
+
+  td{
+color: #767676;
+    font-weight: 400;
+    font-size: 16px;
+  }
+}
+
+// for table filter
+.filter-toolbar{
+      background: #fff;
+    border: 1px solid #E6EFF5;
+    border-radius: 10px;
+    align-items: center;
+    padding: 1rem;
+}

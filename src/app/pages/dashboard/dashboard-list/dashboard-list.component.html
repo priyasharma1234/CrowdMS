@@ -1,0 +1,60 @@
+<div class="overview-wrapper">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-semibold mb-0">Overview</h3>
+
+        <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
+            <i class="bi bi-calendar"></i>
+            Today
+        </button>
+    </div>
+
+    <!-- OCCUPANCY CARDS -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-4">
+            <div class="stat-card">
+                <p class="label">Live Occupancy</p>
+                <h2 class="value">{{dwellDetails?.dwellRecords}}</h2>
+                <p class="trend up">▲ 10% More than yesterday</p>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-4">
+            <div class="stat-card">
+                <p class="label">Today’s Footfall</p>
+                <h2 class="value">{{footfallDetails?.footfall}}</h2>
+                <p class="trend down">▼ 10% Less than yesterday</p>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="stat-card">
+                <p class="label">Avg Dwell Time</p>
+                <h2 class="value">{{ convertMinutesToHms(dwellDetails?.avgDwellMinutes) }}</h2>
+                <p class="trend up">▲ 6% More than yesterday</p>
+            </div>
+        </div>
+    </div>
+    <div class="chart-card">
+        <!-- Header -->
+        <div class="chart-header">
+            <h4>Overall Occupancy</h4>
+
+            <div class="chart-legend">
+                <span class="legend-dot"></span>
+                <span class="legend-text">Occupancy</span>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-body">
+            <canvas baseChart [data]="occupancyChartData" [options]="occupancyChartOptions" chartType="line">
+            </canvas>
+        </div>
+    </div>
+
+
+</div>

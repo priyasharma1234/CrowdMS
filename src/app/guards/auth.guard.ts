@@ -1,22 +1,34 @@
 import { CanActivateFn } from '@angular/router';
-import {AuthCoreService} from '../services/auth-core.service';
-import {inject} from '@angular/core';
+import { AuthCoreService } from '../services/auth-core.service';
+import { inject } from '@angular/core';
+import { SessionStorageService } from '../core/services/session-storage.service';
+import { environment } from 'src/environments/environment';
+import { AutoLogoutService } from '../core/autoLogout/service/auto-logout.service';
+
 
 export const authGuard: CanActivateFn = (route, state) => {
-  // Implement your authentication logic here
-  // For example, check if the user is logged in
-  const isAuthenticated = !!sessionStorage.getItem('authToken');
-
+  const _SessionStorageService = inject(SessionStorageService);
   const _AuthCoreService = inject(AuthCoreService);
+  const _AutoLogoutService = inject(AutoLogoutService);
+
+    const authToken = _SessionStorageService.getItem('authToken');
+  // const user = _SessionStorageService.getItem('user');
+
+  const isAuthenticated = !!authToken;
 
   console.log('AuthGuard: Checking authentication status');
+
   if (isAuthenticated) {
     console.log('User is authenticated');
-    _AuthCoreService.SetUser(JSON.parse(sessionStorage.getItem('user') || '{}'), sessionStorage.getItem('authToken') || '');
+    _AuthCoreService.SetToken(authToken);
+    _AutoLogoutService.USER_IDLE_TIMER_VALUE_IN_MIN = environment.userInactivityTimer;
+    _AutoLogoutService.init();
     return true;
   } else {
-    // Redirect to login or show an error
-    window.location.href = '/auth/login'; // Example redirect
-    return false; // Prevent access
+    sessionStorage.clear();
+    localStorage.clear();
+    _AutoLogoutService.uninit();
+    window.location.href = '/auth/login';
+    return false;
   }
 };

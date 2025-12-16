@@ -2,14 +2,12 @@
 @use "../config/mixins" as *;
 @use "../config/extends" as *;
 
-
-
 .wrapper {
   transition: all 0.5s ease;
   position: relative;
-  margin-left: 47px;
+  margin-left: 0;
 
-  @include breakpoint("desktop-wide", min) {
+  @include breakpoint("desktop-small", min) {
     margin-left: 300px;
   }
   @include breakpoint("desktop-xxl", min) {
@@ -17,66 +15,93 @@
   }
 }
 
-
-.topbar{
-   background:$white;
-    margin-bottom: 0;
-    padding:24px 15px;
+.topbar {
+  background: $white;
+  margin-bottom: 0;
+  padding: 24px 15px;
+    margin-left: 0;
+    @include breakpoint("desktop-small", min) {
+    margin-left: 300px;
+  }
+  @include breakpoint("desktop-xxl", min) {
+    margin-left: 297px;
+  }
 }
-.notification{
-background-color: #fff1e2;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    padding: 10px 25px;
-    gap: 30px;
-    a{
-        color:$black;
-        text-decoration:none;
-        font-weight:700;
-    }
+.notification {
+  background-color: #fff1e2;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 25px;
+  gap: 30px;
+  flex-wrap: wrap;
+  a {
+    color: $black;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 10px;
+  }
 }
-.user-card{
-    background:$white;
-    border:1px solid #F7F7F7;
-    border-radius:15px;
-    h4{
-        font-weight:$normal;
+.user-card {
+  background: $white;
+  border: 1px solid #f7f7f7;
+  border-radius: 15px;
+  h4 {
+    font-weight: $normal;
+  }
+  .box {
+    background: #daeeff;
+    border-radius: 20px;
+      width: 62px;
+    height: 73px;
+  @include breakpoint("desktop-xxl", min) {
+    width: 82px;
+    height: 93px;
+  }
+    &.box-pink {
+      background: #ffd9dc;
     }
-    .box{
-        background:#DAEEFF;
-        border-radius:20px;
-        width:82px;
-        height:93px;
-
-        &.box-pink{
-            background:#FFD9DC;
-        }
-    }
-    .box-img{
+  }
+  .box-img {
     position: absolute;
-    top: 20px;
-    left: -22px;
-    }
+    top: 25px;
+    left: -14px;
+      @include breakpoint("desktop-xxl", min) {
+ top: 31px;
+    left: -10px;
+  }
+img{
+  max-width:65%;
+        @include breakpoint("desktop-xxl", min) {
+ max-width:100%;
 }
-.filter-box{
-    background:$white;
-    border:1px solid #E6EFF5;
-    border-radius:10px;
-    align-items: center;
+}
+  
+  }
+}
+.filter-box {
+  background: $white;
+  border: 1px solid $gray4;
+  border-radius: 10px;
+  align-items: center;
 
-form{
-    .form-select,.form-control{
-    border: 1px solid #E6EFF5;
-    height: 55px;
-    border-radius:10px;
-    color: #808080;
-    font-weight:$normal;
+  form {
+    .form-select,
+    .form-control {
+      border: 1px solid $gray4;
+      height: 55px;
+      border-radius: 10px;
+      color: #808080;
+      font-weight: $normal;
+      width:100%;
+      @include breakpoint ('desktop',min){
+        width:258px; 
+      }
     }
+  }
 }
-}
-.deposit-table{
-     background:$white;
-   border: 1px solid #F7F7F7;
-    border-radius:10px;
+.deposit-table {
+  background: $white;
+  border: 1px solid #f7f7f7;
+  border-radius: 10px;
 }
