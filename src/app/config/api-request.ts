@@ -31,6 +31,16 @@ export const apiRoutes = {
         url: 'analytics/entry-exit',
         method: 'POST',
         description: 'API for analytics entry exit'
+    },
+    simulationStart: {
+        url: 'sim/start',
+        method: 'GET',
+        description: 'API for simulation start'
+    },
+    simulationStop: {
+        url: 'sim/stop',
+        method: 'GET',
+        description: 'API for simulation stop'
     }
 
 } as const;

@@ -11,14 +11,14 @@
         <div class="col-lg-4">
             <div class="stat-card">
                 <p class="label">Live Occupancy</p>
-                <h2 class="value">{{dwellDetails?.dwellRecords}}</h2>
+                <h2 class="value">{{liveOccupancyCount}}</h2>
                 <p class="trend up">▲ 10% More than yesterday</p>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="stat-card">
                 <p class="label">Today’s Footfall</p>
-                <h2 class="value">{{footfallDetails?.footfall}}</h2>
+                <h2 class="value">{{footfallDetails?.footfall ? footfallDetails?.footfall : 0}}</h2>
                 <p class="trend down">▼ 10% Less than yesterday</p>
             </div>
         </div>

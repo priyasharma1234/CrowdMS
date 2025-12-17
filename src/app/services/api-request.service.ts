@@ -16,7 +16,7 @@ export class ApiRequestService {
     private _AuthCoreService: AuthCoreService
   ) { }
 
-  postData<T, U>(payload: IApiRequestPayload<T>, path: any,non_encrypt: boolean = false): Observable<IGenericApiResponse<U>> {
+  postData<T, U>(payload: IApiRequestPayload<T>, path: any, non_encrypt: boolean = false): Observable<IGenericApiResponse<U>> {
     let headers = new HttpHeaders()
     if (payload?.form) {
     }
@@ -25,9 +25,10 @@ export class ApiRequestService {
       headers = headers.set('Authorization', `Bearer ${this._AuthCoreService.token()}`);
     }
 
-    return this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload ?? {}, { headers,
-       context: new HttpContext().set(ENCRYPT_REQUEST, non_encrypt)
-     })
+    return this.http.post<any>(environment.baseUrl + path['url'], payload?.payload ?? payload ?? {}, {
+      headers,
+      context: new HttpContext().set(ENCRYPT_REQUEST, non_encrypt)
+    })
       .pipe(retry(0), catchError(this.errorHandl));
   };
   errorHandl(err: any) {
@@ -39,6 +40,21 @@ export class ApiRequestService {
     }
     return throwError(() => error)
   }
+getData<T>(path: any): Observable<IGenericApiResponse<T>> {
+    let headers = new HttpHeaders();
+    const token = this._AuthCoreService.token();
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    const fullUrl = `${environment.baseUrl}${path?.url}`;
+
+    return this.http.get<IGenericApiResponse<T>>(fullUrl, { headers }).pipe(
+      retry(0),
+      catchError(this.errorHandl)
+    );
+}
 
 
 }

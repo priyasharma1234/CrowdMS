@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { apiRoutes } from 'src/app/config/api-request';
 import { ApiRequestService } from 'src/app/services/api-request.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
     selector: 'app-crowd-entries',
@@ -17,16 +19,33 @@ export class CrowdEntriesComponent implements OnInit {
     totalPages = 0;
     totalRecords = 0;
     maxVisiblePages = 3;
+    siteId: string = ''
 
-    constructor(private _ApiRequestService: ApiRequestService) {
+    constructor(private _ApiRequestService: ApiRequestService,
+        private socketService: SocketService
+    ) {
 
     }
 
     get totalPagesArray() {
         return Array.from({ length: this.totalPages }, (_, i) => i + 1);
     }
+    simSub!: Subscription;
 
     ngOnInit(): void {
+        this.socketService.connect();
+
+        // 🔵 SIM / LIVE trigger
+        this.simSub = this.socketService.onSim()
+            .subscribe((data: any) => {
+                if (!data?.siteId) return;
+                this.siteId = data.siteId;
+                this.currentPage = 1;
+
+                this.getEntries();
+
+                console.log('SIM EVENT → Entries refreshed', data);
+            });
         this.getEntries();
     }
 
@@ -60,7 +79,7 @@ export class CrowdEntriesComponent implements OnInit {
 
     getEntries() {
         const payload = {
-            siteId: "b0fa4e2a-2159-42e7-b97b-2a9d481158f6",
+            siteId: this.siteId,
             fromUtc: "1765292400000",
             toUtc: "1765378799999",
             pageNumber: this.currentPage,
@@ -82,5 +101,8 @@ export class CrowdEntriesComponent implements OnInit {
                     this.entries = [];
                 }
             });
+    }
+    ngOnDestroy() {
+        this.simSub?.unsubscribe();
     }
 }

@@ -1,4 +1,4 @@
-<div class="topbar">
+<!-- <div class="topbar">
   <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center">
       <div style="display: flex;">
@@ -8,7 +8,7 @@
     <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
   </svg>
   <select class="form-select" style="padding: 4px 30px;">
-    <option value="avenue-mall">Avenue Mall</option>
+    <option value="avenue-mall">{{simData?.siteName}}</option>
   </select>
 </div>
       </div>
@@ -20,28 +20,95 @@
             </div>
           </li>
           <li><i class="fa-regular fa-circle-user"></i></li> -->
-          <li><a (click)="logOut()" class="text-primary"><i class="fas fa-power-off"></i></a></li>
-
-  
-        <!-- <li>
-          <div class="dropdown profile">
-            <button type="button" data-toggle="dropdown" class="btn m-0 p-0 border-0 d-flex align-items-center gap-2"
-              type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="name-label">M</span>
-              <div class="text-start m-0">
-                <p class="text-primary m-0"><strong>{{this._AuthCoreService.user()?.name}}</strong></p>
-                <h6 class="text-start m-0">{{this._AuthCoreService.user()?.username}}</h6>
-              </div>
-              <i class="fas fa-chevron-down ms-2"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-              <li><a class="dropdown-item active" >Profile</a></li>
-              <li><a class="dropdown-item" (click)="logOut()" >Logout</a></li>
-            </ul>
-          </div>
-        </li> -->
+          <!-- <li><a (click)="logOut()" class="text-primary"><i class="fas fa-power-off"></i></a></li>
       </ul>
     </div>
+
+  </div>
+</div>
+<div class="wrapper">
+  <div class="main-container">
+    <div class="content-inside m-4">
+      <h3 class="text-primary pb-4">{{_titleName}}</h3>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div> --> 
+<!-- Topbar -->
+<div class="topbar">
+  <div class="container-fluid d-flex">
+    <h5 class="text-primary m-0">Crowd Solutions</h5>
+   <div class="custom-dropdown" style="display: flex; align-items: center; gap: 8px;">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
+  </svg>
+  <select  style="padding: 4px 30px;">
+    <option value="avenue-mall">{{siteName}}</option>
+  </select>
+</div>
+
+<ul class="navbar-item d-flex align-items-center mb-0 gap-3">
+  <li class="nav-item dropdown" [class.show]="isDropdownOpen">
+    <a
+      class="nav-link position-relative"
+      id="alertDropdown"
+      role="button"
+      (click)="toggleDropdown()"
+    >
+      <i class="fa-regular fa-bell"></i>
+      <span
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+      >
+        {{ alerts?.length || 0 }}
+      </span>
+    </a>
+
+    <ul
+      class="dropdown-menu dropdown-menu-end p-2"
+      [class.show]="isDropdownOpen"
+      style="width: 320px; max-height: 400px; overflow-y: auto;"
+    >      
+      <h5 class="mb-0">Alerts</h5>
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <button
+          type="button"
+          class="btn-close btn-close-sm"
+          aria-label="Close"
+          (click)="closeDropdown()"
+        ></button>
+      </div>
+
+      <li
+        *ngFor="let alert of alerts; let i = index"
+        class="mb-2 p-2 rounded shadow-sm"
+        [ngStyle]="{ 'background-color': i === 0 ? '#CEF2F1' : 'white' }"
+      >
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <span
+            >{{ alert.personName }}
+            {{ alert?.direction === 'entry' ? 'Entered' : 'Exit' }}</span
+          >
+          <span
+            class="badge px-2 py-1"
+            [ngClass]="{
+              'bg-danger text-white': alert.severity === 'high',
+              'bg-warning text-dark': alert.severity === 'medium',
+              'bg-success text-white': alert.severity === 'low'
+            }"
+          >
+            {{ alert.severity }}
+          </span>
+        </div>
+        <small class="text-muted">{{ alert?.siteName }}</small>
+      </li>
+
+      <li *ngIf="!alerts?.length" class="text-center p-2">
+        No notifications
+      </li>
+    </ul>
+  </li>
+</ul>
+
 
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, HostListener, Inject } from '@angular/core';
-import { DOCUMENT, NgClass, NgForOf } from '@angular/common';
+import { DOCUMENT, NgClass, NgForOf, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Side_Bar } from 'src/app/core/common/common-config';
 import { Subject } from 'rxjs';
@@ -15,7 +15,8 @@ import { SafeHtmlPipe } from 'src/app/core/pipes/safe-html.pipe';
     imports: [
         NgForOf,
         NgClass,
-        SafeHtmlPipe
+        SafeHtmlPipe,
+        NgIf
     ],
     templateUrl: './sidebar.component.html',
     styleUrl: './sidebar.component.scss',

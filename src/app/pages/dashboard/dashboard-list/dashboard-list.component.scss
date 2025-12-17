@@ -57,3 +57,13 @@
 .chart-body {
   height: 260px; /* Figma-like height */
 }
+.spin {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  font-size: 24px;
+  color: #4F9DA6;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
