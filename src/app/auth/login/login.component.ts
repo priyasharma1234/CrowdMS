@@ -7,12 +7,15 @@ import { apiRoutes } from '../../config/api-request';
 import { AuthCoreService } from '../../services/auth-core.service';
 import { NgxToasterService } from 'src/app/core/services/toasterNgs.service';
 import { ShowHidePasswordDirective } from 'src/app/core/directives/show-hide-password.directive';
+import { ShowErrorsComponent } from 'src/app/features/show-errors/show-errors.component';
+import { regExpPattern } from 'src/app/core/validators/regExpPatternList';
 
 @Component({
     selector: 'app-login',
     imports: [
         ReactiveFormsModule,
-        ShowHidePasswordDirective
+        ShowHidePasswordDirective,
+        ShowErrorsComponent
     ],
     templateUrl: './login.component.html',
     standalone: true,
@@ -30,8 +33,8 @@ export class LoginComponent {
 
     ) {
         this.loginForm = this._formBuilder.group({
-            email: [''],
-            password: ['']
+            email: ['',[Validators.required, Validators.pattern(regExpPattern['email'])]],
+            password: ['',[Validators.required]]
         });
     }
     ngAfterViewInit(): void {
@@ -49,6 +52,7 @@ export class LoginComponent {
         requestAnimationFrame(syncAutofill);
     }
     Login() {
+        this.loginForm.markAllAsTouched();
         if (!this.loginForm.valid) {
             return;
         }

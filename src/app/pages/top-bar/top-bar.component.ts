@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CommonService } from 'src/app/core/services/common.service';
 import { AuthCoreService } from 'src/app/services/auth-core.service';
 import { SocketService } from 'src/app/services/socket.service';
-import bootstrap from 'src/main.server';
-
+declare global {
+    interface Window {
+        googleTranslateElementInit: any;
+    }
+}
 @Component({
     selector: 'app-top-bar',
     imports: [RouterModule, CommonModule],
@@ -26,7 +30,9 @@ export class TopBarComponent implements OnInit {
     alerts: any[] = [];
     @ViewChild('alertDropdown') alertDropdown!: ElementRef;
     isDropdownOpen = false;
-    siteName:any;
+    siteName: any;
+    simSub: Subscription;
+    alertSub: Subscription;
     constructor(
         public _AuthCoreService: AuthCoreService,
         private socketService: SocketService
@@ -37,19 +43,26 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-                this.socketService.connect();
-        this.socketService.onSim()
+        this.socketService.connect();
+        this.simSub = this.socketService.onSim()
             .subscribe((data: any) => {
                 console.log('SIM EVENT:1111111111111', data);
                 this.siteName = data?.siteName
             });
-        this.socketService.onAlert()
+        this.alertSub = this.socketService.onAlert()
             .subscribe((data: any) => {
                 console.log('ALERT EVENT:', data);
                 this.alerts.unshift(data);
                 console.log("Alerts array:", this.alerts);
             });
 
+    }
+    ngAfterViewInit() {
+        setTimeout(() => {
+            if (window.googleTranslateElementInit) {
+                window.googleTranslateElementInit();
+            }
+        }, 1000);
     }
     logOut() {
         this._AuthCoreService.logout(false, 'You have been logged out successfully');
@@ -61,4 +74,10 @@ export class TopBarComponent implements OnInit {
     closeDropdown() {
         this.isDropdownOpen = false;
     }
+    
+    ngOnDestroy() {
+        this.alertSub?.unsubscribe();
+        this.simSub?.unsubscribe();
+    }
+
 }

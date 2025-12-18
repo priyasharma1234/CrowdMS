@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HttpInterceptorInterceptor implements HttpInterceptor {
-loginSession: any;
+  loginSession: any;
   form_keys: any;
 
   secureCall: boolean = false;
@@ -33,12 +33,13 @@ loginSession: any;
   ) {
   }
 
-  removeRequest(req: HttpRequest<any>) {
+  removeRequest(req: HttpRequest<any>, enableLoader: boolean = true) {
+    //   if(!enableLoader) return;
     const i = this.requests.indexOf(req);
     if (i >= 0) {
       this.requests.splice(i, 1);
     }
-  //  this._LoaderService.setLoading(this.requests.length > 0);
+    // this._LoaderService.setLoading(this.requests.length > 0);
   }
 
   intercept(request: HttpRequest<any> | any, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -46,7 +47,12 @@ loginSession: any;
     if (request.headers['lazyUpdate']) {
       this.form_keys = request.headers['lazyUpdate'][0].value;
     }
-    //this._LoaderService.show();
+    const enableLoader = request.url.includes('auth/login')
+
+    // if (enableLoader) {
+    //   this.requests.push(request);
+    //   this._LoaderService.show();
+    // }
     this.loginSession = ''
     let token = this._AuthCoreService.token();
     if (token) {
@@ -97,25 +103,6 @@ loginSession: any;
               console.log(event);
               if (event instanceof HttpResponse) {
                 console.log(event);
-                // const tokenRefresh = event.headers.get('Token-Refresh') ?? event.headers.get('token-refresh');
-                // console.log("Should Refresh", tokenRefresh);
-                // if (tokenRefresh === 'true' && !this.refreshingToken) {
-                //   console.log('🔄 Token refresh header detected...');
-                //   this.handleTokenRefresh(request, next, shouldEncrypt).subscribe({
-                //     next: (res) => observer.next(res),
-                //     error: (err) => observer.error(err),
-                //     complete: () => observer.complete()
-                //   });
-                //   // return; // stop further handling for now
-                // }
-
-                // let shouldDecrypt = shouldEncrypt;
-                // if (shouldDecrypt && this.secureCall && event.body) {
-                //   event = event.clone({
-                //     body: this._CryptoService.decrypt(JSON.stringify(event.body))
-                //   })
-                // }
-
                 if (event.status != 400 && event.status != 401) {
                   observer.next(event);
                 } else {
@@ -136,22 +123,18 @@ loginSession: any;
                     title: 'Session Expired!!'
                   })
                 }
-                this.removeRequest(request);
+                this.removeRequest(request, enableLoader);
 
               }
             },
             error: (err) => {
-              this.removeRequest(request);
-              // let shouldDecrypt = shouldEncrypt;
-              console.log("err.error", err)
-
-              // if (shouldDecrypt && this.secureCall) {
-              //   err['error'] = this._CryptoService.decrypt(JSON.stringify(err['error']))
-              // }
-              // console.log("err.error", err)
-              if (err.error.statuscode == 400 || err.error.statuscode == 401 || err.error.statuscode == 520) {
+              this.removeRequest(request, enableLoader);
+              console.log("err.error", err.error)
+              if (err.status == 400 || err.status == 403 || err.status == 401 || err.status == 520) {
+               this.toaster.showError(err?.error?.errorMessage,"Error")
                 this._AuthCoreService.logout(false);
-              } else if (err.error.statuscode == 422) {
+
+              }  else if (err.status == 422) {
                 if (err?.error?.errors && Object.keys(err.error.errors).length > 0) {
                   for (const key in err.error.errors) {
                     const elementValue = err.error.errors[key];
@@ -162,23 +145,24 @@ loginSession: any;
                     this.toaster.showError(element.split('<br')[0] ?? 'Session Expired!!', 'Error');
                   }
                 } else {
-                  this.toaster.showError(err, 'Error');
+                   this.toaster.showError(err?.error?.errorMessage,"Error")
                 }
               } else if (err.error.statuscode == 500) {
-                this.toaster.showError(err, 'Error');
+                  this.toaster.showError(err?.error?.errorMessage,"Error")
               } else {
+               this.toaster.showError(err?.error?.errorMessage,"Error")
                 observer.error(err);
               }
             },
             complete: () => {
-              this.removeRequest(request);
+              this.removeRequest(request, enableLoader);
               observer.complete();
             }
           }
         );
       // remove request from queue when cancelled
       return () => {
-        this.removeRequest(request);
+        this.removeRequest(request, enableLoader);
 
         subscription.unsubscribe();
       };

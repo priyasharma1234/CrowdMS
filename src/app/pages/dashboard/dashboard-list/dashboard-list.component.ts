@@ -8,7 +8,7 @@ import { ApiRequestService } from 'src/app/services/api-request.service';
 import { SocketService } from 'src/app/services/socket.service';
 @Component({
     selector: 'app-dashboard-list',
-    imports: [NgChartsModule,NgIf],
+    imports: [NgChartsModule, NgIf],
     standalone: true,
     templateUrl: './dashboard-list.component.html',
     styleUrl: './dashboard-list.component.scss'
@@ -24,7 +24,7 @@ export class DashboardListComponent implements OnInit {
     liveOccupancyCount = 0;
     alerts: any[] = [];
     occupancy: any;
-    demographicsLoading:false;
+    demographicsLoading: false;
 
     constructor(private _ApiRequestService: ApiRequestService,
         private socketService: SocketService
@@ -143,33 +143,34 @@ export class DashboardListComponent implements OnInit {
         //             this.dashboardRefresh$.next();
         //         }
         //     });
-         this.occupancySub = this.socketService.onLiveOccupancy()
-    .subscribe(data => {
-      if (!data?.siteId) return;
+        this.occupancySub = this.socketService.onLiveOccupancy()
+            .subscribe(data => {
+                //   if (!data?.siteId) return;
 
-      this.liveOccupancyCount = data.siteOccupancy ?? 0;
+                this.liveOccupancyCount = data.siteOccupancy ?? 0;
 
-      if (this.currentSiteId !== data.siteId) {
-        this.currentSiteId = data.siteId;
-        this.dashboardRefresh$.next();
-      }
-    });
+                //   if (this.currentSiteId !== data.siteId) {
+                //     this.currentSiteId = data.siteId;
+                //     this.dashboardRefresh$.next();
+                //   }
+            });
 
-  // 🔵 SIM event handling
-  this.simSub = this.socketService.onSim()
-    .subscribe(sim => {
-      if (!sim?.siteId) return;
+        // 🔵 SIM event handling
+        this.simSub = this.socketService.onSim()
+            .subscribe(sim => {
+                if (!sim?.siteId) return;
 
-      // site switch logic
-      if (this.currentSiteId !== sim.siteId) {
-        this.currentSiteId = sim.siteId;
-      }
+                // site switch logic
+                if (this.currentSiteId !== sim.siteId) {
+                    this.currentSiteId = sim.siteId;
+                    this.dashboardRefresh$.next();
+                }
 
-      // 🔔 SIM sirf dashboard refresh trigger kare
-      this.dashboardRefresh$.next();
+                // 🔔 SIM sirf dashboard refresh trigger kare
+                this.dashboardRefresh$.next();
 
-      console.log('SIM EVENT TRIGGERED:', sim);
-    });
+                console.log('SIM EVENT TRIGGERED:', sim);
+            });
 
 
         this.handleDashboardRefresh();
@@ -184,37 +185,37 @@ export class DashboardListComponent implements OnInit {
         // this.fetchDemographics();
 
     }
-  handleDashboardRefresh() {
-    this.dashboardRefresh$
-        .pipe(
-            filter(() => !this.isDashboardLoading),
-            tap(() => this.isDashboardLoading = true),
-            switchMap(() =>
-                merge(
-                    this.fetchDwellTime().pipe(
-                        tap(res => this.dwellDetails = res),
-                        catchError(err => { console.error('Dwell failed', err); return EMPTY; })
-                    ),
-                    this.fetchFootfall().pipe(
-                        tap(res => this.footfallDetails = res),
-                        catchError(err => { console.error('Footfall failed', err); return EMPTY; })
-                    ),
-                    this.fetchOccupancy().pipe(
-                        tap((res:any) => this.updateOccupancyChart(res?.buckets || [])),
-                        catchError(err => { console.error('Occupancy failed', err); return EMPTY; })
-                    ),
-                    this.fetchDemographics().pipe(
-                        tap((res:any) => this.updateDemographicsCharts(res?.buckets || [])),
-                        catchError(err => { console.error('Demographics failed', err); return EMPTY; })
+    handleDashboardRefresh() {
+        this.dashboardRefresh$
+            .pipe(
+                filter(() => !this.isDashboardLoading),
+                tap(() => this.isDashboardLoading = true),
+                switchMap(() =>
+                    merge(
+                        this.fetchDwellTime().pipe(
+                            tap(res => this.dwellDetails = res),
+                            catchError(err => { console.error('Dwell failed', err); return EMPTY; })
+                        ),
+                        this.fetchFootfall().pipe(
+                            tap(res => this.footfallDetails = res),
+                            catchError(err => { console.error('Footfall failed', err); return EMPTY; })
+                        ),
+                        this.fetchOccupancy().pipe(
+                            tap((res: any) => this.updateOccupancyChart(res?.buckets || [])),
+                            catchError(err => { console.error('Occupancy failed', err); return EMPTY; })
+                        ),
+                        this.fetchDemographics().pipe(
+                            tap((res: any) => this.updateDemographicsCharts(res?.buckets || [])),
+                            catchError(err => { console.error('Demographics failed', err); return EMPTY; })
+                        )
+                    ).pipe(
+                        finalize(() => this.isDashboardLoading = false)
                     )
-                ).pipe(
-                    finalize(() => this.isDashboardLoading = false)
-                )
-            ),
-            takeUntil(this.destroy$)
-        )
-        .subscribe();
-}
+                ),
+                takeUntil(this.destroy$)
+            )
+            .subscribe();
+    }
 
 
     private getAnalyticsPayload() {
@@ -398,7 +399,12 @@ export class DashboardListComponent implements OnInit {
         };
     }
 
-
+    ngOnDestroy() {
+        this.occupancySub?.unsubscribe();
+        this.simSub?.unsubscribe();
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 
 
 }

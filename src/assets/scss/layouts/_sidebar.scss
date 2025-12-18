@@ -45,7 +45,9 @@
       transform: none !important;
       visibility: visible !important;
       z-index: 1045;
-      background-color: $dark-blue !important;
+      background:url(../../img/menu-bg.png);
+      background-size: cover;
+              width: 240px;
     }
   }
 }

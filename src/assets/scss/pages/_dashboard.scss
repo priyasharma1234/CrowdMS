@@ -8,10 +8,10 @@
   margin-left: 0;
 
   @include breakpoint("desktop-small", min) {
-    margin-left: 300px;
+    margin-left: 240px;
   }
   @include breakpoint("desktop-xxl", min) {
-    margin-left: 297px;
+    margin-left: 240px;
   }
 }
 
@@ -21,10 +21,10 @@
   padding: 24px 15px;
     margin-left: 0;
     @include breakpoint("desktop-small", min) {
-    margin-left: 300px;
+    margin-left: 240px;
   }
   @include breakpoint("desktop-xxl", min) {
-    margin-left: 297px;
+    margin-left: 240px;
   }
 }
 .notification {

@@ -1,52 +1,20 @@
-<!-- <div class="topbar">
-  <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center">
-      <div style="display: flex;">
- <h5 class="text-primary m-0"> Crowd Solutions</h5>
-     <div class="custom-dropdown" style="display: flex; align-items: center; gap: 8px;">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-  </svg>
-  <select class="form-select" style="padding: 4px 30px;">
-    <option value="avenue-mall">{{simData?.siteName}}</option>
-  </select>
-</div>
-      </div>
-     
-
-      <ul class="navbar-item d-flex align-items-center mb-0 gap-3">
-            <!-- <li>
-            <div class="position-relative"><i class="fa-regular fa-bell"></i><span class="badge-notification">0</span>
-            </div>
-          </li>
-          <li><i class="fa-regular fa-circle-user"></i></li> -->
-          <!-- <li><a (click)="logOut()" class="text-primary"><i class="fas fa-power-off"></i></a></li>
-      </ul>
-    </div>
-
-  </div>
-</div>
-<div class="wrapper">
-  <div class="main-container">
-    <div class="content-inside m-4">
-      <h3 class="text-primary pb-4">{{_titleName}}</h3>
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div> --> 
-<!-- Topbar -->
 <div class="topbar">
-  <div class="container-fluid d-flex">
-    <h5 class="text-primary m-0">Crowd Solutions</h5>
-   <div class="custom-dropdown" style="display: flex; align-items: center; gap: 8px;">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+      <div class="d-flex gap-4 align-items-center">
+              <h5 class="text-primary m-0">Crowd Solutions</h5>
+   <div class="custom-dropdown position-relative">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
   </svg>
   <select  style="padding: 4px 30px;">
     <option value="avenue-mall">{{siteName}}</option>
   </select>
-</div>
+    </div>
+      </div>
 
+      <div class="d-flex align-items-center gap-4">
+       <div id="google_translate_element"></div>
 <ul class="navbar-item d-flex align-items-center mb-0 gap-3">
   <li class="nav-item dropdown" [class.show]="isDropdownOpen">
     <a
@@ -55,21 +23,21 @@
       role="button"
       (click)="toggleDropdown()"
     >
-      <i class="fa-regular fa-bell"></i>
+     <img src="../../../assets/img/notification.png">
       <span
         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
       >
         {{ alerts?.length || 0 }}
       </span>
     </a>
-
-    <ul
-      class="dropdown-menu dropdown-menu-end p-2"
-      [class.show]="isDropdownOpen"
-      style="width: 320px; max-height: 400px; overflow-y: auto;"
+<div class="right-alert dropdown-menu dropdown-menu-end p-2"
+      [class.show]="isDropdownOpen">
+      <ul class="ps-0"
+     
     >      
-      <h5 class="mb-0">Alerts</h5>
+      
       <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="mb-0">Alerts</h5>
         <button
           type="button"
           class="btn-close btn-close-sm"
@@ -106,8 +74,17 @@
         No notifications
       </li>
     </ul>
+</div>
+
   </li>
 </ul>
+
+<div><img src="../../../assets/img/profile.png"></div>
+      </div>
+
+    
+</div>
+
 
 
   </div>
